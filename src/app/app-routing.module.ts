@@ -18,14 +18,14 @@ const routes: Routes = [
    path: '', component: WebpageEntryPointComponent,
     children: [
       {
-        loadChildren: ()=>import('./modules/webpage/webpage.module').then(x=>x.WebpageModule)
+        path: '', loadChildren: ()=>import('./modules/webpage/webpage.module').then(x=>x.WebpageModule)
       }
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true, anchorScrolling: 'enabled'})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminModule } from "./modules/admin/admin.module";
 import { WebpageModule } from "./modules/webpage/webpage.module";
+import { DatePipe } from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -18,7 +19,9 @@ import { WebpageModule } from "./modules/webpage/webpage.module";
     AdminModule,
     WebpageModule
   ],
-  providers: [],
+  providers: [
+    DatePipe
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

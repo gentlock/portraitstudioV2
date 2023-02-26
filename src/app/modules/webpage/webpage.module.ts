@@ -10,7 +10,7 @@ import { PortfolioComponent } from './pages/portfolio/portfolio.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { ProjectsComponent } from './pages/projects/projects.component';
 import { MyservicesComponent } from './pages/myservices/myservices.component';
-
+import { ShareableModule } from "../../core/shareable.module";
 
 @NgModule({
   declarations: [
@@ -21,11 +21,12 @@ import { MyservicesComponent } from './pages/myservices/myservices.component';
     PortfolioComponent,
     HomepageComponent,
     ProjectsComponent,
-    MyservicesComponent
+    MyservicesComponent,
   ],
   imports: [
     CommonModule,
-    WebpageRoutingModule
+    WebpageRoutingModule,
+    ShareableModule
   ]
 })
 export class WebpageModule { }
