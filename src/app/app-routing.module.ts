@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {AdminEntryPointComponent} from "./modules/admin/components/admin-entry-point/admin-entry-point.component";
-import {
-  WebpageEntryPointComponent
-} from "./modules/webpage/components/webpage-entry-point/webpage-entry-point.component";
+import { AdminBaseComponent} from "./modules/admin/components/admin-base/admin-base.component";
+import { WebpageBaseComponent} from "./modules/webpage/components/webpage-base/webpage-base.component";
 
 const routes: Routes = [
   {
-    path: 'admin', component: AdminEntryPointComponent,
+    path: 'admin', component: AdminBaseComponent,
     children: [
       {
         path: '', loadChildren: ()=>import('./modules/admin/admin.module').then(x=>x.AdminModule)
@@ -15,7 +13,7 @@ const routes: Routes = [
     ]
   },
   {
-   path: '', component: WebpageEntryPointComponent,
+   path: '', component: WebpageBaseComponent,
     children: [
       {
         path: '', loadChildren: ()=>import('./modules/webpage/webpage.module').then(x=>x.WebpageModule)

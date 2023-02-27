@@ -2,5 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .navIcon {
+    @apply w-6 h-auto fill-current text-layout-color-light0 sm:invisible ;
+  }
+  .navText {
+    @apply text-base font-SourceSansPro-SemiBold text-layout-color-light0 invisible sm:visible;
+  }
+}
+@layer base {
+  @font-face {
+    font-family: 'Montserrat-VariableFont_wght';
+    src: url('./assets/fonts/Montserrat-VariableFont_wght.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Sacramento-Regular';
+    src: url('./assets/fonts/Sacramento-Regular.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'OpenSans-VariableFont';
+    src: url('./assets/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'SourceSansPro-SemiBold';
+    src: url('./assets/fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'SourceSansPro-Light';
+    src: url('./assets/fonts/Source_Sans_Pro/SourceSansPro-Light.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'SourceSansPro-Italic';
+    src: url('./assets/fonts/Source_Sans_Pro/SourceSansPro-Italic.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: 'SourceSansPro-Regular';
+    src: url('./assets/fonts/Source_Sans_Pro/SourceSansPro-Regular.ttf') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+  }
+
+  @font-face {
+    font-family: 'April June';
+    src: url('./assets/fonts/April June.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'PlayfairDisplay-VariableFont_wght';
+    src: url('./assets/fonts/PlayfairDisplay-VariableFont_wght.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
