@@ -12,6 +12,7 @@ module.exports = {
         'softer-black1': '#282828',
         'softer-black2': '#3d3d3d',
         'softer-black3': '#4d4d4d',
+        'softer-black4': '#787878',
         'softer-white0': '#f5f5f5',
         'softer-white1': '#f0f0f0',
         'softer-white2': '#f2f2f2',

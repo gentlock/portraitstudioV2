@@ -4,10 +4,13 @@
 
 @layer components {
   .navIcon {
-    @apply w-6 h-auto fill-current text-layout-color-light0 sm:invisible ;
+    @apply w-6 h-auto fill-current fill-layout-color-light0 md:hidden ;
   }
   .navText {
-    @apply text-base font-SourceSansPro-SemiBold text-layout-color-light0 invisible sm:visible;
+    @apply hidden md:block font-Montserrat-VariableFont_wght text-softer-black4 before:bg-layout-color-light0 hover:text-layout-color-light0;
+  }
+  a.isActive > span {
+    @apply text-layout-color-light0;
   }
 }
 @layer base {
@@ -73,4 +76,4 @@
 
 }
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {  margin: auto; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #1a1a1a;}
