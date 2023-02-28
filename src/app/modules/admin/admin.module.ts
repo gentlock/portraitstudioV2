@@ -8,7 +8,7 @@ import { MyservicesMgrComponent } from './pages/myservices-mgr/myservices-mgr.co
 import { HomeComponent } from './pages/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { TopbarComponent } from './components/topbar/topbar.component';
-import { ShareableModule } from "../../core/shareable.module";
+import { ShareableModule } from '../../core/shareable.module';
 import { AdminBaseComponent } from './components/admin-base/admin-base.component';
 
 @NgModule({
@@ -19,12 +19,8 @@ import { AdminBaseComponent } from './components/admin-base/admin-base.component
     HomeComponent,
     SidebarComponent,
     TopbarComponent,
-    AdminBaseComponent
+    AdminBaseComponent,
   ],
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    ShareableModule
-  ]
+  imports: [CommonModule, AdminRoutingModule, ShareableModule],
 })
-export class AdminModule { }
+export class AdminModule {}

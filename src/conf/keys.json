@@ -1,0 +1,42 @@
+{
+  "db": {
+    "host": "127.0.0.1",
+    "port": "27017",
+    "database": "portraitstudio"
+  },
+  "uploadDir": {
+    "pathAdress": "../../assets/images/uploadDir/"
+  },
+  "api": {
+    "endpointURLS": {
+      "dataMgr": {
+        "basePath": "/api/fileMgr",
+        "uploadData": "/uploadData",
+        "deleteData": "/deleteData",
+        "deleteFile": "/deleteFile",
+        "fetchGallery": "/fetchGallery",
+        "setCoverPhoto": "/setCoverPhoto/:id/:photoName:/collection",
+        "uploadSingle": "/uploadSingle"
+      },
+      "myservices": {
+        "basePath": "/api/myservices",
+        "getAll": "/",
+        "getById": "/getById",
+        "addNew": "/addNew",
+        "update": "/update",
+        "remove": "/remove"
+      },
+      "albums": {
+        "basePath": "/api/albums",
+        "getAll": "/",
+        "getById": "/getById",
+        "addNew": "/addNew",
+        "update": "/updateGallery",
+        "remove": "/remove"
+      },
+      "authentication": {
+        "basePath": "/api/authentication"
+      }
+    }
+  }
+}

@@ -8,7 +8,7 @@ import { FaqComponent } from './pages/faq/faq.component';
 import { PortfolioComponent } from './pages/portfolio/portfolio.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { MyservicesComponent } from './pages/myservices/myservices.component';
-import { ShareableModule } from "../../core/shareable.module";
+import { ShareableModule } from '../../core/shareable.module';
 import { WebpageBaseComponent } from './components/webpage-base/webpage-base.component';
 
 @NgModule({
@@ -21,10 +21,6 @@ import { WebpageBaseComponent } from './components/webpage-base/webpage-base.com
     MyservicesComponent,
     WebpageBaseComponent,
   ],
-  imports: [
-    CommonModule,
-    WebpageRoutingModule,
-    ShareableModule
-  ]
+  imports: [CommonModule, WebpageRoutingModule, ShareableModule],
 })
-export class WebpageModule { }
+export class WebpageModule {}

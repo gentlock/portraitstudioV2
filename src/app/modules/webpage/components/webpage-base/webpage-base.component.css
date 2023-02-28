@@ -1,21 +1,7 @@
-.link {
-  position: relative;
-}
-.link:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 3px;
-  height: 100%;
-  background-color: white;
-}
-
 .navText {
   position: relative;
   white-space: nowrap;
   font-variant: small-caps;
-  transition: color 0.3s ease;
 }
 .navText::before {
   content: "";
@@ -31,7 +17,8 @@
 .navText:hover::before {
   transform: scaleX(1);
 }
-.navText.isActive::before {
+
+a.isActive > span::before {
   transform: scaleX(1);
   transition: none;
 }

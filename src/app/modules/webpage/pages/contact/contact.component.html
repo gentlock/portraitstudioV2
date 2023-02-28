@@ -1,1 +1,134 @@
-<p>contact works!</p>
+<div class="main-grid">
+  <div class="py-6 col-span-full row-start-1 row-end-2 text-center">
+    <span class="text-layout-color-light0 text-4xl">Contact Me</span>
+  </div>
+
+  <div
+    class="col-span-full xl:col-start-1 xl:col-end-6 row-start-2 row-end-3 space-y-3"
+  >
+    <p class="text-layout-color-light0 text-xl font-SourceSansPro-SemiBold">
+      Pozo Photography
+    </p>
+    <p class="text-left text-softer-white4 text-md font-SourceSansPro-Regular">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid at
+      corporis est illo labore minima nesciunt numquam quas quasi quidem,
+      reprehenderit rerum velit veniam. Ad culpa deleniti deserunt excepturi,
+      neque pariatur rerum sint totam voluptatem voluptatibus! Dignissimos
+      doloremque facere ipsam maiores neque nesciunt quis repellendus.
+    </p>
+  </div>
+
+  <div
+    class="col-span-full xl:col-start-6 xl:col-end-9 row-start-3 row-end-4 xl:row-start-2 xl:row-end-3"
+  >
+    <ul class="flex flex-col">
+      <li class="text-layout-color-light0 text-xl font-SourceSansPro-SemiBold">
+        Phone
+      </li>
+      <li
+        class="text-left text-softer-white4 text-md font-SourceSansPro-Regular"
+      >
+        +1 650-333-0000
+      </li>
+
+      <li
+        class="mt-2 text-layout-color-light0 text-xl font-SourceSansPro-SemiBold"
+      >
+        Email
+      </li>
+      <li
+        class="text-left text-softer-white4 text-md font-SourceSansPro-Regular"
+      >
+        photography@pozo.com
+      </li>
+
+      <li
+        class="mt-2 text-layout-color-light0 text-xl font-SourceSansPro-SemiBold"
+      >
+        Address
+      </li>
+      <li
+        class="text-left text-softer-white4 text-md font-SourceSansPro-Regular"
+      >
+        340 North First Street, San Jose, CA 95112, US.
+      </li>
+    </ul>
+  </div>
+
+  <div
+    class="col-span-full row-start-4 xl:col-start-9 xl:col-end-13 row-end-5 xl:row-start-2 xl:row-end-3"
+  >
+    <p class="text-layout-color-light0 text-xl font-SourceSansPro-SemiBold">
+      Drop a line
+    </p>
+    <form
+      #contactForm
+      [formGroup]="cntFormModel"
+      class="flex flex-col space-y-2"
+    >
+      <div>
+        <input
+          placeholder="Name*"
+          class="bg-transparent font-SourceSansPro-SemiBold text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
+          type="text"
+          formControlName="name"
+          name="name"
+          value=""
+        />
+        <span class="text-xs text-red-400" *ngIf="isFieldValid('name')"
+          >wpis swoje imie</span
+        >
+      </div>
+
+      <div>
+        <input
+          placeholder="Email*"
+          class="bg-transparent font-SourceSansPro-SemiBold text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
+          type="text"
+          formControlName="email"
+          name="email"
+          value=""
+        />
+        <span class="text-xs text-red-400" *ngIf="isFieldValid('email')"
+          >wpis poprawny adres email</span
+        >
+      </div>
+
+      <div>
+        <input
+          placeholder="Subject*"
+          class="bg-transparent font-SourceSansPro-SemiBold text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
+          type="text"
+          formControlName="subject"
+          name="subject"
+          value=""
+        />
+        <span class="text-xs text-red-400" *ngIf="isFieldValid('subject')"
+          >wpis temat wiadomości</span
+        >
+      </div>
+
+      <div>
+        <textarea
+          placeholder="Message*"
+          class="bg-transparent font-SourceSansPro-SemiBold text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
+          rows="4"
+          formControlName="message"
+          name="message"
+        ></textarea>
+        <span class="text-xs text-red-400" *ngIf="isFieldValid('message')"
+          >wpis treść wiadomości</span
+        >
+      </div>
+
+      <div class="self-center">
+        <input
+          type="button"
+          class="text-base uppercase py-1 px-3 text-softer-white4 border border-solid border-layout-color-light0 font-SourceSansPro-Regular"
+          (click)="ngOnSubmit($event)"
+          value="Send Message"
+        />
+      </div>
+    </form>
+  </div>
+</div>
