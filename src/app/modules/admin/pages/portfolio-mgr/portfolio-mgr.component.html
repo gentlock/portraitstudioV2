@@ -1,1 +1,101 @@
-<p>portfolio-mgr works!</p>
+<div class="grid grid-cols-12 auto-rows-auto  bg-white">
+  <div class="col-start-1 col-end-5 row-start-1 row-end-2  overflow-y-scroll overflow-y-visible overflow-x-hidden w-full h-full">
+    <app-table-bar  [events]="eventsSubject.asObservable()"
+                (resetFormRequest)="resetForm($event)"
+                (editRequest)="populate($event)"
+                (deleteRequest)="db_delete($event)"
+                class="cell-table overflow-auto overflow-y-scroll overflow-y-visible"
+                ></app-table-bar>
+
+<!--    [useService]="albumsService"-->
+  </div>
+
+  <div class="col-start-5 col-end-13 row-start-1 row-end-2">
+    <mat-tab-group animationDuration="0ms" mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="dane usługi">
+        <!-- formularz start -->
+        <form class="flex flex-col py-2" [formGroup]="myFormModel">
+          <input formControlName="id" type="hidden">
+
+          <mat-slide-toggle class=" py-2" formControlName="isActive">pozycja aktywne</mat-slide-toggle>
+
+          <mat-form-field appearance="fill">
+            <mat-label>nazwa</mat-label>
+            <input formControlName="name" name="name" matInput type="text">
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="clearField($event, 'name', myFormModel)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>imie i nazwisko</mat-label>
+            <input formControlName="clientName" name="clientName" matInput type="text">
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="clearField($event, 'clientName', myFormModel)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field  class="w-full" appearance="fill">
+            <mat-label>kod dostępu</mat-label>
+            <input formControlName="accessCode" name="accessCode" matInput type="text">
+            <button matSuffix mat-icon-button aria-label="Clear" (click)="generatePassword($event)">
+              <mat-icon color="warn">key</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field  class="w-full"  appearance="fill">
+            <mat-label>email klienta</mat-label>
+            <input formControlName="clientEmail" name="clientEmail" matInput type="text">
+            <button matSuffix mat-icon-button aria-label="send mail" (click)="sendEmail($event, '')">
+              <mat-icon color="warn">mail</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>kategoria usłógi</mat-label>
+            <mat-select formControlName="serviceId">
+              <mat-option *ngFor="let item of servicesList$ | async" [value]="item._id">
+                {{item.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- stop left side -->
+
+          <mat-form-field appearance="fill">
+            <textarea formControlName="clientInfo" name="clientInfo" placeholder="informacje o kliencie" matInput type="text" rows="6"></textarea>
+          </mat-form-field>
+
+          <mat-form-field>
+            <textarea formControlName="desc" name="desc" placeholder="opis" matInput type="text" rows="6"></textarea>
+          </mat-form-field>
+
+          <section class="flex justify-center">
+            <button (click)="ngOnSubmit($event)" mat-raised-button color="primary">zapisz</button>
+          </section>
+        </form>
+        <!-- formularz stop -->
+      </mat-tab>
+      <ng-container *ngIf="myFormModel.controls['id'].value as ID">
+        <mat-tab label="galeria">
+<!--          <files-upload [uniqID]="ID" [useSchema]="this.DBschema"></files-upload>-->
+        </mat-tab>
+        <mat-tab label="paczka ze zdjeciami">
+          <form  [formGroup]="myFormFile" class="flex flex-col gap-4 mt-4" enctype="multipart/form-data">
+            <mat-progress-bar [value]="progressValue"  mode="determinate"></mat-progress-bar>
+            <input formControlName="plik"  (change)="handleUpload($event)" type="file" name="plik" value=""/>
+            <table class="w-fit">
+              <tr>
+                <td class="font-SourceSansPro-SemiBold text-sm p-1">nazwa pliku:</td>
+                <td class="font-SourceSansPro-Italic">{{ filename }}</td>
+              </tr>
+              <tr>
+                <td class="font-SourceSansPro-SemiBold text-sm p-1">wielkość pliku:</td>
+                <td class="font-SourceSansPro-Italic">{{ filesize }}</td>
+              </tr>
+            </table>
+          </form>
+        </mat-tab>
+      </ng-container>
+    </mat-tab-group>
+  </div>
+</div>

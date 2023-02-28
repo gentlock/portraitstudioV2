@@ -5,26 +5,18 @@ import { WebpageBaseComponent } from './modules/webpage/components/webpage-base/
 
 const routes: Routes = [
   {
-    path: 'admin',
-    component: AdminBaseComponent,
+    path: 'admin', component: AdminBaseComponent,
     children: [
       {
-        path: '',
-        loadChildren: () =>
-          import('./modules/admin/admin.module').then((x) => x.AdminModule),
+        path: '', loadChildren: () => import('./modules/admin/admin.module').then((x) => x.AdminModule),
       },
     ],
   },
   {
-    path: '',
-    component: WebpageBaseComponent,
+    path: '', component: WebpageBaseComponent,
     children: [
       {
-        path: '',
-        loadChildren: () =>
-          import('./modules/webpage/webpage.module').then(
-            (x) => x.WebpageModule
-          ),
+        path: '', loadChildren: () => import('./modules/webpage/webpage.module').then((x) => x.WebpageModule),
       },
     ],
   },

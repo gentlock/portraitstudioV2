@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-import { albumsSchema } from '../schemas';
+import { portfolioSchema } from '../schemas';
 // import {createDir} from "./utils";
 import fs from 'fs';
-const configuration = require('../../../../conf/config');
+const configuration = require('../../../../conf/keys');
 
 export async function db_fetch_all(req: Request, res: Response) {
-  await albumsSchema
+  await portfolioSchema
     .find({})
     .sort({ addDate: -1 })
     .then((result) => res.json(result))
@@ -17,7 +17,7 @@ export async function db_fetch_all(req: Request, res: Response) {
 export async function db_fetch_by_id(req: Request, res: Response) {
   let id = req.params.id;
 
-  await albumsSchema
+  await portfolioSchema
     .findById(id)
     .then((result) => res.json(result))
     .catch((error) => res.json({ error }));
@@ -28,7 +28,7 @@ export async function db_add_new(
   res: Response,
   next: NextFunction
 ) {
-  await albumsSchema
+  await portfolioSchema
     .create({
       isActive: req.body.isActive || false,
       addDate: Date.now(),
@@ -58,7 +58,7 @@ export async function db_update(req: Request, res: Response) {
   let id = req.params.id;
 
   if (!!id) {
-    await albumsSchema
+    await portfolioSchema
       .findByIdAndUpdate(id, {
         isActive: req.body.isActive,
         name: req.body.name,
@@ -84,7 +84,7 @@ export async function db_delete(
   let id = req.params.id;
 
   if (id) {
-    await albumsSchema
+    await portfolioSchema
       .findByIdAndDelete(id)
       .then((result) => {
         try {

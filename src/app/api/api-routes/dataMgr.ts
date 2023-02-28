@@ -8,7 +8,7 @@ import {
   uploadData,
   uploadSingle,
 } from '../middleware/dataMgr';
-const configuration = require('../../../../conf/config');
+const configuration = require('../../../../conf/keys');
 
 // import dotenv from 'dotenv';
 let router = express.Router();

@@ -7,12 +7,12 @@ import {
   db_fetch_all,
   db_fetch_by_id,
   db_update,
-} from '../middleware/albums';
-const configuration = require('../../../../conf/config');
+} from '../middleware/portfolio';
+const configuration = require('../../../../conf/keys');
 
 // import dotenv from 'dotenv';
 let router = express.Router();
-let urls = configuration.api.endpointURLS.albums;
+let urls = configuration.api.endpointURLS.portfolio;
 
 router.get(urls.getAll, db_fetch_all);
 router.get(urls.getById + '/:id', db_fetch_by_id);

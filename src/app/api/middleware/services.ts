@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { myservicesSchema } from '../schemas';
-const configuration = require('../../../../conf/config');
+const configuration = require('../../../../conf/keys');
 import fs from 'fs';
 
 export async function db_fetch_all(req: Request, res: Response) {

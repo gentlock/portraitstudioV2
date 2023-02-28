@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { FileArray, UploadedFile } from 'express-fileupload';
 // import * as fs from "fs";
-const configuration = require('../../../../conf/config');
-import { albumsSchema } from '../schemas';
+const configuration = require('../../../../conf/keys');
+import {portfolioSchema } from '../schemas';
 import { myservicesSchema } from '../schemas';
 import fs from 'fs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -13,7 +13,7 @@ export async function setCoverPhoto(req: Request, res: Response) {
   let useSchema = req.params.useSchema;
 
   if (useSchema === 'albumsSchema') {
-    await albumsSchema
+    await portfolioSchema
       .findByIdAndUpdate(id, { coverPhoto: photoName })
       .then((result) => res.json(result))
       .catch((error) => res.json({ error }));
@@ -36,7 +36,7 @@ export async function deleteFile(
   let upDir = configuration.uploadDir.pathAdress;
 
   if (useSchema === 'albumsSchema') {
-    await albumsSchema
+    await portfolioSchema
       .updateOne(
         { _id: id },
         {
@@ -78,7 +78,7 @@ export async function fetchGallery(req: Request, res: Response) {
   // let data_schema: Model<any>;    data_schema = mongoose.model(useSchema, albumsSchema.schema);
 
   if (useSchema === 'albumsSchema') {
-    await albumsSchema
+    await portfolioSchema
       .findById(id, { gallery: 1, coverPhoto: 1 })
       .then((result) => res.json(result))
       .catch((error) => res.json({ error }));
@@ -98,7 +98,7 @@ export async function uploadSingle(req: Request, res: Response) {
 
   await file.mv(uploadPath, async (err) => {
     if (!err) {
-      await albumsSchema.findByIdAndUpdate(id, {
+      await portfolioSchema.findByIdAndUpdate(id, {
         downloadable: { filename: file.name, filesize: file.size },
       });
     } else {
@@ -128,7 +128,7 @@ export async function uploadData(req: Request, res: Response) {
         file2.mv(uploadPath2, async (err) => {
           if (!err) {
             if (useSchema === 'albumsSchema') {
-              await albumsSchema.findByIdAndUpdate(id, {
+              await portfolioSchema.findByIdAndUpdate(id, {
                 $push: { gallery: file2.name },
               });
             } else if (useSchema === 'myservicesSchema') {
@@ -145,7 +145,7 @@ export async function uploadData(req: Request, res: Response) {
       file.mv(uploadPath, async (err) => {
         if (!err) {
           if (useSchema === 'albumsSchema') {
-            await albumsSchema.findByIdAndUpdate(id, {
+            await portfolioSchema.findByIdAndUpdate(id, {
               $push: { gallery: file.name },
             });
           } else if (useSchema === 'myservicesSchema') {

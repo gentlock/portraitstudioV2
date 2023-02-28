@@ -14,11 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.db_delete = exports.db_update = exports.db_add_new = exports.db_fetch_by_id = exports.db_fetch_all = void 0;
 const schemas_1 = require("../schemas");
-const configuration = require('../../../../conf/keys');
+// import {createDir} from "./utils";
 const fs_1 = __importDefault(require("fs"));
+const configuration = require('../../../../conf/keys');
 function db_fetch_all(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield schemas_1.myservicesSchema
+        yield schemas_1.portfolioSchema
             .find({})
             .sort({ addDate: -1 })
             .then((result) => res.json(result))
@@ -31,7 +32,7 @@ exports.db_fetch_all = db_fetch_all;
 function db_fetch_by_id(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let id = req.params.id;
-        yield schemas_1.myservicesSchema
+        yield schemas_1.portfolioSchema
             .findById(id)
             .then((result) => res.json(result))
             .catch((error) => res.json({ error }));
@@ -40,20 +41,24 @@ function db_fetch_by_id(req, res) {
 exports.db_fetch_by_id = db_fetch_by_id;
 function db_add_new(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield schemas_1.myservicesSchema
+        yield schemas_1.portfolioSchema
             .create({
             isActive: req.body.isActive || false,
             addDate: Date.now(),
             name: req.body.name,
-            desc: req.body.desc,
-            subtitle: req.body.subtitle,
-            priceList: req.body.priceList,
+            clientName: req.body.clientName,
+            clientEmail: req.body.clientEmail,
             coverPhoto: '',
+            accessCode: req.body.accessCode,
+            serviceId: req.body.serviceId,
+            clientInfo: req.body.clientInfo,
+            desc: req.body.desc,
+            fileToDownload: '',
         })
             .then((result) => {
             try {
                 // next(configuration.folders.uploadDir.pathAdress);
-                fs_1.default.mkdirSync(configuration.uploadDir.pathAdress + '' + result._id);
+                fs_1.default.mkdirSync(configuration.uploadDir.pathAdress + '/' + result._id);
             }
             catch (err) {
                 next(err);
@@ -68,13 +73,16 @@ function db_update(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let id = req.params.id;
         if (!!id) {
-            yield schemas_1.myservicesSchema
+            yield schemas_1.portfolioSchema
                 .findByIdAndUpdate(id, {
                 isActive: req.body.isActive,
                 name: req.body.name,
+                clientName: req.body.clientName,
+                clientEmail: req.body.clientEmail,
+                accessCode: req.body.accessCode,
+                serviceId: req.body.serviceId,
+                clientInfo: req.body.clientInfo,
                 desc: req.body.desc,
-                subtitle: req.body.subtitle,
-                priceList: req.body.priceList,
             })
                 .then((result) => res.json(result))
                 .catch((error) => res.json({ error }));
@@ -89,7 +97,7 @@ function db_delete(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
         let id = req.params.id;
         if (id) {
-            yield schemas_1.myservicesSchema
+            yield schemas_1.portfolioSchema
                 .findByIdAndDelete(id)
                 .then((result) => {
                 try {

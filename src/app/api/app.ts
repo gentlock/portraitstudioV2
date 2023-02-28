@@ -3,7 +3,7 @@ const createError = require('http-errors');
 import path from 'path';
 import mongoose from 'mongoose';
 const fileUpload = require('express-fileupload');
-const configuration = require('../../../conf/config');
+const configuration = require('../../../conf/keys');
 
 // DOTENV
 import dotenv from 'dotenv';
@@ -12,7 +12,7 @@ import { resolve } from 'dns';
 dotenv.config();
 
 let authenticationRouter = require('./api-routes/authentication');
-let albumsRouter = require('./api-routes/albums');
+let portfolioRouter = require('./api-routes/portfolio');
 let servicesRouter = require('./api-routes/services');
 let dataMgrRouter = require('./api-routes/dataMgr');
 
@@ -38,7 +38,7 @@ app.use(
   configuration.api.endpointURLS.authentication.basePath,
   authenticationRouter
 );
-app.use(configuration.api.endpointURLS.albums.basePath, albumsRouter);
+app.use(configuration.api.endpointURLS.portfolio.basePath, portfolioRouter);
 app.use(configuration.api.endpointURLS.myservices.basePath, servicesRouter);
 app.use(configuration.api.endpointURLS.dataMgr.basePath, dataMgrRouter);
 
