@@ -149,21 +149,22 @@ export class PortfolioMgrComponent implements AfterViewInit {
 
     if( !!fileslist && !!id ) {
       if(confirm('napewno przegrac plik?')) {
+        let upURL = this.dbService.conf.api.endpointURLS.dataMgr.basePath + this.dbService.conf.api.endpointURLS.dataMgr.uploadSingle;
         formData.append('file', fileslist[0]);
 
         this.filename = fileslist[0].name;
         this.filesize = parseInt(fileslist[0].size.toString());
 
-        // this.filesUploadService.uploadSingle(id, formData).subscribe(
-        //   {
-        //     next: (event) => {
-        //       if (event.type === HttpEventType.UploadProgress) {
-        //         this.progressValue = Math.round(event.loaded / event.total! * 100);
-        //       } else if (event.type === HttpEventType.Response) {}
-        //     },
-        //     error: (err) => {
-        //     }
-        //   })
+        this.dbService.uploadSingle(id, upURL, formData).subscribe(
+          {
+            next: (event) => {
+              if (event.type === HttpEventType.UploadProgress) {
+                this.progressValue = Math.round(event.loaded / event.total! * 100);
+              } else if (event.type === HttpEventType.Response) {}
+            },
+            error: (err) => {
+            }
+          })
       }
     }
   }

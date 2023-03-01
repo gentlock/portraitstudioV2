@@ -1,0 +1,168 @@
+@use "../../../../../assets/scss/main" as m;
+$color-one: #1a1a1a;
+$color-two: #282828;
+$color-three: #E2E3E4;
+$color-four: #f8f8f8;
+$color-five: #9b5550;
+
+.carousel {
+  position: relative;
+  font-size: 2.5vmin;
+  overflow: hidden;
+  //margin: 2em;
+
+  &-slider {
+    display: flex;
+  }
+
+  &-slide {
+    flex: 1 0 100%;
+    display: flex;
+    flex-wrap: nowrap;
+
+    @include m.media-query-screen--small {
+      flex-direction: column;
+    }
+    @include m.media-query-screen--middle {
+      flex-direction: row;
+    }
+    @include m.media-query-screen--big {
+      flex-direction: row;
+    }
+
+    .img-container {
+      flex: 0 0 60%;
+      overflow: hidden;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+
+    .content {
+      @include m.media-query-screen--small {
+        background: $color-one;
+      }
+      @include m.media-query-screen--middle {
+        background: linear-gradient(to right, $color-two 50%, $color-one 50%);
+      }
+      @include m.media-query-screen--big {
+        background: linear-gradient(to right, $color-two 50%, $color-one 50%);
+      }
+
+      padding: 4em;
+      justify-content: center;
+
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      width: 100%;
+
+
+      .title {
+        line-height: 1.3em;
+        font-size: xx-large;
+        color: $color-five;
+        font-family: "font-PlayfairDisplay-VariableFont_wght", serif;
+      }
+
+      .subtitle {
+        line-height: 1.4em;
+        font-family: 'SourceSansPro-Regular', sans-serif;
+        font-size: small;
+        color: $color-four;
+        text-transform: uppercase;
+      }
+
+      .desc {
+        font-family: 'SourceSansPro-Regular', sans-serif;
+        line-height: 1.8em;
+        margin-top: 3em;
+        color: $color-three;
+        font-size: small;
+
+        // truncate text
+        overflow: hidden;
+        text-overflow: ellipsis;
+        //white-space: nowrap;
+      }
+    }
+  }
+
+  button {
+    font-size: inherit;
+    z-index: 10;
+  }
+
+  &-prev,
+  &-next {
+    position: absolute;
+    //border: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: .8em;
+    cursor: pointer;
+    //background-color: transparent;
+    border: 1px solid black;
+    background-color: white;
+
+
+    svg {
+      color: white;
+      fill: currentColor;
+      width: 1.6em;
+      height: auto;
+      //filter: opacity(50%);
+      transition: transform 450ms;
+    }
+  }
+
+  &-prev {
+    //left: 2em;
+    //bottom: 0;
+    left: 2em;
+    //background-color: m.$color-dark;
+
+    &:hover > svg {
+      transform: translateX(-5px);
+    }
+  }
+
+  &-next {
+    //right: 2em;
+    //top: 0;
+    right: 2em;
+    //background-color: m.$color-dark;
+
+    &:hover > svg {
+      transform: translateX(5px);
+    }
+  }
+
+  &-navigation {
+    position: absolute;
+    bottom: 1em;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+  }
+
+  &-bullet {
+    width: 1em;
+    height: 1em;
+    border: none;
+    background: #fff;
+    cursor: pointer;
+    border-radius: 50%;
+
+    &.is-active {
+      background: red;
+    }
+  }
+}

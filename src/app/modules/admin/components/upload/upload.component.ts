@@ -1,5 +1,5 @@
 import {HttpClient, HttpErrorResponse, HttpEventType} from '@angular/common/http';
-import {Component, ElementRef, Input, Renderer2, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, Renderer2, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
 import {IMyserviceFeed, IPortfolioFeed} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
@@ -9,7 +9,7 @@ import {DbService} from "../../../../core/data/db.service";
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent {
+export class UploadComponent implements OnChanges{
   @ViewChild('dropBox') dropBox!: ElementRef<HTMLDivElement>;
   progressValue = 0;
   // id = new FormControl('');
@@ -80,13 +80,11 @@ export class UploadComponent {
   setCoverPhoto(e: Event, id: string, photoName: string) {
     let allFigcaptions = this.dropBox.nativeElement.querySelectorAll("figcaption");
     allFigcaptions.forEach(item=>{
-      item.classList.remove("!bg-color-light8");
+      item.classList.remove("!bg-pink-500");
     });
 
     let clicked = (e.target as HTMLElement).closest('div.card')?.querySelector('figcaption')!;
-    clicked.classList.add("!bg-color-light8");
-
-    console.log(this.baseURL+this.setCoverPhotoURL);
+    clicked.classList.add("!bg-pink-500");
 
     this.dbService.setCoverPhoto(id, this.baseURL+this.setCoverPhotoURL, photoName, this.useSchema).subscribe(
       {
