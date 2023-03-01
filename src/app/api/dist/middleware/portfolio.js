@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.db_delete = exports.db_update = exports.db_add_new = exports.db_fetch_by_id = exports.db_fetch_all = void 0;
 const schemas_1 = require("../schemas");
-// import {createDir} from "./utils";
 const fs_1 = __importDefault(require("fs"));
 const configuration = require('../../../../conf/keys');
 function db_fetch_all(req, res) {

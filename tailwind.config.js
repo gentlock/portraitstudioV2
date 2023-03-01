@@ -43,12 +43,8 @@ module.exports = {
       },
     },
   },
-  corePlugins: {
-    aspectRatio: false,
-  },
   plugins: [
     require('@tailwindcss/typography'),
-    require('@tailwindcss/aspect-ratio'),
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/container-queries'),
   ],

@@ -1,13 +1,13 @@
-<div class="grid grid-cols-12 auto-rows-auto  bg-white">
+<div class="grid grid-cols-12 auto-rows-auto  bg-white gap-1">
   <div class="col-start-1 col-end-5 row-start-1 row-end-2  overflow-y-scroll overflow-y-visible overflow-x-hidden w-full h-full">
-    <app-table-bar  [events]="eventsSubject.asObservable()"
-                (resetFormRequest)="resetForm($event)"
-                (editRequest)="populate($event)"
-                (deleteRequest)="db_delete($event)"
-                class="cell-table overflow-auto overflow-y-scroll overflow-y-visible"
-                ></app-table-bar>
-
-<!--    [useService]="albumsService"-->
+    <app-table-bar class="overflow-auto overflow-y-scroll overflow-y-visible"
+      [events]="eventsSubject.asObservable()"
+      (resetFormRequest)="resetForm($event)"
+      (editRequest)="populate($event)"
+      (deleteRequest)="db_delete($event)"
+      [currentUrls]="urls"
+    >
+    </app-table-bar>
   </div>
 
   <div class="col-start-5 col-end-13 row-start-1 row-end-2">
@@ -77,7 +77,7 @@
       </mat-tab>
       <ng-container *ngIf="myFormModel.controls['id'].value as ID">
         <mat-tab label="galeria">
-<!--          <files-upload [uniqID]="ID" [useSchema]="this.DBschema"></files-upload>-->
+          <app-upload [uniqID]="ID" [useSchema]="this.DBschema"></app-upload>
         </mat-tab>
         <mat-tab label="paczka ze zdjeciami">
           <form  [formGroup]="myFormFile" class="flex flex-col gap-4 mt-4" enctype="multipart/form-data">

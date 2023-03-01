@@ -5,7 +5,7 @@
     "database": "portraitstudio"
   },
   "uploadDir": {
-    "pathAdress": "../../assets/images/uploadDir/"
+    "pathAdress": "../../assets/img/upload/"
   },
   "api": {
     "endpointURLS": {
@@ -15,7 +15,7 @@
         "deleteData": "/deleteData",
         "deleteFile": "/deleteFile",
         "fetchGallery": "/fetchGallery",
-        "setCoverPhoto": "/setCoverPhoto/:id/:photoName:/collection",
+        "setCoverPhoto": "/setCoverPhoto",
         "uploadSingle": "/uploadSingle"
       },
       "myservices": {
@@ -27,7 +27,7 @@
         "remove": "/remove"
       },
       "portfolio": {
-        "basePath": "/api/albums",
+        "basePath": "/api/portfolio",
         "getAll": "/",
         "getById": "/getById",
         "addNew": "/addNew",

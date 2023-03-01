@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Output, Input} from '@angular/core';
+import {Component, EventEmitter, Output, Input, AfterViewInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
-import {IMyserviceFeed} from "../../../../core/abstracts";
+import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
 
 @Component({
@@ -8,8 +8,9 @@ import {DbService} from "../../../../core/data/db.service";
   templateUrl: './table-bar.component.html',
   styleUrls: ['./table-bar.component.scss']
 })
-export class TableBarComponent {
-  @Input() useService!: DbService;
+export class TableBarComponent implements AfterViewInit {
+  @Input() currentUrls!: apiUrls;
+  // @Input() useService!: DbService;
   data$!: Observable<any>;
   services$!: Observable<IMyserviceFeed[]>;
   @Output() editRequest: EventEmitter<any> = new EventEmitter();
@@ -18,13 +19,12 @@ export class TableBarComponent {
   @Input() events!: Observable<string>;
   @Input() selectableService!: boolean;
   eventsSubscription!: Subscription;
-  currentCard: string = "";
+  currentCard = "";
 
   constructor(
     private dbService: DbService
-    // private albumsService: AlbumsService,
   ) {
-    this.services$ = dbService.myservicesGetAll();
+
   }
 
   resetActiveCards() {
@@ -55,7 +55,8 @@ export class TableBarComponent {
     this.resetFormRequest.emit();
   }
   refreshTable() {
-    // this.data$ = this.useService.getAll();
+    console.log(this.currentUrls.basePath + this.currentUrls.getAll);
+    this.data$ = this.dbService.getAll(this.currentUrls.basePath + this.currentUrls.getAll);
   }
 
   ngOnInit() {
@@ -70,6 +71,7 @@ export class TableBarComponent {
   }
 
   ngAfterViewInit() {
+    // this.services$ = this.dbService.getAll(this.currentUrls.getAll);
     this.refreshTable();
   }
 }

@@ -23,7 +23,7 @@ function setCoverPhoto(req, res) {
         let id = req.params.id;
         let photoName = req.params.photoName;
         let useSchema = req.params.useSchema;
-        if (useSchema === 'albumsSchema') {
+        if (useSchema === 'portfolioSchema') {
             yield schemas_1.portfolioSchema
                 .findByIdAndUpdate(id, { coverPhoto: photoName })
                 .then((result) => res.json(result))
@@ -44,7 +44,7 @@ function deleteFile(req, res, next) {
         let photoName = req.params.photoName;
         let useSchema = req.params.useSchema;
         let upDir = configuration.uploadDir.pathAdress;
-        if (useSchema === 'albumsSchema') {
+        if (useSchema === 'portfolioSchema') {
             yield schemas_1.portfolioSchema
                 .updateOne({ _id: id }, {
                 $unset: { coverPhoto: { $cond: { coverPhoto: photoName } } },
@@ -84,7 +84,7 @@ function fetchGallery(req, res) {
         let id = req.params.id;
         let useSchema = req.params.useSchema;
         // let data_schema: Model<any>;    data_schema = mongoose.model(useSchema, albumsSchema.schema);
-        if (useSchema === 'albumsSchema') {
+        if (useSchema === 'portfolioSchema') {
             yield schemas_1.portfolioSchema
                 .findById(id, { gallery: 1, coverPhoto: 1 })
                 .then((result) => res.json(result))
@@ -134,7 +134,7 @@ function uploadData(req, res) {
                     // console.log(el);
                     file2.mv(uploadPath2, (err) => __awaiter(this, void 0, void 0, function* () {
                         if (!err) {
-                            if (useSchema === 'albumsSchema') {
+                            if (useSchema === 'portfolioSchema') {
                                 yield schemas_1.portfolioSchema.findByIdAndUpdate(id, {
                                     $push: { gallery: file2.name },
                                 });
@@ -153,7 +153,7 @@ function uploadData(req, res) {
                 // console.log(file);
                 file.mv(uploadPath, (err) => __awaiter(this, void 0, void 0, function* () {
                     if (!err) {
-                        if (useSchema === 'albumsSchema') {
+                        if (useSchema === 'portfolioSchema') {
                             yield schemas_1.portfolioSchema.findByIdAndUpdate(id, {
                                 $push: { gallery: file.name },
                             });

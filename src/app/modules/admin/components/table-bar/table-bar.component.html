@@ -1,5 +1,5 @@
-<div class="grid grid-cols-1 auto-rows-auto  w-full h-full">
-  <div class="col-span-full row-start-1 row-end-2 flex justify-between items-center pr-2 h-20 border border-solid border-r-color-dark3">
+<div class="grid grid-cols-1 auto-rows-auto  items-start divide-y">
+  <div class="col-span-full flex justify-between items-center h-full p-2">
     <section class="flex gap-2">
       <button  (click)="resetForm()" class="bg-layout-color-light1 w-10 h-10 flex justify-center items-center rounded-full shadow-gray-500 shadow active:shadow-none">
         <svg class="w-8 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,10 +19,9 @@
   </div>
 
   <!-- one cell -->
-  <div class="col-span-full row-start-2 row-end-3 " *ngFor="let data of data$ | async;" [ngClass]="(data._id!) === currentCard ? 'bg-rose-100 card flex border border-solid border-b-color-dark3 h-full' : 'card flex border border-solid border-b-color-dark3 h-full'">
+  <div class="col-span-full " *ngFor="let data of data$ | async;" [ngClass]="(data._id!) === currentCard ? 'bg-rose-100 card flex h-full' : 'card flex h-full'">
     <div class="p-2 flex flex-col flex-grow items-start justify-evenly">
       <span class="text-sm font-SourceSansPro-Regular">{{ data.name }}</span>
-      <!--      {{ elapsedTime(data.addDate) }}-->
       <span class="text-sm font-SourceSansPro-Regular text-color-light3">{{ data.addDate | date: 'short' }} </span>
       <span class="text-sm font-SourceSansPro-Italic text-color-light3">{{ data._id }}</span>
     </div>

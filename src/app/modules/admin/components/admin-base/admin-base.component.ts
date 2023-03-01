@@ -8,7 +8,7 @@ import {AfterViewInit, Component} from '@angular/core';
 export class AdminBaseComponent implements AfterViewInit {
   ngAfterViewInit() {
     let navbar = document.querySelector('.navbar')!
-    let navbarWidth = navbar.clientWidth;
+    let navbarWidth = (navbar as HTMLElement).offsetWidth;
     let main = document.querySelector('main')!;
 
     (navbar as HTMLDivElement).style.height = `${document.body.clientHeight}px`;

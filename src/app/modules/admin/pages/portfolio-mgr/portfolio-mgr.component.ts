@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { myPasswordGenerator, clearFormField} from "../../../../core/libs";
 import { DbService } from "../../../../core/data/db.service";
 import {Observable, Subject} from "rxjs";
-import {IAlbumsFeed, IMyserviceFeed} from "../../../../core/abstracts";
+import {IPortfolioFeed, IMyserviceFeed, apiUrls} from "../../../../core/abstracts";
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
 
 @Component({
@@ -11,7 +11,7 @@ import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
   templateUrl: './portfolio-mgr.component.html',
   styleUrls: ['./portfolio-mgr.component.scss'],
 })
-export class PortfolioMgrComponent {
+export class PortfolioMgrComponent implements AfterViewInit {
   myFormModel: FormGroup;
   myFormFile: FormGroup;
   clearField = clearFormField;
@@ -21,12 +21,16 @@ export class PortfolioMgrComponent {
   DBschema = 'portfolioSchema';
   filename!: string;
   filesize!: number;
+  readonly urls: apiUrls;
 
   constructor(
     private _fb: FormBuilder,
     public dbService: DbService,
     // private filesUploadService: FilesUploadService
   ) {
+
+    this.urls = dbService.conf.api.endpointURLS.portfolio;
+
     this.myFormModel = _fb.group({
       'id':[''],
       'isActive':[''],
@@ -45,7 +49,7 @@ export class PortfolioMgrComponent {
   }
 
   ngAfterViewInit() {
-    this.servicesList$ = this.dbService.myservicesGetAll();
+    this.servicesList$ = this.dbService.getAll( this.dbService.conf.api.endpointURLS.myservices.basePath + this.dbService.conf.api.endpointURLS.myservices.getAll ) ;
   }
   sendEmail(event: Event, email: string) {
     event.preventDefault();
@@ -59,7 +63,7 @@ export class PortfolioMgrComponent {
     e.preventDefault();
     let id = this.myFormModel.get('id')?.value;
 
-    const data: IAlbumsFeed = {
+    const data: IPortfolioFeed = {
       'isActive'      : this.myFormModel.get('isActive')?.value || false,
       'name'          : this.myFormModel.get('name')?.value,
       'clientName'    : this.myFormModel.get('clientName')?.value,
@@ -74,7 +78,7 @@ export class PortfolioMgrComponent {
       if(!!id) {
         // console.log("uaktualniam");
 
-        this.dbService.portfolioUpdate(id, data).subscribe(
+        this.dbService.recordUpdate(id, this.urls.basePath + this.urls.update, data).subscribe(
           {
             next: (value)=>{
               this.populate(value._id!);
@@ -85,7 +89,7 @@ export class PortfolioMgrComponent {
         );
       } else {
         // console.log("dodaje");
-        this.dbService.portfolioAddNew(data).subscribe(
+        this.dbService.recordAddNew(this.urls.basePath + this.urls.addNew, data).subscribe(
           {
             next: (value) => {
               this.populate(value._id!);
@@ -100,7 +104,7 @@ export class PortfolioMgrComponent {
   }
 
   db_delete = ( id: string ) => {
-    this.dbService.portfolioDel(id).subscribe(
+    this.dbService.recordDel(id, this.urls.basePath + this.urls.remove).subscribe(
       {
         next: (value)=>{
           this.refreshSignal('');
@@ -114,7 +118,7 @@ export class PortfolioMgrComponent {
     this.myFormFile.reset();
     this.progressValue = 0;
 
-    this.dbService.portfolioGetById( id ).subscribe(
+    this.dbService.getById( id, this.urls.basePath + this.urls.getById ).subscribe(
       {
         next: (data) => {
           this.myFormModel.get('id')?.setValue(id);

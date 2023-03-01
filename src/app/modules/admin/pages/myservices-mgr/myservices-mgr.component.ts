@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {HttpErrorResponse} from "@angular/common/http";
-import {IMyserviceFeed} from "../../../../core/abstracts";
+import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Subject} from "rxjs";
 import {clearFormField} from "../../../../core/libs";
@@ -16,12 +16,15 @@ export class MyservicesMgrComponent {
   clearField = clearFormField;
   eventsSubject: Subject<string> = new Subject<string>();
   DBschema = 'myservicesSchema';
+  readonly urls: apiUrls;
 
   constructor(
     private _fb: FormBuilder,
     public dbService: DbService
 
   ) {
+    this.urls = dbService.conf.api.endpointURLS.myservices;
+
     this.myFormModel = _fb.group({
       'id':[''],
       'action':['action'],
@@ -37,7 +40,7 @@ export class MyservicesMgrComponent {
   }
 
   db_delete = ( id: string ) => {
-    this.dbService.myservicesDel(id).subscribe(
+    this.dbService.recordDel( id, this.urls.basePath + this.urls.remove ).subscribe(
       {
         next: (value)=>{
           this.refreshSignal('');
@@ -48,7 +51,7 @@ export class MyservicesMgrComponent {
   }
 
   populate = ( id: string ) => {
-    this.dbService.myservicesGetById( id ).subscribe(
+    this.dbService.getById( id, this.urls.basePath + this.urls.getById  ).subscribe(
       {
         next: (data) => {
           this.myFormModel.get('id')?.setValue(id);
@@ -83,7 +86,7 @@ export class MyservicesMgrComponent {
     if(this.myFormModel.valid) {
       if(!!id) {
         // console.log('uaktualniam');
-        this.dbService.myservicesUpdate(id, data).subscribe(
+        this.dbService.recordUpdate(id, this.urls.basePath + this.urls.update, data).subscribe(
           {
             next: (value)=>{
               this.populate(value._id!);
@@ -94,7 +97,7 @@ export class MyservicesMgrComponent {
         );
       } else  {
         // console.log('dodaje nowy');
-        this.dbService.myservicesAddNew(data).subscribe(
+        this.dbService.recordAddNew(this.urls.basePath + this.urls.addNew, data).subscribe(
           {
             next: (value)=>{
               this.populate(value._id!);

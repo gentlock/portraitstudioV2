@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
 import { portfolioSchema } from '../schemas';
-// import {createDir} from "./utils";
 import fs from 'fs';
 const configuration = require('../../../../conf/keys');
 

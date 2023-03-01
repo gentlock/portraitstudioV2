@@ -12,7 +12,7 @@ export async function setCoverPhoto(req: Request, res: Response) {
   let photoName = req.params.photoName;
   let useSchema = req.params.useSchema;
 
-  if (useSchema === 'albumsSchema') {
+  if (useSchema === 'portfolioSchema') {
     await portfolioSchema
       .findByIdAndUpdate(id, { coverPhoto: photoName })
       .then((result) => res.json(result))
@@ -35,7 +35,7 @@ export async function deleteFile(
   let useSchema = req.params.useSchema;
   let upDir = configuration.uploadDir.pathAdress;
 
-  if (useSchema === 'albumsSchema') {
+  if (useSchema === 'portfolioSchema') {
     await portfolioSchema
       .updateOne(
         { _id: id },
@@ -77,7 +77,7 @@ export async function fetchGallery(req: Request, res: Response) {
   let useSchema = req.params.useSchema;
   // let data_schema: Model<any>;    data_schema = mongoose.model(useSchema, albumsSchema.schema);
 
-  if (useSchema === 'albumsSchema') {
+  if (useSchema === 'portfolioSchema') {
     await portfolioSchema
       .findById(id, { gallery: 1, coverPhoto: 1 })
       .then((result) => res.json(result))
@@ -127,7 +127,7 @@ export async function uploadData(req: Request, res: Response) {
         // console.log(el);
         file2.mv(uploadPath2, async (err) => {
           if (!err) {
-            if (useSchema === 'albumsSchema') {
+            if (useSchema === 'portfolioSchema') {
               await portfolioSchema.findByIdAndUpdate(id, {
                 $push: { gallery: file2.name },
               });
@@ -144,7 +144,7 @@ export async function uploadData(req: Request, res: Response) {
       // console.log(file);
       file.mv(uploadPath, async (err) => {
         if (!err) {
-          if (useSchema === 'albumsSchema') {
+          if (useSchema === 'portfolioSchema') {
             await portfolioSchema.findByIdAndUpdate(id, {
               $push: { gallery: file.name },
             });

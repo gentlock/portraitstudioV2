@@ -1,3 +1,5 @@
+'use strict';
+
 import { NextFunction, Request, Response } from 'express';
 import { myservicesSchema } from '../schemas';
 const configuration = require('../../../../conf/keys');

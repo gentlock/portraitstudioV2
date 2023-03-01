@@ -1,3 +1,55 @@
+// export interface configuration {
+//   "db": {
+//     "host": string;
+//     "port": string;
+//     "database": string;
+// },
+//   "uploadDir": {
+//   "pathAdress": string;
+// },
+//   "api": {
+//   "endpointURLS": {
+//     "dataMgr": {
+//       "basePath": string;
+//         "uploadData": string;
+//         "deleteData": string;
+//         "deleteFile": string;
+//         "fetchGallery": string;
+//         "setCoverPhoto": string;
+//         "uploadSingle": string;
+//     },
+//     "myservices": {
+//       "basePath": string;
+//         "getAll": string;
+//         "getById": string;
+//         "addNew": string;
+//         "update": string;
+//         "remove": string;
+//     },
+//     "portfolio": {
+//       "basePath": string;
+//         "getAll": string;
+//         "getById": string;
+//         "addNew": string;
+//         "update": string;
+//         "remove": string;
+//     },
+//     "authentication": {
+//       "basePath": string;
+//     }
+//   }
+// }
+// }
+
+export interface apiUrls {
+  basePath: string;
+  getAll: string;
+  getById: string;
+  addNew: string;
+  update: string;
+  remove: string;
+}
+
 export interface IMyserviceFeed {
   _id?: string;
   isActive: boolean;
@@ -10,7 +62,7 @@ export interface IMyserviceFeed {
   gallery?: string[];
 }
 
-export interface IAlbumsFeed {
+export interface IPortfolioFeed {
   _id?: string;
   isActive: boolean;
   downloadable?: { filename: string; filesize: number };

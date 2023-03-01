@@ -29,5 +29,5 @@ const portfolioS = new mongoose_1.default.Schema({
     downloadable: { filename: String, filesize: Number },
     gallery: [String],
 });
-exports.portfolioSchema = mongoose_1.default.model('albums', portfolioS);
+exports.portfolioSchema = mongoose_1.default.model('portfolio', portfolioS);
 exports.myservicesSchema = mongoose_1.default.model('myservices', myserviceS);

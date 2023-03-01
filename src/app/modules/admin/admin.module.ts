@@ -16,6 +16,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
+import { UploadComponent } from "./components/upload/upload.component";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {MatSelectModule} from '@angular/material/select';
     MyservicesMgrComponent,
     AdminBaseComponent,
     TableBarComponent,
+    UploadComponent,
   ],
   imports: [
     CommonModule,

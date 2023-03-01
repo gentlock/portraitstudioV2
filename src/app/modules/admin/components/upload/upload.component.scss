@@ -1,0 +1,9 @@
+.gallery-grid {
+  display: grid;
+  gap: 0.3em;
+  grid-template-columns: repeat(auto-fill, 250px);
+}
+.gallery-grid > div {
+  width: 250px;
+  height: 100%;
+}

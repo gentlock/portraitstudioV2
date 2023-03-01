@@ -8,7 +8,6 @@ import {
   db_fetch_by_id,
   db_update,
 } from '../middleware/services';
-
 const configuration = require('../../../../conf/keys');
 
 // import dotenv from 'dotenv';

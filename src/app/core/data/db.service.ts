@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {IAlbumsFeed, IMyserviceFeed} from "../abstracts";
+import {IPortfolioFeed, IMyserviceFeed} from "../abstracts";
 import { HttpClient } from '@angular/common/http';
 import * as configuration from '../../../conf/keys.json';
 
@@ -8,44 +8,44 @@ import * as configuration from '../../../conf/keys.json';
 })
 export class DbService {
   public conf = configuration;
-  readonly basePath = this.conf.api.endpointURLS.myservices.basePath;
-  readonly myservicesUrls = this.conf.api.endpointURLS.myservices;
-  readonly prortfolioUrls     = this.conf.api.endpointURLS.portfolio;
 
   constructor(
     private http: HttpClient
   ) {}
 
-  portfolioGetAll() {
-    return this.http.get<IAlbumsFeed[]>(this.basePath+''+this.prortfolioUrls.getAll);
+  getAll(url: string) {
+    return this.http.get<any[]>(url);
   }
-  portfolioGetById(id: string) {
-    return this.http.get<IAlbumsFeed>(this.basePath+''+this.prortfolioUrls.getById+`/${id}`);
+  getById(id: string, url: string) {
+    return this.http.get<any>(url+`/${id}`);
   }
-  portfolioAddNew(data: IAlbumsFeed) {
-    return this.http.post<IAlbumsFeed>(this.basePath+''+this.prortfolioUrls.addNew, data);
+  recordAddNew(url: string, data:any) {
+    return this.http.post<any>(url, data);
   }
-  portfolioUpdate(id: string, data: IAlbumsFeed) {
-    return this.http.put<IAlbumsFeed>(this.basePath+''+this.prortfolioUrls.update+`/${id}`, data);
+  recordUpdate(id: string, url: string, data: any) {
+    return this.http.put<any>(url+`/${id}`, data);
   }
-  portfolioDel(id: string) {
-    return this.http.delete<IAlbumsFeed>(this.basePath+''+this.prortfolioUrls.remove+`/${id}`);
+  recordDel(id: string, url: string) {
+    return this.http.delete<any>(url+`/${id}`);
   }
 
+  uploadData(id: string, url: string, useSchema: string, myFiles: FormData) {
+    return this.http.put<void>(url + `/${id}`+`/${useSchema}`, myFiles, {reportProgress: true, observe: 'events'});
+  }
 
-  myservicesGetAll() {
-    return this.http.get<IMyserviceFeed[]>(this.basePath+''+this.myservicesUrls.getAll);
+  uploadSingle(id: string, url: string, myFiles: FormData) {
+    return this.http.put<void>(url+`/${id}`, myFiles, {reportProgress: true, observe: 'events'});
   }
-  myservicesGetById(id: string) {
-    return this.http.get<IMyserviceFeed>(this.basePath+''+this.myservicesUrls.getById+`/${id}`);
+
+  fetchGallery(id: string, url: string, useSchema: string) {
+    return this.http.get<any>(url+`/${id}`+`/${useSchema}`);
   }
-  myservicesAddNew(data: IMyserviceFeed) {
-    return this.http.post<IMyserviceFeed>(this.basePath+''+this.myservicesUrls.addNew, data);
+
+  deleteFile(id: string, url: string, photoName: string, collection: string) {
+    return this.http.delete<void>(url + `/${id}/${photoName}/${collection}`);
   }
-  myservicesUpdate(id: string, data: IMyserviceFeed) {
-    return this.http.put<IMyserviceFeed>(this.basePath+''+this.myservicesUrls.update+`/${id}`, data);
-  }
-  myservicesDel(id: string) {
-    return this.http.delete<IMyserviceFeed>(this.basePath+''+this.myservicesUrls.remove+`/${id}`);
+
+  setCoverPhoto(id: string, url: string, photoName: string, collection: string) {
+    return this.http.get<void>(url + `/${id}/${photoName}/${collection}`);
   }
 }

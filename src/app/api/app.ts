@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 const createError = require('http-errors');
-import path from 'path';
+// import path from 'path';
 import mongoose from 'mongoose';
 const fileUpload = require('express-fileupload');
 const configuration = require('../../../conf/keys');
@@ -8,7 +8,6 @@ const configuration = require('../../../conf/keys');
 // DOTENV
 import dotenv from 'dotenv';
 import { HttpErrorResponse } from '@angular/common/http';
-import { resolve } from 'dns';
 dotenv.config();
 
 let authenticationRouter = require('./api-routes/authentication');

@@ -26,5 +26,5 @@ const portfolioS = new mongoose.Schema({
   gallery: [String],
 });
 
-export const portfolioSchema = mongoose.model('albums', portfolioS);
+export const portfolioSchema = mongoose.model('portfolio', portfolioS);
 export const myservicesSchema = mongoose.model('myservices', myserviceS);
