@@ -9,6 +9,9 @@ $color-five: #9b5550;
   position: relative;
   font-size: 2.5vmin;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
+  max-height: 600px;
   //margin: 2em;
 
   &-slider {
@@ -17,22 +20,27 @@ $color-five: #9b5550;
 
   &-slide {
     flex: 1 0 100%;
-    display: flex;
-    flex-wrap: nowrap;
+    display: grid;
+    grid-auto-rows: auto;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 
-    @include m.media-query-screen--small {
-      flex-direction: column;
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(8, minmax(0, 1fr));
     }
-    @include m.media-query-screen--middle {
-      flex-direction: row;
-    }
-    @include m.media-query-screen--big {
-      flex-direction: row;
+
+    @media (min-width: 1280px) {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
     }
 
     .img-container {
-      flex: 0 0 60%;
       overflow: hidden;
+      grid-row: 1 / 2;
+      grid-column: 1 / -1;
+
+      @media (min-width: 1280px) {
+        grid-column: 1 / 8;
+      }
+
 
       img {
         display: block;
@@ -40,23 +48,23 @@ $color-five: #9b5550;
         height: 100%;
         object-fit: cover;
         object-position: center;
+        filter: brightness(.6);
       }
     }
 
     .content {
-      @include m.media-query-screen--small {
-        background: $color-one;
-      }
-      @include m.media-query-screen--middle {
+      background: $color-one;
+      grid-row: 2 / 3;
+      grid-column: 1 / -1;
+      background: $color-one;
+      padding: 2em 0 2em 0;
+
+      @media (min-width: 1280px) {
+        grid-row: 1 / 2;
+        grid-column: 8 / -1;
+        padding: 2em;
         background: linear-gradient(to right, $color-two 50%, $color-one 50%);
       }
-      @include m.media-query-screen--big {
-        background: linear-gradient(to right, $color-two 50%, $color-one 50%);
-      }
-
-      padding: 4em;
-      justify-content: center;
-
       display: flex;
       flex-direction: column;
       flex-wrap: nowrap;
@@ -64,14 +72,13 @@ $color-five: #9b5550;
 
 
       .title {
-        line-height: 1.3em;
+        //white-space: nowrap;
         font-size: xx-large;
         color: $color-five;
-        font-family: "font-PlayfairDisplay-VariableFont_wght", serif;
+        font-family: "font-Mukta-Regular", serif;
       }
 
       .subtitle {
-        line-height: 1.4em;
         font-family: 'SourceSansPro-Regular', sans-serif;
         font-size: small;
         color: $color-four;
@@ -104,17 +111,16 @@ $color-five: #9b5550;
     //border: 0;
     top: 50%;
     transform: translateY(-50%);
-    padding: .8em;
+    padding: 1.3em;
     cursor: pointer;
-    //background-color: transparent;
-    border: 1px solid black;
-    background-color: white;
+    background-color: transparent;
+    border: 1px solid $color-five;
 
 
     svg {
       color: white;
       fill: currentColor;
-      width: 1.6em;
+      width: 1.8em;
       height: auto;
       //filter: opacity(50%);
       transition: transform 450ms;

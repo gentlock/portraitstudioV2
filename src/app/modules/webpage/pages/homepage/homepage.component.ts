@@ -137,6 +137,19 @@ export class HomepageComponent implements AfterViewInit {
   ngAfterViewInit() {
     let url = this.dbService.conf.api.endpointURLS.myservices.basePath + this.dbService.conf.api.endpointURLS.myservices.getAll;
 
+    // let mainRef = document.querySelector('main')!;
+    //
+    // const  callback = (entries: ResizeObserverEntry[]) => {
+    //   for (let  entry of entries) {
+    //     console.log(entry.contentRect.width);
+    //     // (mainRef as HTMLDivElement).style.height = `${entry.contentRect.height}px`;
+    //   }
+    // };
+    //
+    // new ResizeObserver(callback).observe(mainRef);
+
+
+
     this.dbService.getAll(url).subscribe(
       {
         next: (el => {

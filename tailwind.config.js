@@ -37,9 +37,10 @@ module.exports = {
         'SourceSansPro-Italic': ['SourceSansPro-Italic'],
         'SourceSansPro-Light': ['SourceSansPro-Light'],
         'April-June': ['April June'],
-        'PlayfairDisplay-VariableFont_wght': [
-          'PlayfairDisplay-VariableFont_wght',
-        ],
+        'PlayfairDisplay-VariableFont_wght': ['PlayfairDisplay-VariableFont_wght'],
+        'Mukta-Regular': ['Mukta-Regular'],
+        'Mukta-SemiBold': ['Mukta-SemiBold'],
+        'Mukta-Medium': ['Mukta-Medium']
       },
     },
   },

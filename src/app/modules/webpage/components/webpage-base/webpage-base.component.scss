@@ -21,7 +21,14 @@
   }
 }
 
-a.isActive > span::before {
-  transform: scaleX(1);
-  transition: none;
+a.isActive {
+  & > span::before {
+    transform: scaleX(1);
+    transition: none;
+  }
+
+  & > svg.navIcon {
+    color: #E2E3E4 !important;
+    fill: #E2E3E4 !important;
+  }
 }
