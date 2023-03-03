@@ -32,9 +32,9 @@
           <div class="pt-6 text-softer-white4 text-md">{{ details.desc }}</div>
         </mat-tab>
         <mat-tab label="galeria">
-          <div class="gallery-grid main-grid">
+          <div class="gallery-grid">
             <div *ngFor="let file of details.gallery">
-              <img class="aspect-16/9 object-cover object-center w-full h-full block" src="./assets/img/upload/{{ details._id }}/{{ file }}" alt=""/>
+              <img src="./assets/img/upload/{{ details._id }}/{{ file }}" alt=""/>
             </div>
           </div>
         </mat-tab>

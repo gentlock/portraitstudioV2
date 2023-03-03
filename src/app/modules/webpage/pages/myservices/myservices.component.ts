@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ViewEncapsulation} from '@angular/core';
 import {DbService} from "../../../../core/data/db.service";
 import {Observable} from "rxjs";
 import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
@@ -7,6 +7,7 @@ import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
   selector: 'app-myservices',
   templateUrl: './myservices.component.html',
   styleUrls: ['./myservices.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class MyservicesComponent {
   myservices$!: Observable<IMyserviceFeed[]>;
