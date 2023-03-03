@@ -1,9 +1,46 @@
 @use "../../../../../assets/scss/main" as m;
-//.content {
-//  display: grid;
-//  grid-template-columns: subgrid;
-//  grid-auto-rows: auto;
-//}
+
+.gallery-grid {
+  --photo-height: 250px;
+
+  display: grid;
+  //grid-template-columns: subgrid;
+  grid-template-rows: var(--photo-height);
+  grid-auto-flow: row dense;
+  gap: .3em;
+  //place-content: center;
+
+  //grid-template-columns: repeat(4, minmax(0, 1fr));
+  //
+  //@include m.media-query-screen--lg {
+  //  grid-template-columns: repeat(8, minmax(0, 1fr));
+  //}
+  //
+  //@include m.media-query-screen--xl {
+  //  grid-template-columns: repeat(12, minmax(0, 1fr));
+  //}
+
+  div {
+    overflow: hidden;
+    height: var(--photo-height);
+    width: 100%;
+
+    img {
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      height: auto;
+      min-width: 100%;
+      min-height: 100%;
+
+    }
+  }
+
+  @include m.gallery-grid(400px);
+}
+
 .stroke {
   -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
   -webkit-text-stroke-width: 1px;
@@ -12,18 +49,10 @@
 
 div.overlay > span,
 .stroke,
-img {
-  transition: all 250ms;
-}
+img {transition: all 250ms;}
 
 a:hover {
-  div > span {
-    color: white;
-  }
-  .stroke {
-    -webkit-text-stroke-color: white;
-  }
-  img {
-    filter: brightness(.4);
-  }
+  div > span {color: white;}
+  .stroke {-webkit-text-stroke-color: white;}
+  img {filter: brightness(.4);}
 }

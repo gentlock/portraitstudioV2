@@ -10,6 +10,7 @@ import { HomepageComponent } from './pages/homepage/homepage.component';
 import { MyservicesComponent } from './pages/myservices/myservices.component';
 import { ShareableModule } from '../../core/shareable.module';
 import { WebpageBaseComponent } from './components/webpage-base/webpage-base.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,6 @@ import { WebpageBaseComponent } from './components/webpage-base/webpage-base.com
     MyservicesComponent,
     WebpageBaseComponent,
   ],
-  imports: [CommonModule, WebpageRoutingModule, ShareableModule],
+  imports: [CommonModule, WebpageRoutingModule, ShareableModule, MatTabsModule],
 })
 export class WebpageModule {}

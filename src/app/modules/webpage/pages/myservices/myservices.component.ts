@@ -10,8 +10,9 @@ import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
 })
 export class MyservicesComponent {
   myservices$!: Observable<IMyserviceFeed[]>;
+  details$!: Observable<IMyserviceFeed>;
   readonly urls: apiUrls;
-  showDetails = "";
+  showDetails = false;
   id = "";
 
   constructor(
@@ -19,6 +20,12 @@ export class MyservicesComponent {
   ) {
     this.urls = dbService.conf.api.endpointURLS.myservices;
     this.myservices$ = dbService.getAll(this.urls.basePath+this.urls.getAll);
+  }
 
+  switchView(e: Event, id: string) {
+    this.showDetails = true;
+    this.id = id;
+
+    this.details$ = this.dbService.getById(this.id, this.urls.basePath+this.urls.getById);
   }
 }
