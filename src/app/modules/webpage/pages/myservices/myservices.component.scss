@@ -1,0 +1,29 @@
+@use "../../../../../assets/scss/main" as m;
+//.content {
+//  display: grid;
+//  grid-template-columns: subgrid;
+//  grid-auto-rows: auto;
+//}
+.stroke {
+  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: m.$color-five;
+}
+
+div.overlay > span,
+.stroke,
+img {
+  transition: all 250ms;
+}
+
+a:hover {
+  div > span {
+    color: white;
+  }
+  .stroke {
+    -webkit-text-stroke-color: white;
+  }
+  img {
+    filter: brightness(.4);
+  }
+}

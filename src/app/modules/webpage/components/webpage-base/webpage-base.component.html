@@ -1,6 +1,6 @@
-<div class="wrapper md:w-[768px] lg:w-[1024px] xl:w-[1280px] mx-auto flex flex-col md:justify-center md:items-center h-full">
-  <header class="z-50  transition-all duration-300 fixed top-0 left-0 md:w-full h-full md:h-auto shadow-shadow-dark0">
-    <nav class="bg-layout-color-dark2 mx-auto md:px-36 transition-all duration-300 w-16 h-full py-4 md:py-0 md:w-full md:h-16 justify-between md:flex-row flex flex-col max-w-screen-xl">
+ <header class="z-50  transition-all duration-300 fixed top-0 left-0 md:w-full h-full md:h-auto shadow-shadow-dark0">
+    <div class="md:container md:w-4/5 md:mx-auto h-full">
+    <nav class="bg-layout-color-dark2 transition-all duration-300  w-16 h-full py-4 md:py-0 md:w-full md:h-16 justify-between md:flex-row flex flex-col">
       <svg
         class="w-12 h-auto fill-layout-color-light0 self-center items-center"
         viewBox="0 0 52 52"
@@ -12,8 +12,12 @@
 
       <ul class="w-full flex flex-col md:flex-row md:space-x-4 md:space-y-0 space-y-4 justify-end items-center">
         <li>
-          <a [routerLink]="['/home']" [routerLinkActive]="'isActive'" href="">
+          <a
+             [routerLink]="['/home']"
+             [routerLinkActive]="'isActive'"
+             href="">
             <span class="navText">home</span>
+            <span class="tooltiptext block md:hidden">home</span>
             <svg
               class="navIcon"
               viewBox="0 0 512 512"
@@ -23,8 +27,12 @@
           </a>
         </li>
         <li>
-          <a [routerLink]="['/about']" [routerLinkActive]="'isActive'" href="">
+          <a
+             [routerLink]="['/about']"
+             [routerLinkActive]="'isActive'"
+             href="">
             <span class="navText">o mnie</span>
+            <span class="tooltiptext block md:hidden">o mnie</span>
             <svg
               class="navIcon"
               viewBox="-42 0 512 512.002"
@@ -40,6 +48,7 @@
             [routerLinkActive]="'isActive'"
             href="">
             <span class="navText">usłógi</span>
+            <span class="tooltiptext block md:hidden">usłógi</span>
             <svg class="navIcon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
               <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
               <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
@@ -58,6 +67,7 @@
             [routerLinkActive]="'isActive'"
             href="">
             <span class="navText">portfolio</span>
+            <span class="tooltiptext block md:hidden">portfolio</span>
             <svg
               class="navIcon"
               xmlns="http://www.w3.org/2000/svg"
@@ -88,12 +98,13 @@
         <li>
           <a
             [routerLink]="['/contact']"
-            [routerLinkActive]="'isActive'" href="">
+            [routerLinkActive]="'isActive'"
+            href="">
             <span class="navText">kontakt</span>
+            <span class="tooltiptext block md:hidden">kontakt</span>
             <svg class="navIcon" viewBox="0 0 512 512">
               <g>
                 <path
-                  class="st0"
                   d="M452.29,74.535H59.71C26.728,74.535,0,101.263,0,134.236v243.527c0,32.974,26.728,59.702,59.71,59.702H452.29
               c32.973,0,59.71-26.728,59.71-59.702V134.236C512,101.263,485.264,74.535,452.29,74.535z M483.49,393.849l-11.366,13.46
               L312.957,277.407l-24.65,23.454c-18.268,16.776-46.345,16.776-64.614,0l-24.65-23.454L39.876,407.309l-11.366-13.46l149.44-136.517
@@ -106,18 +117,19 @@
       </ul>
       <div>&nbsp;</div>
     </nav>
+    </div>
+
   </header>
 
-  <div>
-  <article class=" md:px-36 transition-all duration-300 pl-16 md:pt-16 md:ml-0 flex flex-col h-full w-full">
+  <article class="container md:w-4/5 mx-auto  transition-all duration-300 pl-16 md:pt-16 md:pl-0 flex flex-col h-full w-full">
     <div class="pixelToWatch"></div>
     <main>
       <router-outlet></router-outlet>
     </main>
-    <footer class="mt-auto text-softer-white4 justify-between py-4 flex">
-      <span class="text-sm"
-        >&#169; {{ currentYear }} All right reserved Kamil Kaczynski
-        fotografia</span>
+    <footer class="mt-auto text-softer-white4 md:justify-between items-center py-4 flex flex-col md:flex-row space-y-3 md:space-y-0">
+
+      <span class="text-sm">&#169; {{ currentYear }} All right reserved Kamil Kaczynski - fotografia</span>
+
       <ul class="flex space-x-6">
         <li>
           <a href="#">
@@ -165,5 +177,3 @@
       </ul>
     </footer>
   </article>
-  </div>
-</div>

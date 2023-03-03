@@ -3,6 +3,10 @@ module.exports = {
   content: ['./src/**/*.{html,ts}'],
   theme: {
     extend: {
+      aspectRatio: {
+        '4/3': '4 / 3',
+        '16/9': '16 / 9',
+      },
       boxShadow: {
         'shadow-dark0': '9px 7px 31px -10px rgba(0, 0, 0, .6)',
         'shadow-dark1': '8px 8px 19px -13px rgba(78, 78, 78, 1)',

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output, Input, AfterViewInit} from '@angular/core';
+import {Component, EventEmitter, Output, Input, AfterViewInit, OnDestroy} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
@@ -8,7 +8,7 @@ import {DbService} from "../../../../core/data/db.service";
   templateUrl: './table-bar.component.html',
   styleUrls: ['./table-bar.component.scss']
 })
-export class TableBarComponent implements AfterViewInit {
+export class TableBarComponent implements AfterViewInit, OnDestroy {
   @Input() currentUrls!: apiUrls;
   // @Input() useService!: DbService;
   data$!: Observable<any>;
