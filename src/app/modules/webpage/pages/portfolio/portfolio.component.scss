@@ -1,0 +1,15 @@
+@use "../../../../../assets/scss/main" as m;
+
+@include m.load-gallery-grid(240px);
+
+div.overlay,
+div.overlay > span,
+img {transition: all 350ms;}
+
+a:hover {
+  img {filter: brightness(.6);}
+
+  div.overlay {
+    transform: translateY(-20px);
+  }
+}

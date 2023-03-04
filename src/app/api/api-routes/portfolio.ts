@@ -15,6 +15,7 @@ let router = express.Router();
 let urls = configuration.api.endpointURLS.portfolio;
 
 router.get(urls.getAll, db_fetch_all);
+router.get(urls.getAll + `/:filter`, db_fetch_all);
 router.get(urls.getById + '/:id', db_fetch_by_id);
 router.post(urls.addNew, db_add_new);
 router.put(urls.update + '/:id', db_update);

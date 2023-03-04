@@ -15,16 +15,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.db_delete = exports.db_update = exports.db_add_new = exports.db_fetch_by_id = exports.db_fetch_all = void 0;
 const schemas_1 = require("../schemas");
 const fs_1 = __importDefault(require("fs"));
+const mongoose_1 = require("mongoose");
+// import ObjectId = module
 const configuration = require('../../../../conf/keys');
 function db_fetch_all(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        yield schemas_1.portfolioSchema
-            .find({})
-            .sort({ addDate: -1 })
-            .then((result) => res.json(result))
-            .catch((error) => {
-            res.json({ error });
-        });
+        let filter = req.params.filter;
+        if (mongoose_1.Types.ObjectId.isValid(req.params.filter)) {
+            yield schemas_1.portfolioSchema
+                .find({ serviceId: filter })
+                .sort({ addDate: -1 })
+                .then((result) => res.json(result))
+                .catch((error) => {
+                res.json({ error });
+            });
+        }
+        else {
+            yield schemas_1.portfolioSchema
+                .find({})
+                .sort({ addDate: -1 })
+                .then((result) => res.json(result))
+                .catch((error) => {
+                res.json({ error });
+            });
+        }
     });
 }
 exports.db_fetch_all = db_fetch_all;

@@ -11,7 +11,7 @@ const myserviceS = new mongoose.Schema({
   coverPhoto: String,
 });
 
-const portfolioS = new mongoose.Schema({
+export const portfolioS = new mongoose.Schema({
   isActive: { type: Boolean, default: false },
   addDate: { type: Date, default: Date.now },
   name: String,

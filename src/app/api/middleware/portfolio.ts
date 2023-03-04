@@ -1,16 +1,32 @@
 import { NextFunction, Request, Response } from 'express';
-import { portfolioSchema } from '../schemas';
+import { portfolioSchema, portfolioS } from '../schemas';
 import fs from 'fs';
+import mongoose, {Types, ObjectId} from "mongoose";
+
+// import ObjectId = module
 const configuration = require('../../../../conf/keys');
 
 export async function db_fetch_all(req: Request, res: Response) {
-  await portfolioSchema
-    .find({})
-    .sort({ addDate: -1 })
-    .then((result) => res.json(result))
-    .catch((error) => {
-      res.json({ error });
-    });
+  let filter = req.params.filter;
+
+  if(Types.ObjectId.isValid( req.params.filter )) {
+    await portfolioSchema
+      .find({serviceId: filter})
+      .sort({ addDate: -1 })
+      .then((result) => res.json(result))
+      .catch((error) => {
+        res.json({ error });
+      });
+
+  } else {
+    await portfolioSchema
+      .find({})
+      .sort({ addDate: -1 })
+      .then((result) => res.json(result))
+      .catch((error) => {
+        res.json({ error });
+      });
+  }
 }
 
 export async function db_fetch_by_id(req: Request, res: Response) {

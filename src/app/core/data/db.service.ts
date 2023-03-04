@@ -13,8 +13,8 @@ export class DbService {
     private http: HttpClient
   ) {}
 
-  getAll(url: string) {
-    return this.http.get<any[]>(url);
+  getAll(url: string, filter?: string) {
+    return this.http.get<any[]>(url+`/${filter}`);
   }
   getById(id: string, url: string) {
     return this.http.get<any>(url+`/${id}`);

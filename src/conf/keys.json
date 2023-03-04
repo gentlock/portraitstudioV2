@@ -20,7 +20,7 @@
       },
       "myservices": {
         "basePath": "/api/myservices",
-        "getAll": "/",
+        "getAll": "/getAll",
         "getById": "/getById",
         "addNew": "/addNew",
         "update": "/update",
@@ -28,7 +28,8 @@
       },
       "portfolio": {
         "basePath": "/api/portfolio",
-        "getAll": "/",
+        "getAll": "/getAll",
+        "getAllFiltered": "",
         "getById": "/getById",
         "addNew": "/addNew",
         "update": "/updateGallery",
