@@ -1,0 +1,17 @@
+<div class="flex justify-center items-center w-full h-screen bg-white">
+  <form class="flex flex-col w-1/2" [formGroup]="myFormModel">
+    <mat-form-field appearance="fill">
+      <mat-label>login</mat-label>
+      <input formControlName="login" name="login" matInput type="text">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>hasło</mat-label>
+      <input formControlName="pass" name="pass" matInput type="text">
+    </mat-form-field>
+
+    <section class="flex justify-center">
+      <button (click)="ngOnSubmit($event)" mat-raised-button color="primary">zaloguj się</button>
+    </section>
+  </form>
+</div>

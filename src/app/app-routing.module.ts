@@ -2,8 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminBaseComponent } from './modules/admin/components/admin-base/admin-base.component';
 import { WebpageBaseComponent } from './modules/webpage/components/webpage-base/webpage-base.component';
+import {LoginPageComponent} from "./modules/admin/pages/login-page/login-page.component";
 
 const routes: Routes = [
+  {
+    path: 'loginPage', component: LoginPageComponent,
+  },
   {
     path: 'admin', component: AdminBaseComponent,
     children: [

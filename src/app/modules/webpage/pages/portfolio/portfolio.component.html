@@ -35,10 +35,19 @@
 
 <ng-template #tplShowDetails>
     <ng-container *ngIf="(details$ | async) as details">
-          <div class="gallery-grid">
+      <div class="grid gap-6 grid-cols-1 auto-rows-auto">
+        <div class="col-span-1 row-start-1 row-end-2">
+          <img class="w-full h-96 block object-cover object-center" src="./assets/img/upload/{{ details._id }}/{{ details.coverPhoto }}" alt=""/>
+        </div>
+        <div class="col-span-1 row-start-2 row-end-3">
+          <p class=" text-layout-color-light0 text-3xl font-Mukta-Regular">{{ details.name }}</p>
+          <p class="text-softer-black4 text-sm font-SourceSansPro-Regular">{{ details.desc }}</p>
+        </div>
+        <div class="col-span-1 row-start-3 row-end-4 gallery-grid">
             <div *ngFor="let file of details.gallery">
               <img src="./assets/img/upload/{{ details._id }}/{{ file }}" alt=""/>
             </div>
-          </div>
+        </div>
+      </div>
     </ng-container>
 </ng-template>
