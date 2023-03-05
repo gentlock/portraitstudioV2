@@ -3,31 +3,39 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.myservicesSchema = exports.portfolioSchema = exports.portfolioS = void 0;
+exports.authSchema = exports.myservicesSchema = exports.portfolioSchema = exports.portfolioS = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+const authS = new mongoose_1.default.Schema({
+    firstname: { type: String, default: null },
+    lastname: { type: String, default: null },
+    email: { type: String, unique: true },
+    password: { type: String },
+    token: { type: String, default: "" },
+});
 const myserviceS = new mongoose_1.default.Schema({
     isActive: { type: Boolean, default: false },
     addDate: { type: Date, default: Date.now },
-    name: String,
-    subtitle: String,
-    desc: String,
-    priceList: String,
-    gallery: [String],
-    coverPhoto: String,
+    name: { type: String },
+    subtitle: { type: String },
+    desc: { type: String },
+    priceList: { type: String },
+    gallery: { type: [String] },
+    coverPhoto: { type: String },
 });
 exports.portfolioS = new mongoose_1.default.Schema({
     isActive: { type: Boolean, default: false },
     addDate: { type: Date, default: Date.now },
-    name: String,
-    desc: String,
-    clientName: String,
-    clientEmail: String,
-    coverPhoto: String,
-    accessCode: String,
-    serviceId: String,
-    clientInfo: String,
+    name: { type: String },
+    desc: { type: String },
+    clientName: { type: String },
+    clientEmail: { type: String },
+    coverPhoto: { type: String },
+    accessCode: { type: String },
+    serviceId: { type: String },
+    clientInfo: { type: String },
     downloadable: { filename: String, filesize: Number },
-    gallery: [String],
+    gallery: { type: [String] },
 });
 exports.portfolioSchema = mongoose_1.default.model('portfolio', exports.portfolioS);
 exports.myservicesSchema = mongoose_1.default.model('myservices', myserviceS);
+exports.authSchema = mongoose_1.default.model('auth', authS);

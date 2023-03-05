@@ -1,11 +1,12 @@
 {
-  "db": {
-    "host": "127.0.0.1",
-    "port": "27017",
-    "database": "portraitstudio"
-  },
   "uploadDir": {
     "pathAdress": "../../assets/img/upload/"
+  },
+  "basicUser": {
+    "firstname"  : "kamil",
+    "lastname"   : "kaczynski",
+    "email"       : "kamil.lsx@gmail.com",
+    "password"    : "pempek"
   },
   "api": {
     "endpointURLS": {
@@ -35,8 +36,11 @@
         "update": "/updateGallery",
         "remove": "/remove"
       },
-      "authentication": {
-        "basePath": "/api/authentication"
+      "auth": {
+        "basePath": "/api/auth",
+        "createUser": "/createUser",
+        "verifyCred": "/checkCred",
+        "verifyToken": "/verifyToken"
       }
     }
   }

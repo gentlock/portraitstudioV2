@@ -1,30 +1,16 @@
 import express, { Express, Request, Response } from 'express';
+import { HttpErrorResponse } from '@angular/common/http';
 const createError = require('http-errors');
-// import path from 'path';
-import mongoose from 'mongoose';
 const fileUpload = require('express-fileupload');
 const configuration = require('../../../conf/keys');
 
-// DOTENV
-import dotenv from 'dotenv';
-import { HttpErrorResponse } from '@angular/common/http';
-dotenv.config();
+require('dotenv').config();
+require("./db").connect();
 
-let authenticationRouter = require('./api-routes/authentication');
+let authMgrRouter = require('./api-routes/authMgr');
 let portfolioRouter = require('./api-routes/portfolio');
 let servicesRouter = require('./api-routes/services');
 let dataMgrRouter = require('./api-routes/dataMgr');
-
-// baza danych MongoDB
-mongoose.set('strictQuery', false);
-mongoose.connect(
-  'mongodb://' +
-    configuration.db.host +
-    ':' +
-    configuration.db.port +
-    '/' +
-    configuration.db.database
-);
 
 const app: Express = express();
 const port = process.env.PORT;
@@ -33,10 +19,7 @@ const port = process.env.PORT;
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(
-  configuration.api.endpointURLS.authentication.basePath,
-  authenticationRouter
-);
+app.use(configuration.api.endpointURLS.auth.basePath, authMgrRouter);
 app.use(configuration.api.endpointURLS.portfolio.basePath, portfolioRouter);
 app.use(configuration.api.endpointURLS.myservices.basePath, servicesRouter);
 app.use(configuration.api.endpointURLS.dataMgr.basePath, dataMgrRouter);

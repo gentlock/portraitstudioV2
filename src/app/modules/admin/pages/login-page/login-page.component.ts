@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DbService} from "../../../../core/data/db.service";
-import {apiUrls} from "../../../../core/abstracts";
+import {AuthService} from "../../../../core/auth/auth.service";
+import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
+import {IAuth, IMyserviceFeed} from "../../../../core/abstracts";
 
 @Component({
   selector: 'app-login-page',
@@ -10,20 +12,36 @@ import {apiUrls} from "../../../../core/abstracts";
 })
 export class LoginPageComponent {
   myFormModel: FormGroup;
-  readonly urls;
+
   constructor(
     private _fb: FormBuilder,
-    public dbService: DbService,
+    public auth: AuthService
   ) {
-    this.urls = dbService.conf.api.endpointURLS.authentication;
-
     this.myFormModel = _fb.group({
-      'login': ['', Validators.required],
-      'pass': ['', Validators.required],
+      'email': ['', Validators.required],
+      'password': ['', Validators.required],
     });
   }
 
   ngOnSubmit = (e: Event) => {
+    e.preventDefault();
 
+    if(this.myFormModel.valid) {
+      const data: IAuth = {
+        'email'     : this.myFormModel.get('email')?.value,
+        'password'  : this.myFormModel.get('password')?.value,
+      }
+
+      this.auth.verifyCred(data).subscribe(
+        {
+          next: (data) => {
+            console.log(data.token);
+            this.auth.attachToken(data.token);
+          },
+          error: (err: HttpErrorResponse) => {
+            console.log(err)
+          }
+        })
+    }
   }
 }

@@ -1,46 +1,12 @@
-// export interface configuration {
-//   "db": {
-//     "host": string;
-//     "port": string;
-//     "database": string;
-// },
-//   "uploadDir": {
-//   "pathAdress": string;
-// },
-//   "api": {
-//   "endpointURLS": {
-//     "dataMgr": {
-//       "basePath": string;
-//         "uploadData": string;
-//         "deleteData": string;
-//         "deleteFile": string;
-//         "fetchGallery": string;
-//         "setCoverPhoto": string;
-//         "uploadSingle": string;
-//     },
-//     "myservices": {
-//       "basePath": string;
-//         "getAll": string;
-//         "getById": string;
-//         "addNew": string;
-//         "update": string;
-//         "remove": string;
-//     },
-//     "portfolio": {
-//       "basePath": string;
-//         "getAll": string;
-//         "getById": string;
-//         "addNew": string;
-//         "update": string;
-//         "remove": string;
-//     },
-//     "authentication": {
-//       "basePath": string;
-//     }
-//   }
-// }
-// }
 
+export interface IAuth {
+  email: string;
+  password: string;
+}
+export interface IAuthResp {
+  message: string,
+  token: string
+}
 export interface apiUrls {
   basePath: string;
   getAll: string;
