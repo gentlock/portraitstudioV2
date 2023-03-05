@@ -5,8 +5,8 @@
   "main": "dist/api/app.js",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/app.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\"",
+    "start": "node dist/api/app.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/api/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

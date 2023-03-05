@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyToken = exports.verifyCred = exports.createUser = void 0;
-const configuration = require('../../../../conf/keys');
+const configuration = require('../../../../../conf/keys');
 const schemas_1 = require("../schemas");
 const { TOKEN_KEY } = process.env;
 let jwt = require('jsonwebtoken');
@@ -43,9 +43,8 @@ function verifyCred(req, res) {
         let { email, password } = req.body;
         let token = "";
         try {
-            const { email, password } = req.body;
             if (!(email && password)) {
-                res.status(400).json({
+                res.json({
                     message: "All input is required!",
                     token: token
                 });
@@ -57,9 +56,13 @@ function verifyCred(req, res) {
                 });
                 user.token = token;
                 yield user.save();
+                res.json({
+                    message: "Auth granted, welcome!",
+                    token: token
+                });
             }
             else {
-                res.status(401).json({
+                res.json({
                     message: "unauthorized!",
                     token: token
                 });
@@ -68,10 +71,6 @@ function verifyCred(req, res) {
         catch (err) {
             console.log(err);
         }
-        res.status(200).json({
-            message: "Auth granted, welcome!",
-            token: token
-        });
     });
 }
 exports.verifyCred = verifyCred;

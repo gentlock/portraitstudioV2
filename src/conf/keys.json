@@ -8,8 +8,28 @@
     "email"       : "kamil.lsx@gmail.com",
     "password"    : "pempek"
   },
+  "mailer":{
+    "transporter": {
+      "host": "smtp.ethereal.email",
+      "port": "587",
+      "secure": false,
+      "auth": {
+        "user": "",
+        "pass": ""
+      },
+      "headers": {
+        "my_email": "",
+        "to": "",
+        "subject": ""
+      }
+    }
+  },
   "api": {
     "endpointURLS": {
+      "utils": {
+        "basePath": "/api/utils",
+        "sendEmail": "/sendEmail"
+      },
       "dataMgr": {
         "basePath": "/api/fileMgr",
         "uploadData": "/uploadData",

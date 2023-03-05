@@ -2,15 +2,16 @@ import express, { Express, Request, Response } from 'express';
 import { HttpErrorResponse } from '@angular/common/http';
 const createError = require('http-errors');
 const fileUpload = require('express-fileupload');
-const configuration = require('../../../conf/keys');
+const configuration = require('../../../../conf/keys');
 
 require('dotenv').config();
 require("./db").connect();
 
-let authMgrRouter = require('./api-routes/authMgr');
+let authMgrRouter   = require('./api-routes/authMgr');
 let portfolioRouter = require('./api-routes/portfolio');
-let servicesRouter = require('./api-routes/services');
-let dataMgrRouter = require('./api-routes/dataMgr');
+let servicesRouter  = require('./api-routes/services');
+let dataMgrRouter   = require('./api-routes/dataMgr');
+let utilsRouter     = require('./api-routes/utils');
 
 const app: Express = express();
 const port = process.env.PORT;
@@ -19,10 +20,11 @@ const port = process.env.PORT;
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(configuration.api.endpointURLS.auth.basePath, authMgrRouter);
-app.use(configuration.api.endpointURLS.portfolio.basePath, portfolioRouter);
+app.use(configuration.api.endpointURLS.auth.basePath,       authMgrRouter);
+app.use(configuration.api.endpointURLS.portfolio.basePath,  portfolioRouter);
 app.use(configuration.api.endpointURLS.myservices.basePath, servicesRouter);
-app.use(configuration.api.endpointURLS.dataMgr.basePath, dataMgrRouter);
+app.use(configuration.api.endpointURLS.dataMgr.basePath,    dataMgrRouter);
+app.use(configuration.api.endpointURLS.utils.basePath,      utilsRouter);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');

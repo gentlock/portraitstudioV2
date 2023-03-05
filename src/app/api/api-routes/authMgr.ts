@@ -1,6 +1,6 @@
 import express from 'express';
 import {createUser, verifyCred, verifyToken} from "../middleware/authMgr";
-const configuration = require('../../../../conf/keys');
+const configuration = require('../../../../../conf/keys');
 
 let router = express.Router();
 let urls = configuration.api.endpointURLS.auth;

@@ -1,6 +1,6 @@
 'use strict';
 
-import express, { Express, Request, Response } from 'express';
+import express from 'express';
 import {
   deleteFile,
   fetchGallery,
@@ -8,7 +8,7 @@ import {
   uploadData,
   uploadSingle,
 } from '../middleware/dataMgr';
-const configuration = require('../../../../conf/keys');
+const configuration = require('../../../../../conf/keys');
 
 // import dotenv from 'dotenv';
 let router = express.Router();

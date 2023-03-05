@@ -1,5 +1,8 @@
 <div class="flex justify-center items-center w-full h-screen bg-white">
   <form class="flex flex-col w-1/2" [formGroup]="myFormModel">
+    <span class="py-4 text-sm text-red-500 font-SourceSansPro-Regular text-center" *ngIf="logiInFailure">
+      niepoprawne dane. nie moge zalogować.
+    </span>
     <mat-form-field appearance="fill">
       <mat-label>login</mat-label>
       <input formControlName="email" name="login" matInput type="text">

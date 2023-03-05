@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { FileArray, UploadedFile } from 'express-fileupload';
-// import * as fs from "fs";
-const configuration = require('../../../../conf/keys');
+const configuration = require('../../../../../conf/keys');
 import {portfolioSchema } from '../schemas';
 import { myservicesSchema } from '../schemas';
 import fs from 'fs';

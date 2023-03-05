@@ -4,6 +4,7 @@ import {DbService} from "../../../../core/data/db.service";
 import {AuthService} from "../../../../core/auth/auth.service";
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
 import {IAuth, IMyserviceFeed} from "../../../../core/abstracts";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-page',
@@ -12,10 +13,12 @@ import {IAuth, IMyserviceFeed} from "../../../../core/abstracts";
 })
 export class LoginPageComponent {
   myFormModel: FormGroup;
+  logiInFailure = false;
 
   constructor(
     private _fb: FormBuilder,
-    public auth: AuthService
+    public auth: AuthService,
+    private router: Router
   ) {
     this.myFormModel = _fb.group({
       'email': ['', Validators.required],
@@ -35,8 +38,13 @@ export class LoginPageComponent {
       this.auth.verifyCred(data).subscribe(
         {
           next: (data) => {
-            console.log(data.token);
-            this.auth.attachToken(data.token);
+            if(data.token) {
+              this.logiInFailure = false;
+              this.auth.attachToken(data.token);
+              this.router.navigate(['admin']);
+            } else {
+              this.logiInFailure = true;
+            }
           },
           error: (err: HttpErrorResponse) => {
             console.log(err)

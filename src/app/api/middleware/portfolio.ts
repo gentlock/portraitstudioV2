@@ -4,7 +4,7 @@ import fs from 'fs';
 import mongoose, {Types, ObjectId} from "mongoose";
 
 // import ObjectId = module
-const configuration = require('../../../../conf/keys');
+const configuration = require('../../../../../conf/keys');
 
 export async function db_fetch_all(req: Request, res: Response) {
   let filter = req.params.filter;

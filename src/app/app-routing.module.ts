@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminBaseComponent } from './modules/admin/components/admin-base/admin-base.component';
 import { WebpageBaseComponent } from './modules/webpage/components/webpage-base/webpage-base.component';
 import {LoginPageComponent} from "./modules/admin/pages/login-page/login-page.component";
+import {authGuard} from "./core/auth/authGuard";
 
 const routes: Routes = [
   {
@@ -15,6 +16,7 @@ const routes: Routes = [
         path: '', loadChildren: () => import('./modules/admin/admin.module').then((x) => x.AdminModule),
       },
     ],
+    canMatch: [authGuard()],
   },
   {
     path: '', component: WebpageBaseComponent,

@@ -1,4 +1,6 @@
 import {AfterViewInit, Component} from '@angular/core';
+import {AuthService} from "../../../../core/auth/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-admin-base',
@@ -6,6 +8,11 @@ import {AfterViewInit, Component} from '@angular/core';
   styleUrls: ['./admin-base.component.scss'],
 })
 export class AdminBaseComponent implements AfterViewInit {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+  }
   ngAfterViewInit() {
     let navbar = document.querySelector('.navbar')!
     let navbarWidth = (navbar as HTMLElement).offsetWidth;
@@ -22,5 +29,10 @@ export class AdminBaseComponent implements AfterViewInit {
     };
 
     new ResizeObserver(callback).observe(document.body);
+  }
+
+  logOut(e: Event) {
+    this.authService.logOut();
+    this.router.navigate(['admin']);
   }
 }

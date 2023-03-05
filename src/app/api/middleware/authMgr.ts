@@ -1,10 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
-const configuration = require('../../../../conf/keys');
+const configuration = require('../../../../../conf/keys');
 import { authSchema } from '../schemas';
 const { TOKEN_KEY } = process.env;
 
 let jwt = require('jsonwebtoken');
 let bcrypt = require('bcryptjs');
+
 
 export async function createUser(req: Request, res: Response) {
   try {
@@ -34,9 +35,8 @@ export async function verifyCred(req: Request, res: Response) {
   let token = "";
 
   try {
-    const { email, password } = req.body;
     if (!(email && password)) {
-      res.status(400).json(
+      res.json(
         {
           message: "All input is required!",
           token: token
@@ -57,8 +57,13 @@ export async function verifyCred(req: Request, res: Response) {
       user.token = token;
       await user.save();
 
+      res.json({
+        message: "Auth granted, welcome!",
+        token: token
+      });
+
     } else {
-      res.status(401).json(
+      res.json(
         {
           message: "unauthorized!",
           token: token
@@ -67,11 +72,6 @@ export async function verifyCred(req: Request, res: Response) {
   } catch (err) {
     console.log(err);
   }
-
-  res.status(200).json({
-    message: "Auth granted, welcome!",
-    token: token
-  });
 }
 export async function verifyToken(req: Request, res: Response, next: NextFunction) {
   const token = req.body.token;

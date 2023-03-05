@@ -24,9 +24,19 @@ export class AuthService {
     return this.http.post<IAuthResp>(url, data);
   }
 
-  verifyToken(token: string) {
+  isLoggedId() {
     let url = this.authURL.basePath + this.authURL.verifyToken;
+    let readToken = localStorage.getItem('token');
 
-    return this.http.post<IAuthResp>(url, token);
+    if(readToken) {
+      if( this.http.post<IAuthResp>(url, readToken) ) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+  logOut() {
+    localStorage.removeItem('token');
   }
 }

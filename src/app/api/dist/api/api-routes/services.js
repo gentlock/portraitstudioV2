@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const services_1 = require("../middleware/services");
-const configuration = require('../../../../conf/keys');
+const configuration = require('../../../../../conf/keys');
 // import dotenv from 'dotenv';
 let router = express_1.default.Router();
 let urls = configuration.api.endpointURLS.myservices;

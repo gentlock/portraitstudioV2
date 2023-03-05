@@ -8,7 +8,7 @@ import {
   db_fetch_by_id,
   db_update,
 } from '../middleware/portfolio';
-const configuration = require('../../../../conf/keys');
+const configuration = require('../../../../../conf/keys');
 
 // import dotenv from 'dotenv';
 let router = express.Router();

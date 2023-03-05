@@ -7,7 +7,7 @@
     <p class="text-layout-color-light0 text-xl font-SourceSansPro-SemiBold">
       Pozo Photography
     </p>
-    <p class="text-left text-softer-white4 text-md font-SourceSansPro-Regular">
+    <p class="text-left text-softer-white4 text-sm font-SourceSansPro-Regular">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid at
       corporis est illo labore minima nesciunt numquam quas quasi quidem,
       reprehenderit rerum velit veniam. Ad culpa deleniti deserunt excepturi,
@@ -45,14 +45,16 @@
     <p class="text-layout-color-light0 text-xl font-SourceSansPro-SemiBold">
       Drop a line
     </p>
-    <form
-      #contactForm
-      [formGroup]="cntFormModel"
-      class="flex flex-col space-y-2">
+
+    <form #contactForm [formGroup]="cntFormModel" class="flex flex-col space-y-2">
+      <div *ngIf="showMsg===true" class="py-4">
+        <p *ngIf="sentStatus === msgStat.SUCCESS" class="text-green-400 text-sm">wiadomosc została wysłana</p>
+        <p *ngIf="sentStatus === msgStat.FAILURE" class="text-red-400 text-sm">problem z wysłką wiadomości wiadomości</p>
+      </div>
       <div>
         <input
           placeholder="Name*"
-          class="bg-transparent font-SourceSansPro-SemiBold text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
+          class="bg-transparent font-SourceSansPro-Regular text-softer-white4 text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
           type="text"
           formControlName="name"
           name="name"
@@ -65,7 +67,7 @@
       <div>
         <input
           placeholder="Email*"
-          class="bg-transparent font-SourceSansPro-SemiBold text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
+          class="bg-transparent font-SourceSansPro-Regular text-base text-softer-white4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
           type="text"
           formControlName="email"
           name="email"
@@ -78,20 +80,20 @@
       <div>
         <input
           placeholder="Subject*"
-          class="bg-transparent font-SourceSansPro-SemiBold text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
+          class="bg-transparent font-SourceSansPro-Regular  text-base text-softer-white4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
           type="text"
           formControlName="subject"
           name="subject"
           value=""
         />
-        <span class="text-xs text-red-400" *ngIf="isFieldValid('subject')"
-          >wpis temat wiadomości</span>
+        <span class="text-xs text-red-400" *ngIf="isFieldValid('subject')">
+          wpis temat wiadomości</span>
       </div>
 
       <div>
         <textarea
           placeholder="Message*"
-          class="bg-transparent font-SourceSansPro-SemiBold text-base color-softer-black4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
+          class="bg-transparent font-SourceSansPro-Regular  text-base text-softer-white4 border-b border-softer-black4 border-solid py-3 w-full block placeholder:text-stone-400 placeholder:opacity-50 focus:outline-none focus:border-layout-color-light0"
           rows="4"
           formControlName="message"
           name="message"
