@@ -16,6 +16,9 @@ export class DbService {
   getAll(url: string, filter?: string) {
     return this.http.get<any[]>(url+`/${filter}`);
   }
+  getByCode(code: string, url: string) {
+    return this.http.get<any>(url+`/${code}`);
+  }
   getById(id: string, url: string) {
     return this.http.get<any>(url+`/${id}`);
   }

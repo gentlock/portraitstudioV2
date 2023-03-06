@@ -1,7 +1,5 @@
 import {AfterViewInit, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
 import { DbService } from '../../../../core/data/db.service';
-import {HttpErrorResponse} from "@angular/common/http";
-import {map, Observable, pipe} from "rxjs";
 
 @Component({
   selector: 'app-homepage',
@@ -36,9 +34,22 @@ export class HomepageComponent implements AfterViewInit {
     let tot = elsSlides.length; // Total slides
     let c = 0;
 
+    let touchstartX = 0
+    let touchendX = 0
+
     if (tot < 2) return; // Not enough slides. Do nothing.
 
     // Methods:
+    const checkDirection = () => {
+      if (touchendX < touchstartX) {
+        next();
+        // alert('swiped left!');
+      }
+      if (touchendX > touchstartX) {
+        prev();
+        // alert('swiped right!');
+      }
+    }
     const anim = (ms = animation) => {
       const cMod = this.mod(c, tot);
 
@@ -48,7 +59,7 @@ export class HomepageComponent implements AfterViewInit {
 
       // Handle active classes (slide and bullet)
       elsSlides.forEach((elSlide, i) => elSlide.classList.toggle("is-active", cMod === i));
-      elsBtns.forEach((elBtn: any, i: number) => elBtn.classList.toggle("is-active", cMod === i));
+      // elsBtns.forEach((elBtn: any, i: number) => elBtn.classList.toggle("is-active", cMod === i));
     };
 
     const prev = () => {
@@ -117,6 +128,16 @@ export class HomepageComponent implements AfterViewInit {
     // Pause on pointer enter:
     elCarousel.addEventListener("pointerenter", () => stop());
     elCarousel.addEventListener("pointerleave", () => play());
+
+    // swipe detection
+    elCarousel.addEventListener('touchstart', (e: TouchEvent) => {
+      touchstartX = e.changedTouches[0].screenX;
+    })
+
+    elCarousel.addEventListener('touchend', (e: TouchEvent) => {
+      touchendX = e.changedTouches[0].screenX;
+      checkDirection();
+    })
 
     // Init:
 

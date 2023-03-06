@@ -1,10 +1,15 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, Inject} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import { myPasswordGenerator, clearFormField} from "../../../../core/libs";
 import { DbService } from "../../../../core/data/db.service";
 import {Observable, Subject} from "rxjs";
-import {IPortfolioFeed, IMyserviceFeed, apiUrls} from "../../../../core/abstracts";
+import {IPortfolioFeed, IMyserviceFeed, apiUrls, IEmail} from "../../../../core/abstracts";
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {SendemailComponent} from "../../components/sendemail/sendemail.component";
+
+import {DOCUMENT} from "@angular/common";
+import {ErrHandlerService} from "../../../../core/services/err/err-handler.service";
 
 @Component({
   selector: 'app-portfolio-mgr',
@@ -26,7 +31,9 @@ export class PortfolioMgrComponent implements AfterViewInit {
   constructor(
     private _fb: FormBuilder,
     public dbService: DbService,
-    // private filesUploadService: FilesUploadService
+    public dialog: MatDialog,
+    public errHandler: ErrHandlerService,
+    @Inject(DOCUMENT) private document: Document
   ) {
 
     this.urls = dbService.conf.api.endpointURLS.portfolio;
@@ -51,12 +58,32 @@ export class PortfolioMgrComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.servicesList$ = this.dbService.getAll( this.dbService.conf.api.endpointURLS.myservices.basePath + this.dbService.conf.api.endpointURLS.myservices.getAll ) ;
   }
-  sendEmail(event: Event, email: string) {
+  sendEmailDialog(event: Event) {
     event.preventDefault();
 
-    if(prompt("wpisz słowo: tak") === 'tak') {
-      alert("wyslany");
+    let content: IEmail = {
+      'to_name'   : this.myFormModel.get('clientName')?.value,
+      'to_email'  : this.myFormModel.get('clientEmail')?.value,
+      'from_name' : this.dbService.conf.transporter.my_name,
+      'from_email': this.dbService.conf.transporter.my_email,
+      'subject'   : "link do galerii",
+      'message'   : `${document.location.origin}/#/privGallery/${this.myFormModel.get('id')?.value}`,
     }
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.minHeight  = document.body.clientHeight / 2;
+    dialogConfig.minWidth   = document.body.clientWidth / 2;
+    dialogConfig.data = { content: content }
+
+    // dialogConfig.disableClose = true;
+    // dialogConfig.autoFocus = true;
+
+    const dialogRef = this.dialog.open(SendemailComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+
   }
 
   ngOnSubmit = (e: Event) => {
@@ -76,8 +103,6 @@ export class PortfolioMgrComponent implements AfterViewInit {
 
     if(this.myFormModel.valid) {
       if(!!id) {
-        // console.log("uaktualniam");
-
         this.dbService.recordUpdate(id, this.urls.basePath + this.urls.update, data).subscribe(
           {
             next: (value)=>{
@@ -88,7 +113,6 @@ export class PortfolioMgrComponent implements AfterViewInit {
           }
         );
       } else {
-        // console.log("dodaje");
         this.dbService.recordAddNew(this.urls.basePath + this.urls.addNew, data).subscribe(
           {
             next: (value) => {
@@ -108,7 +132,6 @@ export class PortfolioMgrComponent implements AfterViewInit {
       {
         next: (value)=>{
           this.refreshSignal('');
-          // console.log(value)
         },
         error: (err: HttpErrorResponse)=>{ console.log(err)}
       })
@@ -180,6 +203,11 @@ export class PortfolioMgrComponent implements AfterViewInit {
 
   generatePassword(event: Event) {
     event.preventDefault();
-    this.myFormModel.get('accessCode')?.setValue( myPasswordGenerator.generate(8) );
+
+    if( !!this.myFormModel.get('accessCode')?.value ) {
+      if(confirm('czy wygenerowac nowe haslo')) {
+        this.myFormModel.get('accessCode')?.setValue( myPasswordGenerator.generate(8) );
+      }
+    }
   }
 }

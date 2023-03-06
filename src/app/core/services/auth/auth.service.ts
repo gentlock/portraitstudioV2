@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {DbService} from "../data/db.service";
+import {DbService} from "../../data/db.service";
 import {HttpClient} from "@angular/common/http";
-import {IAuth, IAuthResp} from "../abstracts";
+import {IAuth, IAuthResp} from "../../abstracts";
 
 @Injectable({
   providedIn: 'root'

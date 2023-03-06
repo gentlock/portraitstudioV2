@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DbService} from "../../../../core/data/db.service";
-import {AuthService} from "../../../../core/auth/auth.service";
+import {AuthService} from "../../../../core/services/auth/auth.service";
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
 import {IAuth, IMyserviceFeed} from "../../../../core/abstracts";
 import {Router} from "@angular/router";

@@ -4,8 +4,10 @@ export enum msgStatus {
 }
 
 export interface IEmail {
-  'name': string;
-  'email' : string;
+  'to_name': string;
+  'to_email' : string;
+  'from_name' : string;
+  'from_email' : string;
   'subject': string;
   'message' : string;
 }

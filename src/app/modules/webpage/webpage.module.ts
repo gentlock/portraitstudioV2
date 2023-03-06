@@ -11,6 +11,7 @@ import { MyservicesComponent } from './pages/myservices/myservices.component';
 import { ShareableModule } from '../../core/shareable.module';
 import { WebpageBaseComponent } from './components/webpage-base/webpage-base.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { PrivGalleryComponent } from './pages/priv-gallery/priv-gallery.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     HomepageComponent,
     MyservicesComponent,
     WebpageBaseComponent,
+    PrivGalleryComponent,
   ],
   imports: [CommonModule, WebpageRoutingModule, ShareableModule, MatTabsModule],
 })

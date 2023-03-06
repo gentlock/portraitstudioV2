@@ -16,8 +16,11 @@ import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSelectModule} from '@angular/material/select';
+import {MatDialogModule} from '@angular/material/dialog';
 import { UploadComponent } from "./components/upload/upload.component";
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { SendemailComponent } from './components/sendemail/sendemail.component';
+import { MsgBoxComponent } from './components/msg-box/msg-box.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
     TableBarComponent,
     UploadComponent,
     LoginPageComponent,
+    SendemailComponent,
+    MsgBoxComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +46,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
     MatButtonModule,
     MatProgressBarModule,
     MatSelectModule,
+    MatDialogModule,
   ],
   exports: []
 })

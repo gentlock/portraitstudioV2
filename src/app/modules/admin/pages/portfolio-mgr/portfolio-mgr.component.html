@@ -38,7 +38,7 @@
           <mat-form-field  class="w-full" appearance="fill">
             <mat-label>kod dostępu</mat-label>
             <input formControlName="accessCode" name="accessCode" matInput type="text">
-            <button matSuffix mat-icon-button aria-label="Clear" (click)="generatePassword($event)">
+            <button matSuffix mat-icon-button aria-label="Generate" (click)="generatePassword($event)">
               <mat-icon color="warn">key</mat-icon>
             </button>
           </mat-form-field>
@@ -46,7 +46,7 @@
           <mat-form-field  class="w-full"  appearance="fill">
             <mat-label>email klienta</mat-label>
             <input formControlName="clientEmail" name="clientEmail" matInput type="text">
-            <button matSuffix mat-icon-button aria-label="send mail" (click)="sendEmail($event, '')">
+            <button *ngIf="!!this.myFormModel.get('clientEmail')?.value" matSuffix mat-icon-button aria-label="send mail" (click)="sendEmailDialog($event)">
               <mat-icon color="warn">mail</mat-icon>
             </button>
           </mat-form-field>

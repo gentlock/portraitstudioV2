@@ -6,8 +6,9 @@ import {
   Validators,
 } from '@angular/forms';
 import {IEmail,msgStatus} from "../../../../core/abstracts";
-import {MailService} from "../../../../core/mail/mail.service";
+import {MailService} from "../../../../core/services/mail/mail.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {DbService} from "../../../../core/data/db.service";
 
 @Component({
   selector: 'app-contact',
@@ -23,6 +24,7 @@ export class ContactComponent {
   constructor(
     fb: FormBuilder,
     private mailService: MailService,
+    private dbService: DbService,
   ) {
     this.cntFormModel = fb.group({
       name: ['', Validators.required],
@@ -57,9 +59,11 @@ export class ContactComponent {
 
     if (this.cntFormModel.valid) {
       const data: IEmail = {
-        'name': this.cntFormModel.get('name')?.value,
-        'email': this.cntFormModel.get('email')?.value,
-        'subject': this.cntFormModel.get('clientName')?.value,
+        'from_name': this.cntFormModel.get('name')?.value,
+        'from_email': this.cntFormModel.get('email')?.value,
+        'to_name': this.dbService.conf.transporter.my_name,
+        'to_email': this.dbService.conf.transporter.my_email,
+        'subject': this.cntFormModel.get('subject')?.value,
         'message': this.cntFormModel.get('message')?.value,
       }
 

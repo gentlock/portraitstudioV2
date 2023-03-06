@@ -1,0 +1,28 @@
+<!--<h2 mat-dialog-title>wysylanie emaile</h2>-->
+<mat-dialog-content class="mat-typography" >
+  <form class="flex flex-col py-2" [formGroup]="myFormModel">
+    <mat-form-field appearance="fill">
+      <mat-label>Name:</mat-label>
+      <input formControlName="to_name" name="to_name" matInput type="text">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Do:</mat-label>
+      <input formControlName="to_email" name="to_email" matInput type="text">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Temat:</mat-label>
+      <input formControlName="subject" name="subject" matInput type="text">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <textarea formControlName="message" name="message" matInput type="text" rows="6"></textarea>
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog($event)">Anuluj</button>
+  <button mat-button  cdkFocusInitial (click)="onSend($event)">Wyślij</button>
+</mat-dialog-actions>

@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Subject} from "rxjs";
 import {clearFormField} from "../../../../core/libs";
 import {DbService} from "../../../../core/data/db.service";
+import {ErrHandlerService} from "../../../../core/services/err/err-handler.service";
 
 @Component({
   selector: 'app-myservices-mgr',
@@ -20,8 +21,8 @@ export class MyservicesMgrComponent {
 
   constructor(
     private _fb: FormBuilder,
-    public dbService: DbService
-
+    public dbService: DbService,
+    public errHandler: ErrHandlerService
   ) {
     this.urls = dbService.conf.api.endpointURLS.myservices;
 

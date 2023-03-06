@@ -8,21 +8,16 @@
     "email"       : "kamil.lsx@gmail.com",
     "password"    : "pempek"
   },
-  "mailer":{
     "transporter": {
+      "my_name": "Kamil Kaczynski",
+      "my_email": "kamil.lsx@gmail.com",
       "host": "smtp.ethereal.email",
       "port": "587",
       "secure": false,
       "auth": {
         "user": "",
         "pass": ""
-      },
-      "headers": {
-        "my_email": "",
-        "to": "",
-        "subject": ""
       }
-    }
   },
   "api": {
     "endpointURLS": {

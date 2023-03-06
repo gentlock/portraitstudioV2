@@ -14,9 +14,9 @@ const nodemailer = require("nodemailer");
 const configuration = require('../../../../../conf/keys');
 function sendEmail(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        // const { firstname, lastname, email, password } = configuration.basicUser;
         try {
             let data = req.body;
+            // console.log(data);
             let mailer = configuration.mailer;
             let testAccount = yield nodemailer.createTestAccount();
             let transporter = nodemailer.createTransport({
@@ -29,17 +29,17 @@ function sendEmail(req, res) {
                 },
             });
             let info = yield transporter.sendMail({
-                from: `"${data.name}" <${data.email}>`,
-                to: mailer.transporter.headers.my_email,
+                from: `"${data.from_name}" <${data.from_email}>`,
+                to: `"${data.to_name}" <${data.to_email}>`,
                 subject: data.subject,
                 text: data.message, // plain text body
             });
             // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-            res.send(200).json(nodemailer.getTestMessageUrl(info));
+            res.sendStatus(200).json(nodemailer.getTestMessageUrl(info));
         }
         catch (err) {
             // console.log(err);
-            res.send(500).json({ err });
+            res.json({ err });
         }
     });
 }

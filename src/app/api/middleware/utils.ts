@@ -3,12 +3,12 @@ import {IEmail} from "../../core/abstracts";
 const nodemailer    = require("nodemailer");
 const configuration = require('../../../../../conf/keys');
 
-
-
 export async function sendEmail(req: Request, res: Response) {
-  // const { firstname, lastname, email, password } = configuration.basicUser;
   try {
     let data: IEmail = req.body;
+
+    // console.log(data);
+
     let mailer = configuration.mailer;
     let testAccount = await nodemailer.createTestAccount();
 
@@ -23,17 +23,17 @@ export async function sendEmail(req: Request, res: Response) {
     });
 
     let info = await transporter.sendMail({
-      from: `"${data.name}" <${data.email}>`, // sender address
-      to: mailer.transporter.headers.my_email, // list of receivers
-      subject: data.subject, // Subject line
-      text: data.message, // plain text body
+      from    : `"${data.from_name}" <${data.from_email}>`, // sender address
+      to      : `"${data.to_name}" <${data.to_email}>`, // list of receivers
+      subject : data.subject, // Subject line
+      text    : data.message, // plain text body
     });
 
     // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    res.send(200).json( nodemailer.getTestMessageUrl(info) );
+    res.sendStatus(200).json( nodemailer.getTestMessageUrl(info) );
 
   } catch (err) {
     // console.log(err);
-    res.send(500).json({err});
+    res.json({err});
   }
 }
