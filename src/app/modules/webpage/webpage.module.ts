@@ -12,6 +12,7 @@ import { ShareableModule } from '../../core/shareable.module';
 import { WebpageBaseComponent } from './components/webpage-base/webpage-base.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { PrivGalleryComponent } from './pages/priv-gallery/priv-gallery.component';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,12 @@ import { PrivGalleryComponent } from './pages/priv-gallery/priv-gallery.componen
     WebpageBaseComponent,
     PrivGalleryComponent,
   ],
-  imports: [CommonModule, WebpageRoutingModule, ShareableModule, MatTabsModule],
+  imports: [
+    CommonModule,
+    WebpageRoutingModule,
+    ShareableModule,
+    MatTabsModule,
+    MatButtonModule
+  ],
 })
 export class WebpageModule {}
