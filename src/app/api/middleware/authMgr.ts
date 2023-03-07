@@ -13,7 +13,7 @@ export async function createUser(req: Request, res: Response) {
 
     const oldUser = await authSchema.findOne({ email });
     if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
+      return res.sendStatus(409).send("User Already Exist. Please Login");
     }
 
     let encryptedPassword = await bcrypt.hash(password, 8);
@@ -28,7 +28,7 @@ export async function createUser(req: Request, res: Response) {
       console.log(err);
   }
 
-  return res.status(200).send("User created"); // Success 200
+  return res.send("User created"); // Success 200
 }
 export async function verifyCred(req: Request, res: Response) {
   let { email, password } = req.body;
@@ -63,7 +63,7 @@ export async function verifyCred(req: Request, res: Response) {
       });
 
     } else {
-      res.json(
+      res.sendStatus(401).json(
         {
           message: "unauthorized!",
           token: token
@@ -78,14 +78,14 @@ export async function verifyToken(req: Request, res: Response, next: NextFunctio
   // || req.query.token || req.headers["x-access-token"];
 
   if (!token) {
-    return res.status(403).send("A token is required for authentication");
+    return res.sendStatus(403).send("A token is required for authentication"); // forbiden
   }
 
   try {
     jwt.verify(token, TOKEN_KEY);
   } catch (err) {
-    return res.status(401).send("Invalid Token");
+    return res.sendStatus(401).send("Invalid Token"); // unauthorized
   }
 
-  return res.status(202).send("Validation success"); // Accepted 202
+  return res.send("Validation success"); // Accepted 202
 }

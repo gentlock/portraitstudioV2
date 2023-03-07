@@ -27,7 +27,7 @@ function db_fetch_all(req, res) {
                 .sort({ addDate: -1 })
                 .then((result) => res.json(result))
                 .catch((error) => {
-                res.json({ error });
+                res.sendStatus(500).send(error);
             });
         }
         else {
@@ -36,7 +36,7 @@ function db_fetch_all(req, res) {
                 .sort({ addDate: -1 })
                 .then((result) => res.json(result))
                 .catch((error) => {
-                res.json({ error });
+                res.sendStatus(500).send(error);
             });
         }
     });
@@ -48,7 +48,7 @@ function db_fetch_by_id(req, res) {
         yield schemas_1.portfolioSchema
             .findById(id)
             .then((result) => res.json(result))
-            .catch((error) => res.json({ error }));
+            .catch((error) => res.sendStatus(500).send(error));
     });
 }
 exports.db_fetch_by_id = db_fetch_by_id;
@@ -78,7 +78,7 @@ function db_add_new(req, res, next) {
             }
             res.json(result);
         })
-            .catch((error) => res.json({ error }));
+            .catch((error) => res.sendStatus(500).send(error));
     });
 }
 exports.db_add_new = db_add_new;
@@ -98,10 +98,10 @@ function db_update(req, res) {
                 desc: req.body.desc,
             })
                 .then((result) => res.json(result))
-                .catch((error) => res.json({ error }));
+                .catch((error) => res.sendStatus(500).send(error));
         }
         else {
-            return res.status(500).send({ error: 'brakuje numeru ID' });
+            return res.sendStatus(400).send('brakuje numeru ID');
         }
     });
 }
@@ -124,7 +124,10 @@ function db_delete(req, res, next) {
                 }
                 res.json(result);
             })
-                .catch((error) => res.json({ error }));
+                .catch((error) => res.sendStatus(500).send(error));
+        }
+        else {
+            return res.sendStatus(400).send('brakuje numeru ID');
         }
     });
 }

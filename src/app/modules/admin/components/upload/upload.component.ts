@@ -3,6 +3,7 @@ import {Component, ElementRef, Input, OnChanges, Renderer2, ViewChild} from '@an
 import {Observable} from "rxjs";
 import {IMyserviceFeed, IPortfolioFeed} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
+import { errHandler } from "../../../../core/services/err/errHandler";
 
 @Component({
   selector: 'app-upload',
@@ -23,6 +24,7 @@ export class UploadComponent implements OnChanges{
   fetchGalleryURL: string;
   setCoverPhotoURL: string;
   uploadSingleURL: string;
+  errBox = errHandler();
 
   constructor(
     private _render: Renderer2,
@@ -92,6 +94,7 @@ export class UploadComponent implements OnChanges{
           // console.log(result);
         },
         error:(err) => {
+          this.errBox(err);
           console.log(err);
         }
       }
@@ -110,7 +113,10 @@ export class UploadComponent implements OnChanges{
       this.dbService.deleteFile(id, this.baseURL+this.delFileURL, photoName, this.useSchema).subscribe(
         {
           next: () => {},
-          error: (err) => {console.log(err);}
+          error: (err) => {
+            this.errBox(err);
+            console.log(err);
+          }
         });
     }
   }
@@ -138,6 +144,7 @@ export class UploadComponent implements OnChanges{
             }
           },
           error: (err: HttpErrorResponse) => {
+            this.errBox(err);
             console.log(err);
           }
         });

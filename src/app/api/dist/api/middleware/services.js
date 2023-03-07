@@ -23,7 +23,7 @@ function db_fetch_all(req, res) {
             .sort({ addDate: -1 })
             .then((result) => res.json(result))
             .catch((error) => {
-            res.json({ error });
+            res.sendStatus(500).json(error);
         });
     });
 }
@@ -34,7 +34,7 @@ function db_fetch_by_id(req, res) {
         yield schemas_1.myservicesSchema
             .findById(id)
             .then((result) => res.json(result))
-            .catch((error) => res.json({ error }));
+            .catch((error) => res.sendStatus(500).send(error));
     });
 }
 exports.db_fetch_by_id = db_fetch_by_id;
@@ -52,7 +52,6 @@ function db_add_new(req, res, next) {
         })
             .then((result) => {
             try {
-                // next(configuration.folders.uploadDir.pathAdress);
                 fs_1.default.mkdirSync(configuration.uploadDir.pathAdress + '' + result._id);
             }
             catch (err) {
@@ -60,7 +59,7 @@ function db_add_new(req, res, next) {
             }
             res.json(result);
         })
-            .catch((error) => res.json({ error }));
+            .catch((error) => res.sendStatus(500).send(error));
     });
 }
 exports.db_add_new = db_add_new;
@@ -77,10 +76,10 @@ function db_update(req, res) {
                 priceList: req.body.priceList,
             })
                 .then((result) => res.json(result))
-                .catch((error) => res.json({ error }));
+                .catch((error) => res.sendStatus(500).send(error));
         }
         else {
-            return res.status(500).send({ error: 'brakuje numeru ID' });
+            return res.sendStatus(400).send('brakuje numeru ID'); // bad request
         }
     });
 }
@@ -103,7 +102,7 @@ function db_delete(req, res, next) {
                 }
                 res.json(result);
             })
-                .catch((error) => res.json({ error }));
+                .catch((error) => res.sendStatus(500).send(error));
         }
     });
 }

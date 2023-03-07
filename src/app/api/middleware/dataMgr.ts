@@ -15,12 +15,12 @@ export async function setCoverPhoto(req: Request, res: Response) {
     await portfolioSchema
       .findByIdAndUpdate(id, { coverPhoto: photoName })
       .then((result) => res.json(result))
-      .catch((error) => res.json({ error }));
+      .catch((error) => res.sendStatus(500).send(error));
   } else if (useSchema === 'myservicesSchema') {
     await myservicesSchema
       .findByIdAndUpdate(id, { coverPhoto: photoName })
       .then((result) => res.json(result))
-      .catch((error) => res.json({ error }));
+      .catch((error) => res.sendStatus(500).send(error));
   }
 }
 
@@ -47,10 +47,10 @@ export async function deleteFile(
         try {
           fs.unlinkSync(upDir + `/${id}/` + photoName);
         } catch (err) {
-          res.json(err);
+          next(err);
         }
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.sendStatus(500).send(err));
   } else if (useSchema === 'myservicesSchema') {
     await myservicesSchema
       .updateOne(
@@ -64,10 +64,10 @@ export async function deleteFile(
         try {
           fs.unlinkSync(upDir + `/${id}/` + photoName);
         } catch (err) {
-          res.json(err);
+          next(err);
         }
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.sendStatus(500).send(err));
   }
 }
 
@@ -80,12 +80,12 @@ export async function fetchGallery(req: Request, res: Response) {
     await portfolioSchema
       .findById(id, { gallery: 1, coverPhoto: 1 })
       .then((result) => res.json(result))
-      .catch((error) => res.json({ error }));
+      .catch((error) => res.sendStatus(500).send(error));
   } else if (useSchema === 'myservicesSchema') {
     await myservicesSchema
       .findById(id, { gallery: 1, coverPhoto: 1 })
       .then((result) => res.json(result))
-      .catch((error) => res.json({ error }));
+      .catch((error) => res.sendStatus(500).send(error));
   }
 }
 
@@ -101,8 +101,8 @@ export async function uploadSingle(req: Request, res: Response) {
         downloadable: { filename: file.name, filesize: file.size },
       });
     } else {
-      console.log(err);
-      res.json({ err });
+      // console.log(err);
+      res.sendStatus(500).send(err);
     }
   });
 }

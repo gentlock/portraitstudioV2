@@ -1,4 +1,7 @@
-import { AfterViewInit, Component } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
+// import {NavigationEnd, Router, RouterEvent} from "@angular/router";
+// import {filter} from "rxjs";
+
 // import * as anime from 'animejs';
 @Component({
   selector: 'app-webpage-base',
@@ -7,6 +10,13 @@ import { AfterViewInit, Component } from '@angular/core';
 })
 export class WebpageBaseComponent implements AfterViewInit {
   currentYear = new Date().getFullYear();
+  isLoading = true;
+
+  constructor() {
+    // document.onreadystatechange =  () => {
+    //   if (document.readyState === "complete") {this.isLoading = false};
+    // }
+  }
 
   backtotop(e: Event) {
     e.preventDefault();
@@ -36,9 +46,7 @@ export class WebpageBaseComponent implements AfterViewInit {
             article.classList.add('md:!pt-28');
           }
         });
-      },
-      sectionOneOptions
-    );
+      }, sectionOneOptions);
 
     sectionOneObserver.observe(sectionOne);
   }

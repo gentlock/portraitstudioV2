@@ -35,11 +35,11 @@ function sendEmail(req, res) {
                 text: data.message, // plain text body
             });
             // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-            res.sendStatus(200).json(nodemailer.getTestMessageUrl(info));
+            res.send(nodemailer.getTestMessageUrl(info));
         }
         catch (err) {
             // console.log(err);
-            res.json({ err });
+            res.sendStatus(500).send(err);
         }
     });
 }

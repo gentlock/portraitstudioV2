@@ -15,7 +15,7 @@ export async function db_fetch_all(req: Request, res: Response) {
       .sort({ addDate: -1 })
       .then((result) => res.json(result))
       .catch((error) => {
-        res.json({ error });
+        res.sendStatus(500).send(error);
       });
 
   } else {
@@ -24,7 +24,7 @@ export async function db_fetch_all(req: Request, res: Response) {
       .sort({ addDate: -1 })
       .then((result) => res.json(result))
       .catch((error) => {
-        res.json({ error });
+        res.sendStatus(500).send(error);
       });
   }
 }
@@ -35,7 +35,7 @@ export async function db_fetch_by_id(req: Request, res: Response) {
   await portfolioSchema
     .findById(id)
     .then((result) => res.json(result))
-    .catch((error) => res.json({ error }));
+    .catch((error) => res.sendStatus(500).send(error));
 }
 
 export async function db_add_new(
@@ -66,7 +66,7 @@ export async function db_add_new(
       }
       res.json(result);
     })
-    .catch((error) => res.json({ error }));
+    .catch((error) => res.sendStatus(500).send(error));
 }
 
 export async function db_update(req: Request, res: Response) {
@@ -85,9 +85,9 @@ export async function db_update(req: Request, res: Response) {
         desc: req.body.desc,
       })
       .then((result) => res.json(result))
-      .catch((error) => res.json({ error }));
+      .catch((error) => res.sendStatus(500).send(error));
   } else {
-    return res.status(500).send({ error: 'brakuje numeru ID' });
+    return res.sendStatus(400).send('brakuje numeru ID');
   }
 }
 
@@ -112,6 +112,8 @@ export async function db_delete(
         }
         res.json(result);
       })
-      .catch((error) => res.json({ error }));
+      .catch((error) => res.sendStatus(500).send(error));
+  } else {
+    return res.sendStatus(400).send('brakuje numeru ID');
   }
 }

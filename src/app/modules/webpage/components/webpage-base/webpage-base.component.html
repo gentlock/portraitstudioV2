@@ -1,4 +1,4 @@
- <header class="z-50  transition-all duration-300 fixed top-0 left-0 md:w-full h-full md:h-auto shadow-shadow-dark0">
+<header class="z-50  transition-all duration-300 fixed top-0 left-0 md:w-full h-full md:h-auto shadow-shadow-dark0">
     <div class="md:container md:w-4/5 md:mx-auto h-full">
     <nav class="bg-layout-color-dark2 transition-all duration-300  w-16 h-full py-4 md:py-0 md:w-full md:h-16 justify-between md:flex-row flex flex-col">
       <svg
@@ -121,9 +121,10 @@
 
   </header>
 
-  <article class="container md:w-4/5 mx-auto  transition-all duration-300 pl-16 md:pt-16 md:pl-0 flex flex-col h-full w-full">
+  <article class="z-10 container md:w-4/5 mx-auto  transition-all duration-300 pl-16 md:pt-16 md:pl-0 flex flex-col h-full w-full">
     <div class="pixelToWatch"></div>
     <main>
+      <app-loader></app-loader>
       <router-outlet></router-outlet>
     </main>
     <footer class="mt-auto text-softer-white4 md:justify-between items-center py-4 flex flex-col md:flex-row space-y-3 md:space-y-0">

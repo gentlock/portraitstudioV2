@@ -11,7 +11,7 @@ export async function db_fetch_all(req: Request, res: Response) {
     .sort({ addDate: -1 })
     .then((result) => res.json(result))
     .catch((error) => {
-      res.json({ error });
+      res.sendStatus(500).json(error);
     });
 }
 export async function db_fetch_by_id(req: Request, res: Response) {
@@ -20,7 +20,7 @@ export async function db_fetch_by_id(req: Request, res: Response) {
   await myservicesSchema
     .findById(id)
     .then((result) => res.json(result))
-    .catch((error) => res.json({ error }));
+    .catch((error) => res.sendStatus(500).send(error));
 }
 export async function db_add_new(
   req: Request,
@@ -39,14 +39,13 @@ export async function db_add_new(
     })
     .then((result) => {
       try {
-        // next(configuration.folders.uploadDir.pathAdress);
         fs.mkdirSync(configuration.uploadDir.pathAdress + '' + result._id);
       } catch (err) {
         next(err);
       }
       res.json(result);
     })
-    .catch((error) => res.json({ error }));
+    .catch((error) => res.sendStatus(500).send(error));
 }
 export async function db_update(req: Request, res: Response) {
   let id = req.params.id;
@@ -61,9 +60,9 @@ export async function db_update(req: Request, res: Response) {
         priceList: req.body.priceList,
       })
       .then((result) => res.json(result))
-      .catch((error) => res.json({ error }));
+      .catch((error) => res.sendStatus(500).send(error));
   } else {
-    return res.status(500).send({ error: 'brakuje numeru ID' });
+    return res.sendStatus(400).send('brakuje numeru ID'); // bad request
   }
 }
 export async function db_delete(
@@ -87,6 +86,6 @@ export async function db_delete(
         }
         res.json(result);
       })
-      .catch((error) => res.json({ error }));
+      .catch((error) => res.sendStatus(500).send(error));
   }
 }

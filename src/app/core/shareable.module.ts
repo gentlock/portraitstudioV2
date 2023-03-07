@@ -8,6 +8,6 @@ import { LoaderComponent } from './components/loader/loader.component';
     LoaderComponent
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  exports: [FormsModule, ReactiveFormsModule],
+  exports: [FormsModule, ReactiveFormsModule, LoaderComponent],
 })
 export class ShareableModule {}

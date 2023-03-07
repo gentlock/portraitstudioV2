@@ -26,13 +26,13 @@ function setCoverPhoto(req, res) {
             yield schemas_1.portfolioSchema
                 .findByIdAndUpdate(id, { coverPhoto: photoName })
                 .then((result) => res.json(result))
-                .catch((error) => res.json({ error }));
+                .catch((error) => res.sendStatus(500).send(error));
         }
         else if (useSchema === 'myservicesSchema') {
             yield schemas_2.myservicesSchema
                 .findByIdAndUpdate(id, { coverPhoto: photoName })
                 .then((result) => res.json(result))
-                .catch((error) => res.json({ error }));
+                .catch((error) => res.sendStatus(500).send(error));
         }
     });
 }
@@ -54,10 +54,10 @@ function deleteFile(req, res, next) {
                     fs_1.default.unlinkSync(upDir + `/${id}/` + photoName);
                 }
                 catch (err) {
-                    res.json(err);
+                    next(err);
                 }
             })
-                .catch((err) => res.json(err));
+                .catch((err) => res.sendStatus(500).send(err));
         }
         else if (useSchema === 'myservicesSchema') {
             yield schemas_2.myservicesSchema
@@ -70,10 +70,10 @@ function deleteFile(req, res, next) {
                     fs_1.default.unlinkSync(upDir + `/${id}/` + photoName);
                 }
                 catch (err) {
-                    res.json(err);
+                    next(err);
                 }
             })
-                .catch((err) => res.json(err));
+                .catch((err) => res.sendStatus(500).send(err));
         }
     });
 }
@@ -87,13 +87,13 @@ function fetchGallery(req, res) {
             yield schemas_1.portfolioSchema
                 .findById(id, { gallery: 1, coverPhoto: 1 })
                 .then((result) => res.json(result))
-                .catch((error) => res.json({ error }));
+                .catch((error) => res.sendStatus(500).send(error));
         }
         else if (useSchema === 'myservicesSchema') {
             yield schemas_2.myservicesSchema
                 .findById(id, { gallery: 1, coverPhoto: 1 })
                 .then((result) => res.json(result))
-                .catch((error) => res.json({ error }));
+                .catch((error) => res.sendStatus(500).send(error));
         }
     });
 }
@@ -110,8 +110,8 @@ function uploadSingle(req, res) {
                 });
             }
             else {
-                console.log(err);
-                res.json({ err });
+                // console.log(err);
+                res.sendStatus(500).send(err);
             }
         }));
     });

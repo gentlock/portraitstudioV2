@@ -1,1 +1,5 @@
-<span *ngIf="isLoading | async" class="loader"></span>
+<div *ngIf="isLoading | async"  class="overlay">
+  <div class="center">
+    <span class="loader"></span>
+  </div>
+</div>

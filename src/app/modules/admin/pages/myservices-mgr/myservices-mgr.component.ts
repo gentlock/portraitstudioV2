@@ -5,7 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Subject} from "rxjs";
 import {clearFormField} from "../../../../core/libs";
 import {DbService} from "../../../../core/data/db.service";
-import {ErrHandlerService} from "../../../../core/services/err/err-handler.service";
+import { errHandler } from "../../../../core/services/err/errHandler";
 
 @Component({
   selector: 'app-myservices-mgr',
@@ -18,11 +18,11 @@ export class MyservicesMgrComponent {
   eventsSubject: Subject<string> = new Subject<string>();
   DBschema = 'myservicesSchema';
   readonly urls: apiUrls;
+  errBox = errHandler();
 
   constructor(
     private _fb: FormBuilder,
     public dbService: DbService,
-    public errHandler: ErrHandlerService
   ) {
     this.urls = dbService.conf.api.endpointURLS.myservices;
 
@@ -45,9 +45,12 @@ export class MyservicesMgrComponent {
       {
         next: (value)=>{
           this.refreshSignal('');
-          // console.log(value)
+          this.errBox(value);
         },
-        error: (err: HttpErrorResponse)=>{ console.log(err)}
+        error: (err: HttpErrorResponse)=>{
+          this.errBox(err);
+          // console.log(err);
+        }
       })
   }
 
@@ -62,7 +65,10 @@ export class MyservicesMgrComponent {
           this.myFormModel.get('subtitle')?.setValue(data.subtitle);
           this.myFormModel.get('priceList')?.setValue(data.priceList);
         },
-        error: (err: HttpErrorResponse) => { console.log(err) }
+        error: (err: HttpErrorResponse) => {
+          this.errBox(err);
+          // console.log(err);
+        }
       }
     )
   }
@@ -93,7 +99,10 @@ export class MyservicesMgrComponent {
               this.populate(value._id!);
               this.refreshSignal(value._id!);
             },
-            error: (err: HttpErrorResponse)=>{ console.log(err)}
+            error: (err: HttpErrorResponse)=>{
+              this.errBox(err);
+              console.log(err);
+            }
           }
         );
       } else  {
@@ -104,7 +113,10 @@ export class MyservicesMgrComponent {
               this.populate(value._id!);
               this.refreshSignal(value._id!);
             },
-            error: (err: HttpErrorResponse)=>{ console.log(err)}
+            error: (err: HttpErrorResponse)=>{
+              this.errBox(err);
+              console.log(err);
+            }
           }
         );
       }

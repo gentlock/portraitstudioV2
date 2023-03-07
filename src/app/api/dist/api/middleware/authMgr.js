@@ -21,7 +21,7 @@ function createUser(req, res) {
             const { firstname, lastname, email, password } = configuration.basicUser;
             const oldUser = yield schemas_1.authSchema.findOne({ email });
             if (oldUser) {
-                return res.status(409).send("User Already Exist. Please Login");
+                return res.sendStatus(409).send("User Already Exist. Please Login");
             }
             let encryptedPassword = yield bcrypt.hash(password, 8);
             yield schemas_1.authSchema.create({
@@ -34,7 +34,7 @@ function createUser(req, res) {
         catch (err) {
             console.log(err);
         }
-        return res.status(200).send("User created"); // Success 200
+        return res.send("User created"); // Success 200
     });
 }
 exports.createUser = createUser;
@@ -62,7 +62,7 @@ function verifyCred(req, res) {
                 });
             }
             else {
-                res.json({
+                res.sendStatus(401).json({
                     message: "unauthorized!",
                     token: token
                 });
@@ -79,15 +79,15 @@ function verifyToken(req, res, next) {
         const token = req.body.token;
         // || req.query.token || req.headers["x-access-token"];
         if (!token) {
-            return res.status(403).send("A token is required for authentication");
+            return res.sendStatus(403).send("A token is required for authentication"); // forbiden
         }
         try {
             jwt.verify(token, TOKEN_KEY);
         }
         catch (err) {
-            return res.status(401).send("Invalid Token");
+            return res.sendStatus(401).send("Invalid Token"); // unauthorized
         }
-        return res.status(202).send("Validation success"); // Accepted 202
+        return res.send("Validation success"); // Accepted 202
     });
 }
 exports.verifyToken = verifyToken;

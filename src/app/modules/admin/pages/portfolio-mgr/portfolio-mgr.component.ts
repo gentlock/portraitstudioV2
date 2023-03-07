@@ -9,7 +9,7 @@ import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {SendemailComponent} from "../../components/sendemail/sendemail.component";
 
 import {DOCUMENT} from "@angular/common";
-import {ErrHandlerService} from "../../../../core/services/err/err-handler.service";
+import { errHandler } from "../../../../core/services/err/errHandler";
 
 @Component({
   selector: 'app-portfolio-mgr',
@@ -27,15 +27,14 @@ export class PortfolioMgrComponent implements AfterViewInit {
   filename!: string;
   filesize!: number;
   readonly urls: apiUrls;
+  errBox = errHandler();
 
   constructor(
     private _fb: FormBuilder,
     public dbService: DbService,
     public dialog: MatDialog,
-    public errHandler: ErrHandlerService,
     @Inject(DOCUMENT) private document: Document
   ) {
-
     this.urls = dbService.conf.api.endpointURLS.portfolio;
 
     this.myFormModel = _fb.group({
@@ -70,15 +69,13 @@ export class PortfolioMgrComponent implements AfterViewInit {
       'message'   : `${document.location.origin}/#/privGallery/${this.myFormModel.get('id')?.value}`,
     }
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.minHeight  = document.body.clientHeight / 2;
-    dialogConfig.minWidth   = document.body.clientWidth / 2;
-    dialogConfig.data = { content: content }
-
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
-
-    const dialogRef = this.dialog.open(SendemailComponent, dialogConfig);
+    const dialogRef = this.dialog.open(SendemailComponent,
+      {
+        data: {content: content},
+        minHeight: document.body.clientHeight / 2,
+        minWidth: document.body.clientWidth / 2,
+      }
+    );
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -109,7 +106,10 @@ export class PortfolioMgrComponent implements AfterViewInit {
               this.populate(value._id!);
               this.refreshSignal(value._id!);
             },
-            error: (err: HttpErrorResponse)=>{ console.log(err)}
+            error: (err: HttpErrorResponse)=>{
+              this.errBox(err);
+              console.log(err)
+            }
           }
         );
       } else {
@@ -120,6 +120,7 @@ export class PortfolioMgrComponent implements AfterViewInit {
               this.refreshSignal(value._id!);
             },
             error: (err: HttpErrorResponse) => {
+              this.errBox(err);
               console.log(err)
             }
           });
@@ -131,9 +132,13 @@ export class PortfolioMgrComponent implements AfterViewInit {
     this.dbService.recordDel(id, this.urls.basePath + this.urls.remove).subscribe(
       {
         next: (value)=>{
+          this.errBox(value);
           this.refreshSignal('');
         },
-        error: (err: HttpErrorResponse)=>{ console.log(err)}
+        error: (err: HttpErrorResponse)=>{
+          this.errBox(err);
+          console.log(err)
+        }
       })
   }
 
@@ -157,7 +162,10 @@ export class PortfolioMgrComponent implements AfterViewInit {
           this.filename = data.downloadable?.filename!;
           this.filesize = parseInt(data.downloadable?.filesize.toString()!);
         },
-        error: (err: HttpErrorResponse) => { console.log(err) }
+        error: (err: HttpErrorResponse) => {
+          this.errBox(err);
+          console.log(err)
+        }
       }
     )
   }
@@ -186,6 +194,8 @@ export class PortfolioMgrComponent implements AfterViewInit {
               } else if (event.type === HttpEventType.Response) {}
             },
             error: (err) => {
+              this.errBox(err);
+              console.log(err)
             }
           })
       }

@@ -1,16 +1,16 @@
-import {Component, EventEmitter, Output, Input, AfterViewInit, OnDestroy} from '@angular/core';
+import {Component, EventEmitter, Output, Input, AfterViewInit, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
 import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
+import { errHandler } from "../../../../core/services/err/errHandler";
 
 @Component({
   selector: 'app-table-bar',
   templateUrl: './table-bar.component.html',
   styleUrls: ['./table-bar.component.scss']
 })
-export class TableBarComponent implements AfterViewInit, OnDestroy {
+export class TableBarComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() currentUrls!: apiUrls;
-  // @Input() useService!: DbService;
   data$!: Observable<any>;
   services$!: Observable<IMyserviceFeed[]>;
   @Output() editRequest: EventEmitter<any> = new EventEmitter();
@@ -20,6 +20,7 @@ export class TableBarComponent implements AfterViewInit, OnDestroy {
   @Input() selectableService!: boolean;
   eventsSubscription!: Subscription;
   currentCard = "";
+  errBox = errHandler();
 
   constructor(
     private dbService: DbService

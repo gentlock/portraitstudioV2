@@ -1,5 +1,5 @@
 import {Component, Inject} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-msg-box',
@@ -7,8 +7,10 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
   styleUrls: ['./msg-box.component.scss']
 })
 export class MsgBoxComponent {
+  cnt = "";
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {content: any},
+    @Inject(MAT_DIALOG_DATA) public data: {content: string},
   ) {
+    this.cnt = this.data.content;
   }
 }

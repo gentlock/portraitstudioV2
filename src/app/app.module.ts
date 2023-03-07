@@ -9,6 +9,7 @@ import { WebpageModule } from './modules/webpage/webpage.module';
 import { DatePipe } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {LoaderInterceptor} from "./core/interceptor/loader.interceptor";
+import {ShareableModule} from "./core/shareable.module";
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,14 +20,15 @@ import {LoaderInterceptor} from "./core/interceptor/loader.interceptor";
     AdminModule,
     WebpageModule,
     HttpClientModule,
+    ShareableModule,
   ],
   providers: [
     DatePipe,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoaderInterceptor,
-      multi: true
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: LoaderInterceptor,
+    //   multi: true
+    // },
   ],
   bootstrap: [AppComponent],
 })

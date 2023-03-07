@@ -13,7 +13,6 @@ export class PortfolioComponent {
   myservices$!: Observable<IMyserviceFeed[]>;
   data$!: Observable<IPortfolioFeed[]>;
   details$!: Observable<IPortfolioFeed>;
-  // selected$!: Observable<IPortfolioFeed>;
   readonly urlsS: apiUrls;
   readonly urlsP: apiUrls;
   showDetails = false;
