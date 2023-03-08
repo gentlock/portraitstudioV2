@@ -5,7 +5,7 @@
   </div>
   <ng-container *ngIf="(myservices$ | async) as myservices">
   <div #tabsNav class=" p-2 gap-3 grid grid-cols-[repeat(auto-fit,minmax(20ch,auto))] col-span-full row-start-2 row-end-3 bg-softer-black1 rounded border-black border-solid">
-    <a (click)="switchTab('all', $event)" href="javascript:void(0)" class="!text-white shadow-lg w-full bg-softer-black0 text-center text-softer-black4 font-SourceSansPro-Regular text-sm mr-6 px-3 py-2 min-w-fit border border-softer-black2 rounded-md">pokaz wszystko</a>
+    <a (click)="switchTab('', $event)" href="javascript:void(0)" class="!text-white shadow-lg w-full bg-softer-black0 text-center text-softer-black4 font-SourceSansPro-Regular text-sm mr-6 px-3 py-2 min-w-fit border border-softer-black2 rounded-md">pokaz wszystko</a>
     <a (click)="switchTab( service._id!, $event)" href="javascript:void(0)" class="shadow-lg w-full bg-softer-black0 text-center text-softer-black4 font-SourceSansPro-Regular text-sm mr-6 px-3 py-2 min-w-fit border border-softer-black2 rounded-md" *ngFor="let service of myservices;">{{ service.name }}</a>
   </div>
   </ng-container>
@@ -13,41 +13,41 @@
   <div class="col-span-full row-start-3 row-end-4">
   <ng-container *ngIf="!showDetails && !id; else tplShowDetails">
     <ng-container *ngIf="(data$ | async) as data">
-
       <div class="gap-0  container columns-1 md:columns-2 xl:columns-3">
-        <a class="block" (click)="switchView($event, file._id!)" *ngFor="let file of data; index as i"  href="javascript:void(0)">
+        <a class="block" (click)="switchView($event, item._id!)" *ngFor="let item of data.docs; index as i"  href="javascript:void(0)">
           <figure class="relative p-1.5">
-            <img class=" brightness-75  md:aspect-square object-cover object-center w-full block" src="./assets/img/upload/{{ file._id }}/{{ file.coverPhoto }}" alt=""/>
+            <img class=" brightness-75  md:aspect-square object-cover object-center w-full block" src="./assets/img/upload/{{ item._id }}/{{ item.coverPhoto }}" alt=""/>
             <figcaption class=" overflow-hidden z-10 p-6 absolute top-0  items-end left-0 flex w-full h-full">
               <div class="overlay translate-x-0 flex flex-col space-y-2 w-full p-4 items-center">
                 <span class="text-white text-xl font-PlayfairDisplay-VariableFont_wght font-bold uppercase">0{{ i+1 }}.</span>
-                <span class="text-xl text-white font-PlayfairDisplay-VariableFont_wght capitalize">{{ file.name }}</span>
+                <span class="text-xl text-white font-PlayfairDisplay-VariableFont_wght capitalize">{{ item.name }}</span>
               </div>
             </figcaption>
           </figure>
         </a>
       </div>
-
     </ng-container>
   </ng-container>
   </div>
 </div>
 
 <ng-template #tplShowDetails>
-    <ng-container *ngIf="(details$ | async) as details">
+  <ng-container *ngIf="(data$ | async) as data">
+      <ng-container *ngFor="let item of data.docs; index as i">
       <div class="grid gap-6 grid-cols-1 auto-rows-auto relative">
         <div class="col-span-1 row-start-1 row-end-2">
-          <img class="w-full h-96 block object-cover object-center" src="./assets/img/upload/{{ details._id }}/{{ details.coverPhoto }}" alt=""/>
+          <img class="w-full h-96 block object-cover object-center" src="./assets/img/upload/{{ item._id }}/{{ item.coverPhoto }}" alt=""/>
         </div>
         <div class="col-span-1 row-start-2 row-end-3">
-          <p class=" text-layout-color-light0 text-3xl font-Mukta-Regular">{{ details.name }}</p>
-          <p class="text-softer-black4 text-sm font-SourceSansPro-Regular">{{ details.desc }}</p>
+          <p class=" text-layout-color-light0 text-3xl font-Mukta-Regular">{{ item.name }}</p>
+          <p class="text-softer-black4 text-sm font-SourceSansPro-Regular">{{ item.desc }}</p>
         </div>
         <div class="col-span-1 row-start-3 row-end-4 gallery-grid">
-            <div *ngFor="let file of details.gallery">
-              <img src="./assets/img/upload/{{ details._id }}/{{ file }}" alt=""/>
+            <div *ngFor="let file of item.gallery">
+              <img src="./assets/img/upload/{{ item._id }}/{{ file }}" alt=""/>
             </div>
         </div>
       </div>
-    </ng-container>
+      </ng-container>
+  </ng-container>
 </ng-template>

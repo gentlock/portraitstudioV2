@@ -2,7 +2,28 @@ export enum msgStatus {
   SUCCESS,
   FAILURE,
 }
-
+interface IDBQueryOptions {
+  pagination: boolean;
+  select?: string | object;
+  page: number;
+  limit: number;
+  sort?: object | string;
+}
+export type TDBQuery =  {
+  query: {},
+  options: IDBQueryOptions,
+}
+export interface IDBResult<T> {
+  docs: T[];
+  totalDocs: number;
+  limit: number;
+  page: number;
+  totalPages: number;
+  hasNextPage: boolean
+  nextPage: number | null;
+  hasPrevPage: boolean
+  prevPage: number | null
+}
 export interface IEmail {
   'to_name': string;
   'to_email' : string;
@@ -23,6 +44,7 @@ export interface apiUrls {
   basePath: string;
   getAll: string;
   getById: string;
+  fetchQuery: string;
   addNew: string;
   update: string;
   remove: string;

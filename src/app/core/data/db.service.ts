@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {IPortfolioFeed, IMyserviceFeed} from "../abstracts";
+import {IDBResult, IMyserviceFeed, IPortfolioFeed, TDBQuery} from "../abstracts";
 import { HttpClient } from '@angular/common/http';
 import * as configuration from '../../../conf/keys.json';
 
@@ -13,11 +13,11 @@ export class DbService {
     private http: HttpClient
   ) {}
 
+  fetchQuery(url: string, data:TDBQuery) {
+    return this.http.post<any>(url, data);
+  }
   getAll(url: string, filter?: string) {
     return this.http.get<any[]>(url+`/${filter}`);
-  }
-  getByCode(code: string, url: string) {
-    return this.http.get<any>(url+`/${code}`);
   }
   getById(id: string, url: string) {
     return this.http.get<any>(url+`/${id}`);

@@ -10,6 +10,7 @@ const configuration = require('../../../../../conf/keys');
 let router = express_1.default.Router();
 let urls = configuration.api.endpointURLS.portfolio;
 router.get(urls.getAll, portfolio_1.db_fetch_all);
+router.post(urls.fetchQuery, portfolio_1.fetch_query);
 router.get(urls.getAll + `/:filter`, portfolio_1.db_fetch_all);
 router.get(urls.getById + '/:id', portfolio_1.db_fetch_by_id);
 router.post(urls.addNew, portfolio_1.db_add_new);

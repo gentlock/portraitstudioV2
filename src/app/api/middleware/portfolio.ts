@@ -1,11 +1,24 @@
 import { NextFunction, Request, Response } from 'express';
-import { portfolioSchema, portfolioS } from '../schemas';
+import { portfolioSchema} from '../schemas';
 import fs from 'fs';
-import mongoose, {Types, ObjectId} from "mongoose";
+import {Types} from "mongoose";
+
 
 // import ObjectId = module
 const configuration = require('../../../../../conf/keys');
 
+export async function fetch_query(req: Request, res: Response) {
+  let { query, options } = req.body;
+
+  await portfolioSchema.paginate(query, options, function(err, result) {
+    if(!err) {
+      console.log(result);
+      res.json(result);
+    } else {
+      res.sendStatus(500).send(err);
+    }
+  })
+}
 export async function db_fetch_all(req: Request, res: Response) {
   let filter = req.params.filter;
 

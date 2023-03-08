@@ -1,6 +1,6 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
 import {Observable} from "rxjs";
-import {apiUrls, IMyserviceFeed, IPortfolioFeed} from "../../../../core/abstracts";
+import {apiUrls, IDBResult, IMyserviceFeed, IPortfolioFeed, TDBQuery} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
 
 @Component({
@@ -11,8 +11,7 @@ import {DbService} from "../../../../core/data/db.service";
 export class PortfolioComponent {
   @ViewChild("tabsNav") tabsNav!: ElementRef;
   myservices$!: Observable<IMyserviceFeed[]>;
-  data$!: Observable<IPortfolioFeed[]>;
-  details$!: Observable<IPortfolioFeed>;
+  data$!: Observable<IDBResult<IPortfolioFeed>>;
   readonly urlsS: apiUrls;
   readonly urlsP: apiUrls;
   showDetails = false;
@@ -21,14 +20,36 @@ export class PortfolioComponent {
   constructor(
     private dbService: DbService
   ) {
+
+    let query = {};
+    let options = {
+      pagination: true,
+      page: 1,
+      limit: 10,
+      sort: { addDate: -1 },
+    }
+    let data: TDBQuery = {query, options};
+
     this.urlsS        = dbService.conf.api.endpointURLS.myservices;
     this.myservices$  = dbService.getAll(this.urlsS.basePath+this.urlsS.getAll);
 
     this.urlsP = dbService.conf.api.endpointURLS.portfolio;
-    this.data$ = dbService.getAll(this.urlsP.basePath+this.urlsP.getAll);
+    this.data$ = dbService.fetchQuery(this.urlsP.basePath+this.urlsP.fetchQuery, data);
   }
 
-  switchTab(filter: string, e: Event) {
+  fetchGal(query: object) {
+    let options = {
+      pagination: true,
+      page: 1,
+      limit: 10,
+      sort: { addDate: -1 },
+    }
+    let data: TDBQuery = {query, options};
+
+    this.data$ = this.dbService.fetchQuery(this.urlsP.basePath+this.urlsP.fetchQuery, data);
+  }
+
+  switchTab(id: string, e: Event) {
     e.preventDefault();
     this.showDetails  = false;
     this.id           = "";
@@ -39,13 +60,17 @@ export class PortfolioComponent {
 
     (e.target as HTMLLIElement).classList.add('!text-white');
 
-    this.data$ = this.dbService.getAll(this.urlsP.basePath+this.urlsP.getAll, filter);
+    if(id != '') {
+      this.fetchGal({serviceId: id});
+    } else {
+      this.fetchGal({});
+    }
   }
 
   switchView(e: Event, id: string) {
     this.showDetails = true;
     this.id = id;
 
-    this.details$ = this.dbService.getById(this.id, this.urlsP.basePath+this.urlsP.getById);
+    this.fetchGal({_id: id});
   }
 }

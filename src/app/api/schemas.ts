@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
+import {IPortfolioFeed} from "../core/abstracts";
 
 const authS = new mongoose.Schema({
   firstname: { type: String, default: null },
@@ -34,6 +36,9 @@ export const portfolioS = new mongoose.Schema({
   gallery: { type: [String] },
 });
 
-export const portfolioSchema = mongoose.model('portfolio', portfolioS);
+portfolioS.plugin(mongoosePaginate);
+interface portfolioDoc extends mongoose.Document {};
+
+export const portfolioSchema = mongoose.model<portfolioDoc, mongoose.PaginateModel<portfolioDoc>>('portfolio', portfolioS);
 export const myservicesSchema = mongoose.model('myservices', myserviceS);
 export const authSchema = mongoose.model('auth', authS);

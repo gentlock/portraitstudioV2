@@ -36,6 +36,7 @@
       },
       "myservices": {
         "basePath": "/api/myservices",
+        "fetchQuery": "/fetchQuery",
         "getAll": "/getAll",
         "getById": "/getById",
         "addNew": "/addNew",
@@ -44,6 +45,7 @@
       },
       "portfolio": {
         "basePath": "/api/portfolio",
+        "fetchQuery": "/fetchQuery",
         "getAll": "/getAll",
         "getAllFiltered": "",
         "getById": "/getById",

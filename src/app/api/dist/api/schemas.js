@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authSchema = exports.myservicesSchema = exports.portfolioSchema = exports.portfolioS = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
+const mongoose_paginate_v2_1 = __importDefault(require("mongoose-paginate-v2"));
 const authS = new mongoose_1.default.Schema({
     firstname: { type: String, default: null },
     lastname: { type: String, default: null },
@@ -36,6 +37,8 @@ exports.portfolioS = new mongoose_1.default.Schema({
     downloadable: { filename: String, filesize: Number },
     gallery: { type: [String] },
 });
+exports.portfolioS.plugin(mongoose_paginate_v2_1.default);
+;
 exports.portfolioSchema = mongoose_1.default.model('portfolio', exports.portfolioS);
 exports.myservicesSchema = mongoose_1.default.model('myservices', myserviceS);
 exports.authSchema = mongoose_1.default.model('auth', authS);
