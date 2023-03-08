@@ -38,6 +38,7 @@ exports.portfolioS = new mongoose_1.default.Schema({
     gallery: { type: [String] },
 });
 exports.portfolioS.plugin(mongoose_paginate_v2_1.default);
+myserviceS.plugin(mongoose_paginate_v2_1.default);
 ;
 exports.portfolioSchema = mongoose_1.default.model('portfolio', exports.portfolioS);
 exports.myservicesSchema = mongoose_1.default.model('myservices', myserviceS);

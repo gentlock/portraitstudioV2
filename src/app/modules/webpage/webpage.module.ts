@@ -13,7 +13,7 @@ import { WebpageBaseComponent } from './components/webpage-base/webpage-base.com
 import {MatTabsModule} from '@angular/material/tabs';
 import { PrivGalleryComponent } from './pages/priv-gallery/priv-gallery.component';
 import {MatButtonModule} from '@angular/material/button';
-
+import {MatIconModule} from '@angular/material/icon';
 @NgModule({
   declarations: [
     ContactComponent,
@@ -30,7 +30,8 @@ import {MatButtonModule} from '@angular/material/button';
     WebpageRoutingModule,
     ShareableModule,
     MatTabsModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule
   ],
 })
 export class WebpageModule {}

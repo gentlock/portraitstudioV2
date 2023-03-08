@@ -5,8 +5,9 @@ export enum msgStatus {
 interface IDBQueryOptions {
   pagination: boolean;
   select?: string | object;
-  page: number;
+  page?: number;
   limit: number;
+  offset?: number;
   sort?: object | string;
 }
 export type TDBQuery =  {

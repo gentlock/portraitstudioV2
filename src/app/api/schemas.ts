@@ -37,8 +37,9 @@ export const portfolioS = new mongoose.Schema({
 });
 
 portfolioS.plugin(mongoosePaginate);
-interface portfolioDoc extends mongoose.Document {};
+myserviceS.plugin(mongoosePaginate);
+interface docExt extends mongoose.Document {};
 
-export const portfolioSchema = mongoose.model<portfolioDoc, mongoose.PaginateModel<portfolioDoc>>('portfolio', portfolioS);
-export const myservicesSchema = mongoose.model('myservices', myserviceS);
+export const portfolioSchema = mongoose.model<docExt, mongoose.PaginateModel<docExt>>('portfolio', portfolioS);
+export const myservicesSchema = mongoose.model<docExt, mongoose.PaginateModel<docExt>>('myservices', myserviceS);
 export const authSchema = mongoose.model('auth', authS);

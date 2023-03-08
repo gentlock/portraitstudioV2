@@ -1,18 +1,16 @@
 import {Component, EventEmitter, Output, Input, AfterViewInit, OnDestroy, OnInit} from '@angular/core';
 import {Observable, Subscription} from "rxjs";
-import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
+import {apiUrls, IDBResult, IMyserviceFeed, IPortfolioFeed, TDBQuery} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
-import { errHandler } from "../../../../core/services/err/errHandler";
+import {PageEvent} from "@angular/material/paginator";
 
 @Component({
   selector: 'app-table-bar',
   templateUrl: './table-bar.component.html',
   styleUrls: ['./table-bar.component.scss']
 })
-export class TableBarComponent implements AfterViewInit, OnDestroy, OnInit {
+export class TableBarComponent implements OnDestroy, OnInit, AfterViewInit {
   @Input() currentUrls!: apiUrls;
-  data$!: Observable<any>;
-  services$!: Observable<IMyserviceFeed[]>;
   @Output() editRequest: EventEmitter<any> = new EventEmitter();
   @Output() deleteRequest: EventEmitter<any> = new EventEmitter();
   @Output() resetFormRequest: EventEmitter<any> = new EventEmitter();
@@ -20,13 +18,14 @@ export class TableBarComponent implements AfterViewInit, OnDestroy, OnInit {
   @Input() selectableService!: boolean;
   eventsSubscription!: Subscription;
   currentCard = "";
-  errBox = errHandler();
+  datasource!: (IPortfolioFeed|IMyserviceFeed)[];
+  pageIndex = 0;
+  pageSize = 2;
+  length!: number;
 
   constructor(
     private dbService: DbService
-  ) {
-
-  }
+  ) {}
 
   resetActiveCards() {
     document.querySelectorAll('div.card').forEach((item) => {
@@ -55,24 +54,45 @@ export class TableBarComponent implements AfterViewInit, OnDestroy, OnInit {
   resetForm() {
     this.resetFormRequest.emit();
   }
-  refreshTable() {
-    console.log(this.currentUrls.basePath + this.currentUrls.getAll);
-    this.data$ = this.dbService.getAll(this.currentUrls.basePath + this.currentUrls.getAll);
+
+  public getServerData(e:PageEvent|null) {
+    let index = e?.pageIndex || this.pageIndex;
+
+    let query = {};
+    let options = {
+      pagination: true,
+      // page: this.pageIndex,
+      offset: index*this.pageSize,
+      limit: this.pageSize,
+      // sort: { addDate: -1 },
+    }
+
+    this.dbService.fetchQuery(this.currentUrls.basePath+this.currentUrls.fetchQuery, {query, options}).subscribe(
+      {
+        next: (data) => {
+          this.datasource = data.docs;
+          this.pageSize   = data.limit;
+          this.length     = data.totalDocs;
+        },
+        error: (err)=> {}
+      }
+    );
+
+    return e;
   }
 
   ngOnInit() {
     this.eventsSubscription = this.events.subscribe((id) => {
       this.currentCard = id;
-      this.refreshTable();
-    } );
+      this.getServerData(null);
+    });
+  }
+
+  ngAfterViewInit() {
+    this.getServerData(null);
   }
 
   ngOnDestroy() {
     this.eventsSubscription.unsubscribe();
-  }
-
-  ngAfterViewInit() {
-    // this.services$ = this.dbService.getAll(this.currentUrls.getAll);
-    this.refreshTable();
   }
 }

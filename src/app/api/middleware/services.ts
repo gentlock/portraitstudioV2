@@ -1,10 +1,22 @@
 'use strict';
 
 import { NextFunction, Request, Response } from 'express';
-import { myservicesSchema } from '../schemas';
+import {myservicesSchema } from '../schemas';
 const configuration = require('../../../../../conf/keys');
 import fs from 'fs';
 
+export async function fetch_query(req: Request, res: Response) {
+  let { query, options } = req.body;
+
+  await myservicesSchema.paginate(query, options, function(err, result) {
+    if(!err) {
+      // console.log(result);
+      res.json(result);
+    } else {
+      res.sendStatus(500).send(err);
+    }
+  })
+}
 export async function db_fetch_all(req: Request, res: Response) {
   await myservicesSchema
     .find({})

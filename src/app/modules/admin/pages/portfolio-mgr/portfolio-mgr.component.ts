@@ -213,11 +213,6 @@ export class PortfolioMgrComponent implements AfterViewInit {
 
   generatePassword(event: Event) {
     event.preventDefault();
-
-    if( !!this.myFormModel.get('accessCode')?.value ) {
-      if(confirm('czy wygenerowac nowe haslo')) {
-        this.myFormModel.get('accessCode')?.setValue( myPasswordGenerator.generate(8) );
-      }
-    }
+    this.myFormModel.get('accessCode')?.setValue( myPasswordGenerator.generate(8) );
   }
 }

@@ -14,7 +14,7 @@ export class DbService {
   ) {}
 
   fetchQuery(url: string, data:TDBQuery) {
-    return this.http.post<any>(url, data);
+    return this.http.post<IDBResult<IPortfolioFeed|IMyserviceFeed>>(url, data);
   }
   getAll(url: string, filter?: string) {
     return this.http.get<any[]>(url+`/${filter}`);

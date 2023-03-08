@@ -10,8 +10,8 @@ import {DbService} from "../../../../core/data/db.service";
 })
 export class PortfolioComponent {
   @ViewChild("tabsNav") tabsNav!: ElementRef;
-  myservices$!: Observable<IMyserviceFeed[]>;
-  data$!: Observable<IDBResult<IPortfolioFeed>>;
+  myservices$!: Observable<IMyserviceFeed[]> ;
+  data$!: Observable<IDBResult<IPortfolioFeed|IMyserviceFeed>>;
   readonly urlsS: apiUrls;
   readonly urlsP: apiUrls;
   showDetails = false;
@@ -21,20 +21,11 @@ export class PortfolioComponent {
     private dbService: DbService
   ) {
 
-    let query = {};
-    let options = {
-      pagination: true,
-      page: 1,
-      limit: 10,
-      sort: { addDate: -1 },
-    }
-    let data: TDBQuery = {query, options};
-
-    this.urlsS        = dbService.conf.api.endpointURLS.myservices;
+    this.urlsS = dbService.conf.api.endpointURLS.myservices;
+    this.urlsP = dbService.conf.api.endpointURLS.portfolio;
     this.myservices$  = dbService.getAll(this.urlsS.basePath+this.urlsS.getAll);
 
-    this.urlsP = dbService.conf.api.endpointURLS.portfolio;
-    this.data$ = dbService.fetchQuery(this.urlsP.basePath+this.urlsP.fetchQuery, data);
+    this.fetchGal({});
   }
 
   fetchGal(query: object) {

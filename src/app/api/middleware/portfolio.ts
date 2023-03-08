@@ -1,10 +1,9 @@
+'use strict';
+
 import { NextFunction, Request, Response } from 'express';
 import { portfolioSchema} from '../schemas';
 import fs from 'fs';
 import {Types} from "mongoose";
-
-
-// import ObjectId = module
 const configuration = require('../../../../../conf/keys');
 
 export async function fetch_query(req: Request, res: Response) {
@@ -12,7 +11,7 @@ export async function fetch_query(req: Request, res: Response) {
 
   await portfolioSchema.paginate(query, options, function(err, result) {
     if(!err) {
-      console.log(result);
+      // console.log(result);
       res.json(result);
     } else {
       res.sendStatus(500).send(err);

@@ -1,42 +1,51 @@
 <div class="grid grid-cols-1  auto-rows-auto  items-start divide-y">
   <div class="col-span-full flex justify-between items-center h-full p-2">
-    <section class="flex gap-2">
-      <button  (click)="resetForm()" class="bg-layout-color-light1 w-10 h-10 flex justify-center items-center rounded-full shadow-gray-500 shadow active:shadow-none">
-        <svg class="w-8 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 7V17M7 12H17" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
+    <section class="flex flex-col gap-y-5">
+      <div class="flex gap-2 w-full">
+        <button  (click)="resetForm()" class="bg-layout-color-light1 w-10 h-10 flex justify-center items-center rounded-full shadow-gray-500 shadow active:shadow-none">
+          <svg class="w-8 h-auto" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 7V17M7 12H17" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button (click)="this.getServerData(null)" class="bg-layout-color-light1 w-10 h-10 flex justify-center items-center rounded-full shadow-gray-500 shadow active:shadow-none">
+          <svg class="w-6 h-auto"  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.181a.75.75 0 0 1 1.177-.616l4.432 3.068a.75.75 0 0 1 0 1.234l-4.432 3.068A.75.75 0 0 1 12 8.32V6a7 7 0 1 0 7 7 1 1 0 1 1 2 0 9 9 0 1 1-9-9V2.181z" fill="#fff"/></svg>
+        </button>
+      </div>
 
-      <button (click)="refreshTable()" class="bg-layout-color-light1 w-10 h-10 flex justify-center items-center rounded-full shadow-gray-500 shadow active:shadow-none">
-        <svg class="w-6 h-auto"  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.181a.75.75 0 0 1 1.177-.616l4.432 3.068a.75.75 0 0 1 0 1.234l-4.432 3.068A.75.75 0 0 1 12 8.32V6a7 7 0 1 0 7 7 1 1 0 1 1 2 0 9 9 0 1 1-9-9V2.181z" fill="#fff"/></svg>
-      </button>
+      <div class="bg-black">
+      <mat-paginator [length]="length"
+                     [pageIndex]="pageIndex"
+                     [pageSize]="pageSize"
+                     [hidePageSize]="true"
+                     [showFirstLastButtons]="true"
+                     (page)="getServerData($event)!"
+      >
+      </mat-paginator>
+      </div>
     </section>
 
-    <select *ngIf="selectableService" class="p-1 font-SourceSansPro-Regular text-sm">
-      <option class="font-SourceSansPro-Regular text-sm" value="all">wszystkie</option>
-      <option class="font-SourceSansPro-Regular text-sm"  *ngFor="let service of services$ | async" value="{{ service._id }}">{{ service.name }}</option>
-    </select>
+
   </div>
 
   <!-- one cell -->
-  <div class="col-span-full " *ngFor="let data of data$ | async;" [ngClass]="(data._id!) === currentCard ? 'bg-rose-100 card flex h-full' : 'card flex h-full'">
+  <div class="col-span-full " *ngFor="let item of datasource;" [ngClass]="(item._id!) === currentCard ? 'bg-rose-100 card flex h-full' : 'card flex h-full'">
     <div class="p-2 flex flex-col flex-grow items-start justify-evenly">
-      <span class="text-sm font-SourceSansPro-Regular">{{ data.name }}</span>
-      <span class="text-sm font-SourceSansPro-Regular text-color-light3">{{ data.addDate | date: 'short' }} </span>
-      <span class="text-sm font-SourceSansPro-Italic text-color-light3">{{ data._id }}</span>
+      <span class="text-sm font-SourceSansPro-Regular">{{ item.name }}</span>
+      <span class="text-sm font-SourceSansPro-Regular text-color-light3">{{ item.addDate | date: 'short' }} </span>
+      <span class="text-sm font-SourceSansPro-Italic text-color-light3">{{ item._id }}</span>
     </div>
     <div class="space-y-2 p-3 flex-shrink-0 flex flex-col justify-between h-full">
-      <div *ngIf="!data.coverPhoto" class="border border-cyan-700 px-4 py-0.5 border-dashed font-SourceSansPro-Regular text-xs">cover</div>
-      <div *ngIf="!data.isActive" class="border border-pink-700  px-4 py-0.5  border-dashed font-SourceSansPro-Regular text-xs">active</div>
+      <div *ngIf="!item.coverPhoto" class="border border-cyan-700 px-4 py-0.5 border-dashed font-SourceSansPro-Regular text-xs">cover</div>
+      <div *ngIf="!item.isActive" class="border border-pink-700  px-4 py-0.5  border-dashed font-SourceSansPro-Regular text-xs">active</div>
     </div>
     <div class="space-y-2 p-3 flex-shrink-0 flex flex-col justify-between h-full">
-      <a (click)="editThis($event, data._id!)" href="#">
+      <a (click)="editThis($event, item._id!)" href="#">
         <svg class="h-auto" xmlns="http://www.w3.org/2000/svg"  fill="currentColor" viewBox="0 0 16 16">
           <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
           <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
         </svg>
       </a>
-      <a (click)="deleteThis($event, data._id!)" href="#">
+      <a (click)="deleteThis($event, item._id!)" href="#">
         <svg class="w-5 text-red-600 h-auto" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
           <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
           <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>

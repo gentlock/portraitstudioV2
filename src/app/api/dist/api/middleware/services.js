@@ -12,10 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.db_delete = exports.db_update = exports.db_add_new = exports.db_fetch_by_id = exports.db_fetch_all = void 0;
+exports.db_delete = exports.db_update = exports.db_add_new = exports.db_fetch_by_id = exports.db_fetch_all = exports.fetch_query = void 0;
 const schemas_1 = require("../schemas");
 const configuration = require('../../../../../conf/keys');
 const fs_1 = __importDefault(require("fs"));
+function fetch_query(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let { query, options } = req.body;
+        yield schemas_1.myservicesSchema.paginate(query, options, function (err, result) {
+            if (!err) {
+                // console.log(result);
+                res.json(result);
+            }
+            else {
+                res.sendStatus(500).send(err);
+            }
+        });
+    });
+}
+exports.fetch_query = fetch_query;
 function db_fetch_all(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         yield schemas_1.myservicesSchema

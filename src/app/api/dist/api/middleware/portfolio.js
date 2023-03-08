@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -16,14 +16,13 @@ exports.db_delete = exports.db_update = exports.db_add_new = exports.db_fetch_by
 const schemas_1 = require("../schemas");
 const fs_1 = __importDefault(require("fs"));
 const mongoose_1 = require("mongoose");
-// import ObjectId = module
 const configuration = require('../../../../../conf/keys');
 function fetch_query(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let { query, options } = req.body;
         yield schemas_1.portfolioSchema.paginate(query, options, function (err, result) {
             if (!err) {
-                console.log(result);
+                // console.log(result);
                 res.json(result);
             }
             else {

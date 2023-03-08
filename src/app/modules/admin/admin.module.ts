@@ -21,6 +21,7 @@ import { UploadComponent } from "./components/upload/upload.component";
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { SendemailComponent } from './components/sendemail/sendemail.component';
 import { MsgBoxComponent } from './components/msg-box/msg-box.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { MsgBoxComponent } from './components/msg-box/msg-box.component';
     MatProgressBarModule,
     MatSelectModule,
     MatDialogModule,
+    MatPaginatorModule,
   ],
   exports: []
 })
