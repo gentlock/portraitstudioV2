@@ -7,10 +7,10 @@
     <ng-container *ngIf="!showDetails && !id; else tplShowDetails">
       <ng-container *ngIf="(myservices$ | async) as data">
         <div class="col-span-full row-start-2 row-end-3">
-          <div class="gap-0 container columns-1 md:columns-2 xl:columns-3">
-            <a class="block" (click)="switchView($event, file._id!)" *ngFor="let file of data; index as i"  href="javascript:void(0)">
-              <figure class="relative p-1.5">
-                <img class="aspect-16/9 md:aspect-square brightness-50 object-cover object-center w-full block" src="./assets/img/upload/{{ file._id }}/{{ file.coverPhoto }}" alt=""/>
+          <div class="gap-0 grid grid-cols-[repeat(auto-fit,minmax(250px,auto))]">
+            <a class="block p-1.5" (click)="switchView($event, file._id!)" *ngFor="let file of data; index as i"  href="javascript:void(0)">
+              <figure class="relative  w-full h-full">
+                <img class="aspect-16/9 md:aspect-square brightness-50 object-cover object-center   w-full h-full block" src="./assets/img/upload/{{ file._id }}/{{ file.coverPhoto }}" alt=""/>
                 <figcaption class="overflow-hidden z-10 p-6 absolute top-0 left-0 flex w-full h-full">
                   <div class="overlay flex flex-col space-y-3">
                     <span class="p-1 stroke text-7xl font-PlayfairDisplay-VariableFont_wght font-bold uppercase">0{{ i+1 }}</span>

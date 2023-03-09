@@ -1,6 +1,6 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Renderer2, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core';
 import {Observable} from "rxjs";
-import {apiUrls, IDBResult, IMyserviceFeed, IPortfolioFeed, TDBQuery} from "../../../../core/abstracts";
+import {apiUrls, IMyserviceFeed, IPortfolioFeed} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
 
 @Component({
@@ -8,42 +8,87 @@ import {DbService} from "../../../../core/data/db.service";
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.scss'],
 })
-export class PortfolioComponent {
+export class PortfolioComponent implements AfterViewInit {
   @ViewChild("tabsNav") tabsNav!: ElementRef;
+  @ViewChild('cardsContainer', { read: ViewContainerRef }) cardsContainer!: ViewContainerRef;
+  @ViewChild('cardTpl', {read: TemplateRef}) cardTpl!: TemplateRef<any>;
   myservices$!: Observable<IMyserviceFeed[]> ;
-  data$!: Observable<IDBResult<IPortfolioFeed|IMyserviceFeed>>;
+  datasource!: (IPortfolioFeed|IMyserviceFeed)[];
   readonly urlsS: apiUrls;
   readonly urlsP: apiUrls;
   showDetails = false;
   id = "";
+  readonly pageSize = 4;
+  currentOffset = 0;
+  queryFilter = {};
+  isloadMoreBtnDisabled = false;
 
   constructor(
-    private dbService: DbService
+    private dbService: DbService,
+    private render: Renderer2,
   ) {
-
     this.urlsS = dbService.conf.api.endpointURLS.myservices;
     this.urlsP = dbService.conf.api.endpointURLS.portfolio;
     this.myservices$  = dbService.getAll(this.urlsS.basePath+this.urlsS.getAll);
-
-    this.fetchGal({});
   }
 
-  fetchGal(query: object) {
+  fetchGal(isPaginate:boolean) {
+    let offset: number;
+    let curPage: number;
+    let totalPages: number;
+
+    if(isPaginate) {
+      offset = this.currentOffset;
+    } else {
+      offset = 0;
+      this.isloadMoreBtnDisabled = true;
+    }
+
+    let query = this.queryFilter;
     let options = {
-      pagination: true,
-      page: 1,
-      limit: 10,
+      pagination: isPaginate,
+      offset: offset*this.pageSize,
+      limit: this.pageSize,
       sort: { addDate: -1 },
     }
-    let data: TDBQuery = {query, options};
 
-    this.data$ = this.dbService.fetchQuery(this.urlsP.basePath+this.urlsP.fetchQuery, data);
+    this.dbService.fetchQuery(this.urlsP.basePath+this.urlsP.fetchQuery, {query, options}).subscribe(
+      {
+        next: (data) => {
+          curPage         = data.page;
+          totalPages      = data.totalPages;
+
+          if(!this.showDetails) {
+            data.docs.forEach(item => {
+              // console.log(item);
+              this.cardsContainer.createEmbeddedView(this.cardTpl, {doc: item});
+            })
+          } else {
+            this.datasource = data.docs;
+          }
+          // console.log(this.cardsContainer.length);
+          if(curPage >= totalPages) this.isloadMoreBtnDisabled = true;
+          this.currentOffset++;
+        },
+        error: (err)=> {}
+      }
+    );
   }
-
+  loadMore(e:Event) {
+    e.preventDefault();
+    this.fetchGal(true);
+  }
   switchTab(id: string, e: Event) {
     e.preventDefault();
-    this.showDetails  = false;
+    this.isloadMoreBtnDisabled = false;
+    this.currentOffset = 0;
     this.id           = "";
+
+    if(this.showDetails) {
+      this.showDetails  = false;
+    } else {
+      this.cardsContainer.clear();
+    }
 
     (this.tabsNav.nativeElement as HTMLUListElement).querySelectorAll('a').forEach(item=>{
       item.classList.remove('!text-white');
@@ -52,16 +97,24 @@ export class PortfolioComponent {
     (e.target as HTMLLIElement).classList.add('!text-white');
 
     if(id != '') {
-      this.fetchGal({serviceId: id});
+      this.queryFilter = {serviceId: id};
+      this.fetchGal(true);
     } else {
-      this.fetchGal({});
+      this.queryFilter = {};
+      this.fetchGal(true);
     }
   }
 
+  ngAfterViewInit() {
+    this.fetchGal(true);
+  }
+
   switchView(e: Event, id: string) {
+    this.isloadMoreBtnDisabled = false;
     this.showDetails = true;
     this.id = id;
 
-    this.fetchGal({_id: id});
+    this.queryFilter = {_id: id};
+    this.fetchGal(false);
   }
 }
