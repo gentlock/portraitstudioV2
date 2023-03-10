@@ -1,5 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
 import { DbService } from '../../../../core/data/db.service';
+import { LoaderService } from "../../../../core/services/loader/loader.service";
+import { ImagePreloader } from "../../../../core/services/loader/ImagePreloader";
 
 @Component({
   selector: 'app-homepage',
@@ -12,6 +14,7 @@ export class HomepageComponent implements AfterViewInit {
 
   constructor(
     private dbService: DbService,
+    private loader: LoaderService,
   ) {}
 
   // DOM utility functions:
@@ -156,8 +159,11 @@ export class HomepageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    let url = this.dbService.conf.api.endpointURLS.myservices.basePath + this.dbService.conf.api.endpointURLS.myservices.getAll;
+    // this.loader.show();
+    // let deck: string[] = [];
 
+    let url = this.dbService.conf.api.endpointURLS.myservices.basePath + this.dbService.conf.api.endpointURLS.myservices.getAll;
+    // let ip = new ImagePreloader({parallel=false})
     // let mainRef = document.querySelector('main')!;
     //
     // const  callback = (entries: ResizeObserverEntry[]) => {
@@ -176,6 +182,7 @@ export class HomepageComponent implements AfterViewInit {
         next: (el => {
             el.forEach(item => {
 
+              // deck.push(`./assets/img/upload/${item._id}/${item.coverPhoto}`);
               const elImg = this.elNew("img", {src: `./assets/img/upload/${item._id}/${item.coverPhoto}`});
               const elLi = this.elNew("li", {className: "carousel-slide"});
 
@@ -195,6 +202,9 @@ export class HomepageComponent implements AfterViewInit {
             })
 
             this.els(".carousel").forEach(this.carousel);
+            // console.log(deck);
+            // let ip = new ImagePreloader({parallel: false});
+            // ip.queue(deck);
           }
         ),
         error: (err => {
