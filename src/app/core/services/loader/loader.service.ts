@@ -18,13 +18,19 @@ export class LoaderService {
     let ip = new ImagePreloader();
 
     ip.queue(deck).then(()=>{
-      console.log('Deck loaded.');
+      // console.log('Deck loaded.');
     });
 
+    setTimeout(()=>{
+
+    }, 1000);
+
     ip.preload().then(() => {
-      if(callback)
-        callback();
-      this.hide();
+      setTimeout(()=>{
+        if(callback)
+          callback();
+        this.hide();
+      }, 300)
     })
   }
 

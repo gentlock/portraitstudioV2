@@ -66,10 +66,6 @@ export class PortfolioComponent implements AfterViewInit {
             data.docs.forEach(item => {
               this.deck.push(`./assets/img/upload/${item._id}/${item.coverPhoto}`);
 
-              // item.gallery?.forEach(img=>{
-              //   deck.push(`./assets/img/upload/${item._id}/${img}`);
-              // })
-
               this.loaderService.preloadImg(this.deck,()=>{
                 this.cardsContainer.createEmbeddedView(this.cardTpl, {doc: item});
               });
