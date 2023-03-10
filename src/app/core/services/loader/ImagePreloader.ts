@@ -1,21 +1,22 @@
 'use strict';
 
-type TOptions = {
-  parallel: boolean;
+interface IImagePreloader {
   items: any[];
-  max: number;
+
+  defer(): {resolve: undefined; reject: undefined; promise: Promise<unknown>;};
+  queue(array: any): Promise<unknown>;
+  preloadImage(path: string): Promise<unknown>;
+  preload(): Promise<any[]>;
+  noop():void;
 }
-export class ImagePreloader {
-  parallel: boolean = true;
-  max: number = 0;
+
+export class ImagePreloader implements IImagePreloader {
   items: any[] = [];
-  constructor(options: TOptions) {
-    this.parallel = options.parallel;
-    this.max      = options.max;
-    this.items    = options.items;
-  }
+
+  noop() {}
+
   defer() {
-    let resolve, reject, promise = new Promise(function (a, b) {
+    let resolve, reject, promise = new Promise( (a, b) => {
       resolve = a;
       reject = b;
     });
@@ -27,28 +28,24 @@ export class ImagePreloader {
     };
   }
 
-  queue(array: any) {
+  queue(array: string[]) {
     if(!Array.isArray(array)) {
       array = [array];
-    }
-
-    if(array.length > this.max) {
-      this.max = array.length;
     }
 
     let deferred = this.defer();
 
     this.items.push({
       collection: array,
-      deferred: deferred
+      deferred: deferred || this.noop
     });
 
     return deferred.promise;
   }
-/*
-* @param  {String} path - Image url
-* @return {Promise}
-*/
+  /*
+  * @param  {String} path - Image url
+  * @return {Promise}
+  */
   preloadImage(path: string) {
     return new Promise(function(resolve, reject)  {
       let image = new Image();
@@ -61,21 +58,20 @@ export class ImagePreloader {
   preload() {
     let deck, decks: any[] = [];
 
-    if(this.parallel) {
-      for(let i=0; i<this.max; i++) {
-        this.items.forEach( (item) => {
-          if(typeof item.collection[i] != undefined) {
-            item.collection[i] = this.preloadImage(item.collection[i]);
-          }
-        }, this);
-      }
-    } else {
+    // Get the length of the biggest deck
+    let max = Math.max.apply(Math, this.items.map( el => {
+      return el.collection.length;
+    }));
+
+    for(let i=0; i<max; i++) {
       this.items.forEach( (item) => {
-        item.collection = item.collection.map(this.preloadImage);
+        if(typeof item.collection[i] != undefined) {
+          item.collection[i] = this.preloadImage(item.collection[i]);
+        }
       }, this);
     }
 
-    this.items.forEach( (item) => {
+    this.items.forEach( item => {
       deck = Promise.all(item.collection)
         .then(item.deferred.resolve.bind(item.deferred))
         .catch(console.log.bind(console));

@@ -4,7 +4,7 @@ import {apiUrls, IPortfolioFeed} from "../../../../core/abstracts";
 import {Observable} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
 import {elapsedTime} from "../../../../core/libs";
-import {HttpErrorResponse} from "@angular/common/http";
+import {LoaderService} from "../../../../core/services/loader/loader.service";
 
 @Component({
   selector: 'app-priv-gallery',
@@ -15,20 +15,42 @@ export class PrivGalleryComponent implements AfterViewInit{
   readonly elapTime = elapsedTime;
   readonly urls: apiUrls;
   readonly urlD;
-  data$!: Observable<IPortfolioFeed>;
+  datasource!: IPortfolioFeed;
+  deck: string[] = [];
+
 constructor(
   private dbService: DbService,
-  private route: ActivatedRoute
+  private route: ActivatedRoute,
+  private loaderService: LoaderService,
 ) {
   this.urls = dbService.conf.api.endpointURLS.portfolio;
   this.urlD = dbService.conf.api.endpointURLS.utils;
 }
 ngAfterViewInit() {
+  this.deck = [];
   let id = this.route.snapshot.paramMap.get('id');
-  console.log(id);
+  // console.log(id);
 
   if(!!id) {
-    this.data$ = this.dbService.getById(id,this.urls.basePath+this.urls.getById);
+
+    this.dbService.getById(id,this.urls.basePath+this.urls.getById).subscribe(
+      {
+        next: value => {
+
+          this.deck.push(`./assets/img/upload/${value._id}/${value.coverPhoto}`);
+
+          [...value.gallery].forEach(img=>{
+              this.deck.push(`./assets/img/upload/${value._id}/${img}`);
+          });
+
+          this.loaderService.preloadImg(this.deck,()=>{
+            this.datasource = value;
+          });
+
+        },
+        error: err => {}
+      }
+    );
   }
 
   // this.service$ = this.route.paramMap

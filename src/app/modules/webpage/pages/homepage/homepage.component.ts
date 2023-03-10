@@ -1,7 +1,6 @@
-import {AfterViewInit, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { DbService } from '../../../../core/data/db.service';
 import { LoaderService } from "../../../../core/services/loader/loader.service";
-import { ImagePreloader } from "../../../../core/services/loader/ImagePreloader";
 
 @Component({
   selector: 'app-homepage',
@@ -10,12 +9,12 @@ import { ImagePreloader } from "../../../../core/services/loader/ImagePreloader"
   encapsulation: ViewEncapsulation.None,
 })
 export class HomepageComponent implements AfterViewInit {
-  @Output() loadingComplete: EventEmitter<any> = new EventEmitter();
-
   constructor(
     private dbService: DbService,
-    private loader: LoaderService,
-  ) {}
+    private loaderService: LoaderService,
+  ) {
+    // this.loaderService.show();
+  }
 
   // DOM utility functions:
   private el = (sel: string, par: Element) => (par || document).querySelector(sel);
@@ -145,7 +144,7 @@ export class HomepageComponent implements AfterViewInit {
     // Init:
 
     // Insert UI elements:
-    elNavigation.append(...elsBtns);
+    // elNavigation.append(...elsBtns);
     elCarousel.append(elPrev, elNext, elNavigation);
 
     // Clone first and last slides (for "infinite" slider effect)
@@ -159,13 +158,8 @@ export class HomepageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    // this.loader.show();
-    // let deck: string[] = [];
+    let deck: string[] = [];
 
-    let url = this.dbService.conf.api.endpointURLS.myservices.basePath + this.dbService.conf.api.endpointURLS.myservices.getAll;
-    // let ip = new ImagePreloader({parallel=false})
-    // let mainRef = document.querySelector('main')!;
-    //
     // const  callback = (entries: ResizeObserverEntry[]) => {
     //   for (let  entry of entries) {
     //     console.log(entry.contentRect.width);
@@ -175,17 +169,14 @@ export class HomepageComponent implements AfterViewInit {
     //
     // new ResizeObserver(callback).observe(mainRef);
 
-
-
-    this.dbService.getAll(url).subscribe(
+    this.dbService.getAll( this.dbService.conf.api.endpointURLS.myservices.basePath + this.dbService.conf.api.endpointURLS.myservices.getAll ).subscribe(
       {
         next: (el => {
             el.forEach(item => {
+              deck.push(`./assets/img/upload/${item._id}/${item.coverPhoto}`);
 
-              // deck.push(`./assets/img/upload/${item._id}/${item.coverPhoto}`);
-              const elImg = this.elNew("img", {src: `./assets/img/upload/${item._id}/${item.coverPhoto}`});
               const elLi = this.elNew("li", {className: "carousel-slide"});
-
+              const elImg = this.elNew("img", {src: `./assets/img/upload/${item._id}/${item.coverPhoto}`});
               const elDivImg = this.elNew("div", {className: "img-container"});
               const elDiv = this.elNew("div", {className: "content"});
               const elSpanTitle = this.elNew("div", {className: ["title"], innerHTML: item.name});
@@ -201,16 +192,14 @@ export class HomepageComponent implements AfterViewInit {
               document.querySelector('.carousel-slider')!.append(elLi);
             })
 
+          this.loaderService.preloadImg(deck,()=>{
             this.els(".carousel").forEach(this.carousel);
-            // console.log(deck);
-            // let ip = new ImagePreloader({parallel: false});
-            // ip.queue(deck);
-          }
-        ),
+            document.querySelector('.carousel')!.classList.remove('hidden');
+          });
+        }),
         error: (err => {
           console.log(err)
         })
       })
-
   }
 }

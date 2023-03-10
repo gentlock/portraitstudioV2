@@ -11,5 +11,13 @@ export class LoaderComponent {
   isLoading: Subject<boolean> = this.loaderService.isLoading;
   constructor(
     private loaderService: LoaderService
-  ) {}
+  ) {
+    // this.isLoading.subscribe(
+    //   {
+    //     next: (item)=>{
+    //       console.log(item);
+    //     }
+    //   }
+    // )
+  }
 }

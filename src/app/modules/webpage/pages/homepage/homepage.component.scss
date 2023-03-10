@@ -8,6 +8,9 @@
   height: 100%;
   //margin: 2em;
 
+  &.hidden {
+    visibility: hidden;
+  }
   &-slider {
     display: flex;
   }

@@ -1,7 +1,8 @@
-import {Component, ViewEncapsulation} from '@angular/core';
+import {AfterViewInit, Component, ViewEncapsulation} from '@angular/core';
 import {DbService} from "../../../../core/data/db.service";
 import {Observable} from "rxjs";
 import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
+import {LoaderService} from "../../../../core/services/loader/loader.service";
 
 @Component({
   selector: 'app-myservices',
@@ -9,24 +10,58 @@ import {apiUrls, IMyserviceFeed} from "../../../../core/abstracts";
   styleUrls: ['./myservices.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class MyservicesComponent {
-  myservices$!: Observable<IMyserviceFeed[]>;
-  details$!: Observable<IMyserviceFeed>;
+export class MyservicesComponent implements AfterViewInit {
+  myservices!: IMyserviceFeed[];
+  datasource!: IMyserviceFeed;
   readonly urls: apiUrls;
   showDetails = false;
   id = "";
+  deck: string[] = [];
 
   constructor(
-    private dbService: DbService
+    private dbService: DbService,
+    private loaderService: LoaderService,
   ) {
     this.urls = dbService.conf.api.endpointURLS.myservices;
-    this.myservices$ = dbService.getAll(this.urls.basePath+this.urls.getAll);
+  }
+
+  ngAfterViewInit() {
+    this.deck = [];
+
+    this.dbService.getAll(this.urls.basePath+this.urls.getAll).subscribe(
+      {
+        next: (el=>{
+          el.forEach(item=>{
+            this.deck.push(`./assets/img/upload/${item._id}/${item.coverPhoto}`);
+          })
+
+          this.loaderService.preloadImg(this.deck,()=>{
+            this.myservices = el;
+          });
+        }),
+        error: err => {}
+      }
+    )
   }
 
   switchView(e: Event, id: string) {
     this.showDetails = true;
     this.id = id;
+    this.deck = [];
 
-    this.details$ = this.dbService.getById(this.id, this.urls.basePath+this.urls.getById);
+    this.dbService.getById( this.id, this.urls.basePath+this.urls.getById ).subscribe(
+      {
+        next: (el=>{
+          [...el.gallery].forEach(img=>{
+            this.deck.push(`./assets/img/upload/${el._id}/${img}`);
+          })
+
+          this.loaderService.preloadImg(this.deck,()=>{
+            this.datasource = el;
+          });
+        }),
+        error: err => {}
+      }
+    )
   }
 }

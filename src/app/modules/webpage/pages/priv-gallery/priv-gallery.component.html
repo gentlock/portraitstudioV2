@@ -2,27 +2,27 @@
   <div class="py-6 col-span-full row-start-1 row-end-2 text-center">
     <span class="text-layout-color-light0 text-4xl">Twoja galeria</span>
   </div>
-<ng-container *ngIf="(data$ | async) as details">
+<ng-container *ngIf="datasource">
 
       <table class="col-span-full md:col-start-1 md:col-end-6 xl:col-start-1 xl:col-end-8 row-start-2 row-end-3 bg-softer-black1 rounded-md border-white border-solid">
           <tr class=" text-layout-color-light0 text-xl font-Mukta-Regular">
-            <td class="p-2" colspan="2">{{ details.name }}</td>
+            <td class="p-2" colspan="2">{{ datasource.name }}</td>
           </tr>
           <tr class="text-softer-white4 text-md font-SourceSansPro-Regular">
             <td class="text-softer-black4 p-2">Galerie dodano:</td>
-            <td class="p-2">{{ elapTime(details.addDate) }}</td>
+            <td class="p-2">{{ elapTime(datasource.addDate) }}</td>
           </tr>
           <tr class="p-2 text-softer-white4 text-md font-SourceSansPro-Regular">
             <td class="p-2 text-softer-black4 ">Plik do pobrania:</td>
             <td class="p-2">
-              <a mat-button color="primary" *ngIf="details.downloadable"  href="/{{ details._id }}/img/upload/{{ details.downloadable.filename }}" download>sciagnij</a>
+              <a mat-button color="primary" *ngIf="datasource.downloadable"  href="/{{ datasource._id }}/img/upload/{{ datasource.downloadable.filename }}" download>sciagnij</a>
             </td>
           </tr>
       </table>
 
       <div class="col-span-full row-start-3 row-end-4 gallery-grid">
-        <div *ngFor="let file of details.gallery">
-          <img src="./assets/img/upload/{{ details._id }}/{{ file }}" alt=""/>
+        <div *ngFor="let file of datasource.gallery">
+          <img src="./assets/img/upload/{{ datasource._id }}/{{ file }}" alt=""/>
         </div>
       </div>
 </ng-container>

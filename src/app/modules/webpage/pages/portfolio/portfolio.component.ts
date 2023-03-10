@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ElementRef, Renderer2, TemplateRef, ViewChild,
 import {Observable} from "rxjs";
 import {apiUrls, IMyserviceFeed, IPortfolioFeed} from "../../../../core/abstracts";
 import {DbService} from "../../../../core/data/db.service";
+import {LoaderService} from "../../../../core/services/loader/loader.service";
 
 @Component({
   selector: 'app-portfolio',
@@ -22,10 +23,11 @@ export class PortfolioComponent implements AfterViewInit {
   currentOffset = 0;
   queryFilter = {};
   isloadMoreBtnDisabled = false;
+  deck: string[] = [];
 
   constructor(
     private dbService: DbService,
-    private render: Renderer2,
+    private loaderService: LoaderService,
   ) {
     this.urlsS = dbService.conf.api.endpointURLS.myservices;
     this.urlsP = dbService.conf.api.endpointURLS.portfolio;
@@ -36,6 +38,7 @@ export class PortfolioComponent implements AfterViewInit {
     let offset: number;
     let curPage: number;
     let totalPages: number;
+    this.deck = [];
 
     if(isPaginate) {
       offset = this.currentOffset;
@@ -59,12 +62,29 @@ export class PortfolioComponent implements AfterViewInit {
           totalPages      = data.totalPages;
 
           if(!this.showDetails) {
+            this.deck = [];
             data.docs.forEach(item => {
-              // console.log(item);
-              this.cardsContainer.createEmbeddedView(this.cardTpl, {doc: item});
+              this.deck.push(`./assets/img/upload/${item._id}/${item.coverPhoto}`);
+
+              // item.gallery?.forEach(img=>{
+              //   deck.push(`./assets/img/upload/${item._id}/${img}`);
+              // })
+
+              this.loaderService.preloadImg(this.deck,()=>{
+                this.cardsContainer.createEmbeddedView(this.cardTpl, {doc: item});
+              });
             })
           } else {
-            this.datasource = data.docs;
+            this.deck = [];
+            data.docs.forEach(item=>{
+              item.gallery?.forEach(img=>{
+                this.deck.push(`./assets/img/upload/${item._id}/${img}`);
+              });
+            });
+
+            this.loaderService.preloadImg(this.deck,()=>{
+              this.datasource = data.docs;
+            });
           }
           // console.log(this.cardsContainer.length);
           if(curPage >= totalPages) this.isloadMoreBtnDisabled = true;

@@ -5,10 +5,10 @@
   </div>
 
     <ng-container *ngIf="!showDetails && !id; else tplShowDetails">
-      <ng-container *ngIf="(myservices$ | async) as data">
+      <ng-container *ngIf="myservices">
         <div class="col-span-full row-start-2 row-end-3">
           <div class="gap-0 grid grid-cols-[repeat(auto-fit,minmax(250px,auto))]">
-            <a class="block p-1.5" (click)="switchView($event, file._id!)" *ngFor="let file of data; index as i"  href="javascript:void(0)">
+            <a class="block p-1.5" (click)="switchView($event, file._id!)" *ngFor="let file of myservices; index as i"  href="javascript:void(0)">
               <figure class="relative  w-full h-full">
                 <img class="aspect-16/9 md:aspect-square brightness-50 object-cover object-center   w-full h-full block" src="./assets/img/upload/{{ file._id }}/{{ file.coverPhoto }}" alt=""/>
                 <figcaption class="overflow-hidden z-10 p-6 absolute top-0 left-0 flex w-full h-full">
@@ -28,20 +28,20 @@
 
 <ng-template #tplShowDetails>
   <div class="w-full col-span-full row-start-2 row-end-3">
-  <ng-container *ngIf="(details$ | async) as details">
+  <ng-container *ngIf="datasource">
       <mat-tab-group mat-stretch-tabs="false"  animationDuration="0ms" mat-align-tabs="start">
         <mat-tab label="informacje">
-          <div class="pt-6 text-softer-white4 text-md">{{ details.desc }}</div>
+          <div class="pt-6 text-softer-white4 text-md">{{ datasource.desc }}</div>
         </mat-tab>
         <mat-tab label="galeria">
           <div class="gallery-grid">
-            <div *ngFor="let file of details.gallery">
-              <img src="./assets/img/upload/{{ details._id }}/{{ file }}" alt=""/>
+            <div *ngFor="let file of datasource.gallery">
+              <img src="./assets/img/upload/{{ datasource._id }}/{{ file }}" alt=""/>
             </div>
           </div>
         </mat-tab>
         <mat-tab class="text-color-light3" label="cennik">
-          <div class="pt-6 text-softer-white4 text-md">{{ details.priceList }}</div>
+          <div class="pt-6 text-softer-white4 text-md">{{datasource.priceList }}</div>
         </mat-tab>
       </mat-tab-group>
   </ng-container>

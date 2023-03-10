@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {LoaderService} from "../../../../core/services/loader/loader.service";
 // import {NavigationEnd, Router, RouterEvent} from "@angular/router";
 // import {filter} from "rxjs";
 
@@ -10,9 +11,10 @@ import {AfterViewInit, Component, OnInit} from '@angular/core';
 })
 export class WebpageBaseComponent implements AfterViewInit {
   currentYear = new Date().getFullYear();
-  isLoading = true;
+  // isLoading = true;
 
-  constructor() {
+  constructor(
+  ) {
     // document.onreadystatechange =  () => {
     //   if (document.readyState === "complete") {this.isLoading = false};
     // }

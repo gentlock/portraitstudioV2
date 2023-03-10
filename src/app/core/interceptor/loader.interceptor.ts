@@ -18,8 +18,8 @@ export class LoaderInterceptor implements HttpInterceptor {
     this.loaderService.show();
 
     return next.handle(request).pipe(
-      // delay(1000),
-      finalize(()=>{this.loaderService.hide()})
+      delay(1000),
+      finalize(()=>{this.loaderService.hide();})
     );
   }
 }
