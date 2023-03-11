@@ -72,7 +72,7 @@ $photo-accent: (
 $my-primary: mat.define-palette($photo-primary, 500);
 $my-accent: mat.define-palette($photo-accent, A200, A100, A400);
 
-$my-theme: mat.define-light-theme((
+$my-theme: mat.define-dark-theme((
   color: (
     primary: $my-primary,
     accent: $my-accent,

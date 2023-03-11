@@ -21,7 +21,7 @@ export class PortfolioComponent implements AfterViewInit {
   id = "";
   readonly pageSize = 4;
   currentOffset = 0;
-  queryFilter = {};
+  standardFilter = {isActive: true, coverPhoto:{$exists: true, $type: 2, $ne : ""}};
   isloadMoreBtnDisabled = false;
   deck: string[] = [];
 
@@ -34,7 +34,7 @@ export class PortfolioComponent implements AfterViewInit {
     this.myservices$  = dbService.getAll(this.urlsS.basePath+this.urlsS.getAll);
   }
 
-  fetchGal(isPaginate:boolean) {
+  fetchGal(isPaginate:boolean, query: {}) {
     let offset: number;
     let curPage: number;
     let totalPages: number;
@@ -47,7 +47,6 @@ export class PortfolioComponent implements AfterViewInit {
       this.isloadMoreBtnDisabled = true;
     }
 
-    let query = this.queryFilter;
     let options = {
       pagination: isPaginate,
       offset: offset*this.pageSize,
@@ -63,15 +62,19 @@ export class PortfolioComponent implements AfterViewInit {
 
           if(!this.showDetails) {
             this.deck = [];
+
             data.docs.forEach(item => {
               this.deck.push(`./assets/img/upload/${item._id}/${item.coverPhoto}`);
+            });
 
-              this.loaderService.preloadImg(this.deck,()=>{
+            this.loaderService.preloadImg(this.deck,()=>{
+              data.docs.forEach(item => {
                 this.cardsContainer.createEmbeddedView(this.cardTpl, {doc: item});
               });
-            })
+            });
           } else {
             this.deck = [];
+
             data.docs.forEach(item=>{
               item.gallery?.forEach(img=>{
                 this.deck.push(`./assets/img/upload/${item._id}/${img}`);
@@ -86,13 +89,15 @@ export class PortfolioComponent implements AfterViewInit {
           if(curPage >= totalPages) this.isloadMoreBtnDisabled = true;
           this.currentOffset++;
         },
-        error: (err)=> {}
+        error: (err)=> {
+          console.log(err);
+        }
       }
     );
   }
   loadMore(e:Event) {
     e.preventDefault();
-    this.fetchGal(true);
+    this.fetchGal(true, this.standardFilter);
   }
   switchTab(id: string, e: Event) {
     e.preventDefault();
@@ -113,16 +118,14 @@ export class PortfolioComponent implements AfterViewInit {
     (e.target as HTMLLIElement).classList.add('!text-white');
 
     if(id != '') {
-      this.queryFilter = {serviceId: id};
-      this.fetchGal(true);
+      this.fetchGal(true, {serviceId: id});
     } else {
-      this.queryFilter = {};
-      this.fetchGal(true);
+      this.fetchGal(true, this.standardFilter);
     }
   }
 
   ngAfterViewInit() {
-    this.fetchGal(true);
+    this.fetchGal(true, this.standardFilter);
   }
 
   switchView(e: Event, id: string) {
@@ -130,7 +133,6 @@ export class PortfolioComponent implements AfterViewInit {
     this.showDetails = true;
     this.id = id;
 
-    this.queryFilter = {_id: id};
-    this.fetchGal(false);
+    this.fetchGal(false, Object.assign({_id: id}, this.standardFilter));
   }
 }

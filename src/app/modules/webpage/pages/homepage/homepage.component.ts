@@ -30,7 +30,7 @@ export class HomepageComponent implements AfterViewInit {
 
     const elCarouselSlider = this.el(".carousel-slider", elCarousel);
     const elsSlides = this.els(".carousel-slide", elCarouselSlider);
-    const elsBtns: HTMLElement[] = [];
+    // const elsBtns: HTMLElement[] = [];
 
     let itv: number // Autoslide interval
     let tot = elsSlides.length; // Total slides

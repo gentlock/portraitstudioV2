@@ -19,7 +19,7 @@ export async function fetch_query(req: Request, res: Response) {
 }
 export async function db_fetch_all(req: Request, res: Response) {
   await myservicesSchema
-    .find({})
+    .find({isActive: true, coverPhoto:{$exists: true, $type: 2, $ne : ""}})
     .sort({ addDate: -1 })
     .then((result) => res.json(result))
     .catch((error) => {

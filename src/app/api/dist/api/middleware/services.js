@@ -34,7 +34,7 @@ exports.fetch_query = fetch_query;
 function db_fetch_all(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         yield schemas_1.myservicesSchema
-            .find({})
+            .find({ isActive: true, coverPhoto: { $exists: true, $type: 2, $ne: "" } })
             .sort({ addDate: -1 })
             .then((result) => res.json(result))
             .catch((error) => {

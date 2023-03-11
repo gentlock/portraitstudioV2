@@ -1,5 +1,6 @@
-<div *ngIf="isLoading | async" class="overlay">
+<div [ngClass]="(isLoading | async) ? 'overlay' : 'overlay hidden'" class="overlay">
   <div class="center">
     <span class="loader"></span>
   </div>
 </div>
+<!--*ngIf="isLoading | async"-->
